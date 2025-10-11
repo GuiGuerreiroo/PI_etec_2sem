@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "module": "commonjs",
+        "baseUrl": "./",
+        "paths": {
+            "app/*": [
+                "app/*"
+            ]
+        },
+        "outDir": "./dist",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "back/app/**/*",
+        "back/test/**/*",
+        // "back/app/server.ts"
+    ],
+    "exclude": [
+        "dist"
+    ]
+}
