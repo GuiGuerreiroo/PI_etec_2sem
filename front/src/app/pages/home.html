@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Reservas Lab</title>
+<link rel="stylesheet" href="../style/home.css">
+</head>
+<body>
+<header class="navbar"></header>
+  <header>
+    <div class="title-wrap">
+      <h1 class="logo">Reservas Lab</h1>
+      <div class="decor" aria-hidden="true">
+        <div class="line" role="presentation"></div>
+        <div class="pill" role="presentation"></div>
+      </div>
+    </div>
+
+    <nav class="navbar">
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 
+        2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 
+        16H5V9h14z"/></svg>
+        <span>RESERVAS</span>
+      </div>
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 
+        2 0 0 0-2 2v14a2 2 0 0 0 2 2h8v-2H5V9h14v3h2V6a2 
+        2 0 0 0-2-2zm4 10h-3v-3h-2v3h-3v2h3v3h2v-3h3z"/></svg>
+        <span>AGENDAMENTO</span>
+      </div>
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M6 2v6l5 9v5h2v-5l5-9V2H6zm2 
+        2h8v3.586l-4 7.2-4-7.2z"/></svg>
+        <span>KITS</span>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <aside>
+      <div class="card">
+        <div class="calendar-header">
+          <span>&lt;</span>
+          <span>Setembro de 2025</span>
+          <span>&gt;</span>
+        </div>
+        <div class="calendar-grid" id="calendar">
+          <div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div><div>D</div>
+          <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div>
+          <div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div>
+          <div>15</div><div>16</div><div>17</div><div class="selected">18</div><div>19</div><div>20</div><div>21</div>
+          <div>22</div><div>23</div><div>24</div><div>25</div><div>26</div><div>27</div><div>28</div>
+          <div>29</div><div>30</div>
+        </div>
+      </div>
+
+      <div class="card filters">
+        <h3>Filtros</h3>
+        <div class="line"></div>
+        <label><input type="checkbox" checked> <span class="lab1">Laboratório 01</span></label>
+        <label><input type="checkbox" checked> <span class="lab2">Laboratório 02</span></label>
+        <label><input type="checkbox" checked> <span class="lab3">Laboratório 03</span></label>
+      </div>
+
+      <div class="card info">
+        <h3>Informações</h3>
+        <div class="line"></div>
+        <p><strong>Professor:</strong> <span>–</span></p>
+        <p><strong>Horário:</strong> <span>–</span></p>
+        <p><strong>Laboratório:</strong> <span>–</span></p>
+        <p><strong>Kits:</strong> <span>–</span></p>
+        <textarea placeholder="Observações..."></textarea>
+        <button>Atribuir</button>
+      </div>
+    </aside>
+
+    <div class="agenda">
+      <div class="agenda-header">
+        <h4>Qui.</h4>
+        <div class="agenda-date">18 de Setembro</div>
+        <div>&lt; &gt;</div>
+      </div>
+
+      <div class="agenda-body" id="agendaBody">
+        <div class="hour"><span>07:10</span></div>
+        <div class="hour"><span>08:00</span></div>
+        <div class="hour"><span>08:50</span></div>
+        <div class="hour"><span>09:40</span></div>
+        <div class="hour"><span>10:30</span></div>
+        <div class="hour"><span>11:20</span></div>
+        <div class="hour"><span>12:10</span></div>
+        <div class="hour"><span>13:00</span></div>
+        <div class="hour"><span>13:50</span></div>
+        <div class="hour"><span>14:40</span></div>
+        <div class="hour"><span>15:30</span></div>
+        <div class="hour"><span>16:20</span></div>
+        <div class="hour"><span>17:10</span></div>
+        <div class="hour"><span>18:00</span></div>
+        <div class="hour"><span>18:20</span></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.querySelectorAll('.calendar-grid div').forEach(node => {
+      node.addEventListener('click', () => {
+        document.querySelectorAll('.calendar-grid .selected').forEach(s => s.classList.remove('selected'));
+        node.classList.add('selected');
+      });
+    });
+  </script>
+</body>
+</html>
