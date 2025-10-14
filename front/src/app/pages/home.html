@@ -4,7 +4,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Reservas Lab</title>
 <link rel="stylesheet" href="../style/home.css">
-</head>
 <body>
 <header class="navbar"></header>
   <header>
@@ -101,14 +100,5 @@
       </div>
     </div>
   </main>
-
-  <script>
-    document.querySelectorAll('.calendar-grid div').forEach(node => {
-      node.addEventListener('click', () => {
-        document.querySelectorAll('.calendar-grid .selected').forEach(s => s.classList.remove('selected'));
-        node.classList.add('selected');
-      });
-    });
-  </script>
 </body>
 </html>
