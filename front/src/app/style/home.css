@@ -8,24 +8,24 @@
     min-height:100vh;
   }
   .navbar {
-    height: 15px;
-    padding-top: 5px;
+    height: 100px;
+    padding-top: 80px;
   }
 
   nav.navbar {
     position:absolute;
-    top: 32px;
-    left:60%;
+    top: 40px;
+    left: 70%;
     transform:translate(-80%, -60%);
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:80px;
+    gap:200px;
   }
 
   .nav-item {
-    width: 140px;
-    height: 110px;
+    width: 170px;
+    height: 120px;
     background:#fff;
     border-radius:12px;
     box-shadow:3px 3px 6px rgba(0,0,0,0.08);
@@ -53,7 +53,7 @@
   }
 
   .nav-item span {
-    font-size:16px;
+    font-size:20px;
     font-weight:600;
     color:#0d7377;
   }
@@ -72,15 +72,17 @@
     flex-direction:column;
     justify-content:center;
     width:100%;
+    margin-top: 20px;
   }
 
   h1.logo {
-    font-size:36px;
+    font-size:32px;
     color:#0d4043;
     font-weight:700;
     letter-spacing:0.3px;
-    padding-left:64px;
+    padding-left:25px;
     margin-bottom:0;
+    margin-top: 25px;
   }
 
   .decor {
@@ -88,7 +90,8 @@
     width: 100%;
     display: flex;
     align-items: center;
-    padding-left: 64px;
+    padding-left: 20px;
+    margin-top: 5px;
   }
 
   .pill {
