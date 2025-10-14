@@ -37,18 +37,24 @@ body {
 .entrada_professor {
     font-size: 30px;
     color: #000000;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .container {
     width: 600px;
-    height: 500px;
+    height: 100%;
     background-color: transparent;
     border-radius: 10px;
     color: #666666;
-    margin-top: 60px;
+    margin-top: auto;
     padding: 30px 40px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     backdrop-filter: blur(10px);
+    font-size: 36px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .input-group {
@@ -56,11 +62,6 @@ body {
     position: relative;
     margin-top: 25px;
     color: #000;
-}
-
-.container {
-    font-size: 36px;
-    text-align: center;
 }
 
 .input-box {
@@ -117,7 +118,7 @@ body {
     margin-top: 70px;
     width: 100%;
     height: 50px;
-    background-color: #1A6C7C;
+    background-color: #165966;
     border: none;
     border-radius: 40px;
     font-size: 20px;
@@ -127,7 +128,7 @@ body {
 }
 
 .login:hover {
-    background-color: #00D8E8;
+    background-color: #1A6C7C;
     color: #fff;
     transition: 0.5s;
     transform: translateY(-2px);
