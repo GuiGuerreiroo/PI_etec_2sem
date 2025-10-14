@@ -3,21 +3,30 @@ body {
   background-color: #1e1e1e;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Ajuste opcional para alinhar no topo */
+  align-items: flex-start;
+  /* Ajuste opcional para alinhar no topo */
   padding: 0;
   margin: 0;
   height: 100vh;
+  background: url('https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/1/2022/07/bg_cinza-right-62e1426c08f60.png');
+  background-size: 70vh;
+  background-position: center;
+  background-repeat: repeat;
 }
 
 .container {
-  background: #fff;
+  /* background: #fff; */
   width: 100%;
-  max-width: 1500px; /* limite opcional para telas muito grandes */
+  max-width: 1500px;
+  /* limite opcional para telas muito grandes */
   height: 100vh;
   padding: 40px;
-  border-radius: 0; /* Se quiser bordas nos cantos, pode voltar a 30px */
-  box-shadow: 0 0 10px rgba(0,0,0,0.3); /* Ou mantenha a sombra se desejar */
-  overflow-y: auto; /* Se o conteúdo for maior que a tela */
+  border-radius: 0;
+  /* Se quiser bordas nos cantos, pode voltar a 30px */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* Ou mantenha a sombra se desejar */
+  overflow-y: auto;
+  /* Se o conteúdo for maior que a tela */
 }
 
 h2 {
@@ -38,6 +47,7 @@ h2 {
   border-radius: 25px;
   padding: 10px;
   margin-bottom: 20px;
+  backdrop-filter: blur(10px);
 }
 
 .calendar-header {
@@ -49,6 +59,7 @@ h2 {
   font-weight: bold;
   border-bottom: 1px solid #800000;
   padding-bottom: 4px;
+  backdrop-filter: blur(10px);
 }
 
 .nav {
@@ -60,6 +71,7 @@ h2 {
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
   text-align: center;
+  backdrop-filter: blur(10px);
 }
 
 .calendar div {
@@ -68,6 +80,7 @@ h2 {
   border-radius: 6px;
   font-size: 14px;
   font-weight: bold;
+  backdrop-filter: blur(10px);
 }
 
 .calendar .selected {
@@ -111,10 +124,12 @@ h2 {
   padding: 10px;
   text-align: center;
   margin-top: 20px;
-  width: 400px;
+  width: 60%;
   margin-bottom: 10px;
   margin: auto;
+  backdrop-filter: blur(10px);
 }
+
 /* 100vh pra deixar tamanho */
 .info-box .title {
   border-bottom: 2px solid #800000;
@@ -126,7 +141,7 @@ h2 {
 .info-item {
   font-size: 16px;
   margin-bottom: 6px;
-  margin:  20px;
+  margin: 20px;
 }
 
 .concluir-btn {
