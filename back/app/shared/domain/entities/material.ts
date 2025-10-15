@@ -3,7 +3,8 @@ export class Material {
         public materialId: string,
         public name: string,
         public reusable: boolean,
-        public quantity: number
+        public quantity: number,
+        public size?: string
     ) {}
 
     toJson() : {
@@ -11,12 +12,14 @@ export class Material {
         name: string;
         reusable: boolean;
         quantity: number;
+        size?: string;
     } {
         return {
             materialId: this.materialId,
             name: this.name,
             reusable: this.reusable,
-            quantity: this.quantity
+            quantity: this.quantity,
+            size: this.size
         }
     }
 
@@ -25,7 +28,8 @@ export class Material {
         name: string;
         reusable: boolean;
         quantity: number;
+        size?: string;
     }) {
-        return new Material(json.materialId, json.name, json.reusable, json.quantity);
+        return new Material(json.materialId, json.name, json.reusable, json.quantity, json.size);
     }
 }

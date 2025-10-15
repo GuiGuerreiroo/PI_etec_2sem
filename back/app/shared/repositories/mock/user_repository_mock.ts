@@ -65,6 +65,7 @@ export class UserRepoMock implements IUserRepository {
     if (index === -1){
       return null
     }
+    
     return this.users.splice(index, 1)[0];
   }
 }

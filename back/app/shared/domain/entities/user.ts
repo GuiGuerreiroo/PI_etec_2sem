@@ -7,7 +7,7 @@ export class User {
     public name: string,
     public email: string,
     public role: ROLE,
-    public password: string
+    public password: string,
   ) {}
 
   toJson() : {

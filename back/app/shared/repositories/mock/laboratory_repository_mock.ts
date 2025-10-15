@@ -2,7 +2,7 @@ import { Laboratory } from "../../domain/entities/laboratory";
 import { ILaboratoryRepository } from "../../domain/interface/ILaboratoryRepository";
 
 export class LaboratoryRepoMock implements ILaboratoryRepository {
-    private laboratories : Laboratory[] = [
+    private laboratories: Laboratory[] = [
         new Laboratory(
             "128d890b-2740-4176-b6d0-5d07b365e7af", 
             "Lab de Química 1"
@@ -32,9 +32,11 @@ export class LaboratoryRepoMock implements ILaboratoryRepository {
 
     async deleteLaboratoryById(labId: string): Promise<Laboratory | null> {
         const index= this.laboratories.findIndex((lab) => lab.idLab === labId);
+
         if (index === -1){
           return null
         }
+        
         return this.laboratories.splice(index, 1)[0];
     }
 }
