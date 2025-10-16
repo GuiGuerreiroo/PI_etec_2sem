@@ -1,0 +1,116 @@
+* { box-sizing: border-box; }
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    height: 100vh;
+    background: url('https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/1/2022/07/bg_cinza-right-62e1426c08f60.png');
+    background-size: 70vh;
+    background-position: center;
+    background-repeat: repeat;
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.page-frame {
+  background: #fff;
+  border-radius: 40px;
+  border: 2px solid #666;
+  overflow: hidden;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.06);
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 56px;
+  letter-spacing: 2px;
+  color: #0b6970;
+}
+
+.title-bar-line {
+  height: 2px;
+  width: 28%;
+  background: #8c1b1b;
+}
+
+.title-bar-knob {
+  width: 180px;
+  height: 20px;
+  background: #8c1b1b;
+  border-radius: 8px;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.12);
+}
+
+.panel {
+  background: #f5f2f2;
+  border-top: 0px solid transparent;
+  padding: 24px 0;
+}
+
+.cards-grid {
+  background: rgba(0,0,0,0.03);
+  padding: 28px;
+  border-radius: 10px;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.04);
+  min-height: 520px;
+}
+
+.add-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 6px 8px 0 rgba(0,0,0,0.06);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 190px;
+  cursor: pointer;
+  font-size: 56px;
+  color: #0b6970;
+  transition: transform .12s ease;
+}
+
+.add-card:hover { transform: translateY(-6px); }
+.add-card:active { transform: translateY(-2px) translateX(0); }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.35);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .18s ease, visibility .18s;
+}
+
+.modal[aria-hidden="false"] {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+  max-width: 92%;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.16);
+}
+
+.btn {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #0b6970;
+  color: white;
+  cursor: pointer;
+}
+
