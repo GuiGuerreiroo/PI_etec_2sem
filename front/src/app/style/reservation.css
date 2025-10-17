@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #1e1e1e;
+  background-color: #ffff;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -8,7 +8,7 @@ body {
   padding: 0;
   margin: 0;
   height: 100vh;
-  background: url('https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/1/2022/07/bg_cinza-right-62e1426c08f60.png');
+  /* background: url('https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/1/2022/07/bg_cinza-right-62e1426c08f60.png'); */
   background-size: 70vh;
   background-position: center;
   background-repeat: repeat;
@@ -27,6 +27,7 @@ body {
   /* Ou mantenha a sombra se desejar */
   overflow-y: auto;
   /* Se o conteúdo for maior que a tela */
+  scrollbar-width: none;
 }
 
 h2 {
