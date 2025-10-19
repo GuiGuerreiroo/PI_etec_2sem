@@ -1,225 +1,501 @@
-* { box-sizing: border-box; margin:0; padding:0; font-family:"Segoe UI", Roboto, Arial, sans-serif; }
-  html,body { height:100%; }
-  body {
-    background:#ffffff;
-    color:#0d4043;
-    display:flex;
-    flex-direction:column;
-    min-height:100vh;
-  }
+/* === SEU CÓDIGO ORIGINAL (BASE DESKTOP) === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: #ffffff;
+  color: #0d4043;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navbar {
+  height: 100px;
+  padding-top: 80px;
+}
+
+nav.navbar {
+  position: absolute;
+  top: 40px;
+  left: 70%;
+  transform: translate(-80%, -60%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 200px;
+}
+
+.nav-item {
+  width: 170px;
+  height: 120px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.08);
+  padding: 25px 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item svg {
+  width: 26px;
+  height: 26px;
+  fill: #0d7377;
+  margin-bottom: 4px;
+  margin-top: 10px;
+}
+
+.nav-item span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0d7377;
+}
+
+header {
+  position: relative;
+  padding: 36px 0 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.title-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+h1.logo {
+  font-size: 32px;
+  color: #0d4043;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding-left: 25px;
+  margin-bottom: 0;
+  margin-top: 25px;
+}
+
+.decor {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.pill {
+  height: 20px;
+  width: 280px;
+  background: #8a1d1b;
+  border-radius: 999px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+  z-index: 2;
+}
+
+.line {
+  position: absolute;
+  left: 0;
+  top: 60%;
+  transform: translateY(-50%);
+  height: 3px;
+  width: 100vw;
+  background: #8a1d1b;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.header-spacer {
+  height: 6px;
+}
+
+main {
+  display: flex;
+  gap: 30px;
+  padding: 20px 64px 40px;
+  flex: 1;
+}
+
+aside {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  padding: 14px 18px;
+}
+
+.card h3 {
+  font-size: 15px;
+  color: #0d4043;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.card .line {
+  height: 4px;
+  width: 90px;
+  background: #8a1d1b;
+  border-radius: 3px;
+  margin-bottom: 12px;
+  position: static;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #0d4043;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  font-size: 13px;
+  text-align: center;
+}
+.calendar-grid div {
+  padding: 8px 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.calendar-grid div:hover {
+  background: #eef4f4;
+}
+.calendar-grid .selected {
+  background: #8a1d1b;
+  color: #fff;
+  font-weight: 700;
+}
+
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.filters input {
+  width: 16px;
+  height: 16px;
+}
+
+.lab1 {
+  color: #2ecc71;
+}
+.lab2 {
+  color: #f1c40f;
+}
+.lab3 {
+  color: #e74c3c;
+}
+
+.info p {
+  font-size: 13px;
+  margin: 4px 0;
+}
+textarea {
+  width: 100%;
+  height: 70px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px;
+  resize: none;
+  margin-top: 6px;
+}
+button {
+  width: 100%;
+  background: #104a4d;
+  color: #fff;
+  border: none;
+  padding: 9px;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.agenda {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 16px 22px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.agenda-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.agenda-header h4 {
+  font-size: 15px;
+  color: #0d4043;
+  font-weight: 600;
+}
+.agenda-date {
+  font-size: 15px;
+  color: #0d4043;
+  font-weight: 600;
+}
+
+.agenda-body {
+  flex: 1;
+  position: relative;
+  border-top: 1px solid #d7e2e2;
+  display: flex;
+  flex-direction: column;
+}
+
+.hour {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  border-bottom: 1px solid #555;
+  color: #0d4043;
+  font-size: 13px;
+  flex: 1;
+}
+
+.hour span {
+  width: 72px;
+  text-align: right;
+  margin-right: 12px;
+  color: #0d4043;
+  font-size: 13px;
+}
+
+.event {
+  position: absolute;
+  left: 112px;
+  min-width: 180px;
+  height: 28px;
+  border-radius: 6px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+}
+.event.lab1 {
+  background: #2ecc71;
+}
+.event.lab2 {
+  background: #f1c40f;
+  color: #000;
+}
+.event.lab3 {
+  background: #e74c3c;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 6px;
+}
+
+/* === AJUSTES DE RESPONSIVIDADE === */
+
+/*-- Para Telas de Tablet (Paisagem) e Desktops Pequenos --*/
+/*-- Para Telas de Tablet (Paisagem) e Desktops Pequenos --*/
+@media (max-width: 1024px) {
+  /* Traz a navbar de volta para o fluxo normal da página */
   .navbar {
-    height: 100px;
-    padding-top: 80px;
+    height: auto; /* Remove a altura fixa */
+    padding: 20px 0; /* Adiciona um espaçamento interno */
   }
 
+  /* Reposiciona a navegação para o fluxo natural do documento */
   nav.navbar {
-    position:absolute;
-    top: 40px;
-    left: 70%;
-    transform:translate(-80%, -60%);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:200px;
+    position: relative; /* Remove o 'absolute' que causava a sobreposição */
+    top: auto;
+    left: auto;
+    transform: none; /* Reseta a transformação */
+    
+    width: 100%; /* Garante que o container ocupe a largura toda */
+    justify-content: center; /* Centraliza os itens de navegação */
+    gap: 40px; /* Um espaçamento mais adequado para esta resolução */
+  }
+
+  /* Remove o espaçamento extra do header que não é mais necessário */
+  header {
+    padding-top: 0;
+  }
+
+  main {
+    padding: 20px 32px 40px; /* Reduz o padding lateral */
+  }
+}
+
+/*-- Para Telas de Tablet (Retrato) --*/
+@media (max-width: 768px) {
+  /* Altera o layout principal para uma única coluna */
+  main {
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  /* Faz a barra lateral ocupar toda a largura */
+  aside {
+    width: 100%;
+  }
+  
+  /* Ajusta a barra de navegação que estava absoluta */
+  nav.navbar {
+    position: relative; /* Remove o posicionamento absoluto */
+    left: auto;
+    top: auto;
+    transform: none;
+    gap: 20px;
+    padding: 20px 0;
+  }
+
+  .navbar {
+    height: auto;
+    padding-top: 0;
   }
 
   .nav-item {
-    width: 170px;
-    height: 120px;
-    background:#fff;
-    border-radius:12px;
-    box-shadow:3px 3px 6px rgba(0,0,0,0.08);
-    padding:25px 25px;
-    text-align:center;
-    cursor:pointer;
-    transition:all 0.2s ease;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-  }
-
-  .nav-item:hover {
-    transform:translateY(-3px);
-    box-shadow:5px 5px 10px rgba(0,0,0,0.1);
-  }
-
-  .nav-item svg {
-    width:26px;
-    height:26px;
-    fill:#0d7377;
-    margin-bottom:4px;
-    margin-top: 10px;
+    width: 140px;
+    height: 100px;
+    padding: 15px;
   }
 
   .nav-item span {
-    font-size:20px;
-    font-weight:600;
-    color:#0d7377;
-  }
-
-  header {
-    position: relative;
-    padding:36px 0 18px 0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-  }
-
-  .title-wrap {
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    width:100%;
-    margin-top: 20px;
+    font-size: 18px;
   }
 
   h1.logo {
-    font-size:32px;
-    color:#0d4043;
-    font-weight:700;
-    letter-spacing:0.3px;
-    padding-left:25px;
-    margin-bottom:0;
-    margin-top: 25px;
+    font-size: 28px;
+    margin-top: 0;
+  }
+  
+  .event {
+    left: 95px; /* Puxa os eventos um pouco para a esquerda */
+    min-width: 150px;
+    font-size: 14px;
+  }
+}
+
+/*-- Para Telas de Celular --*/
+@media (max-width: 480px) {
+  /* Empilha os itens de navegação verticalmente */
+  nav.navbar {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
   }
 
+  .nav-item {
+    width: 80%; /* Ocupa a maior parte da largura */
+    max-width: 300px;
+    height: 80px;
+  }
+
+  .nav-item svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav-item span {
+    font-size: 16px;
+  }
+
+  /* Centraliza o cabeçalho e ajusta o título */
+  h1.logo {
+    text-align: center;
+    padding-left: 0;
+    font-size: 24px;
+  }
+  
   .decor {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
-    margin-top: 5px;
+    justify-content: center;
+    padding-left: 0;
   }
 
   .pill {
-    height:20px;
-    width:280px;
-    background:#8a1d1b;
-    border-radius:999px;
-    box-shadow:0 2px 0 rgba(0,0,0,0.06);
-    z-index:2;
+    width: 240px;
   }
-
-  .line {
-    position:absolute;
-    left:0;
-    top:60%;
-    transform:translateY(-50%);
-    height:3px;
-    width:100vw;
-    background:#8a1d1b;
-    opacity:0.9;
-    z-index:1;
-  }
-
-  .header-spacer { height:6px; }
 
   main {
-    display:flex;
-    gap:30px;
-    padding:20px 64px 40px;
-    flex:1;
+    padding: 15px;
   }
-
-  aside {
-    width:260px;
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-  }
-
-  .card {
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:12px;
-    box-shadow:0 3px 8px rgba(0,0,0,0.06);
-    padding:14px 18px;
-  }
-
-  .card h3 {
-    font-size:15px;
-    color:#0d4043;
-    margin-bottom:8px;
-    font-weight:600;
-  }
-
-  .card .line {
-    height:4px;
-    width:90px;
-    background:#8a1d1b;
-    border-radius:3px;
-    margin-bottom:12px;
-    position:static;
-  }
-
-  .calendar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-weight:600; color:#0d4043; }
-  .calendar-grid {
-    display:grid;
-    grid-template-columns:repeat(7, 1fr);
-    gap:6px;
-    font-size:13px;
-    text-align:center;
-  }
-  .calendar-grid div { padding:8px 0; border-radius:8px; cursor:pointer; }
-  .calendar-grid div:hover { background:#eef4f4; }
-  .calendar-grid .selected { background:#8a1d1b; color:#fff; font-weight:700; }
-
-  .filters label { display:flex; align-items:center; gap:8px; margin-bottom:6px; font-size:14px; cursor:pointer; }
-  .filters input { width:16px; height:16px; }
-
-  .lab1{ color:#2ecc71 }  
-  .lab2{ color:#f1c40f }  
-  .lab3{ color:#e74c3c }  
-
-  .info p { font-size:13px; margin:4px 0; }
-  textarea { width:100%; height:70px; border:1px solid #ccc; border-radius:6px; padding:6px; resize:none; margin-top:6px; }
-  button { width:100%; background:#104a4d; color:#fff; border:none; padding:9px; border-radius:8px; margin-top:10px; cursor:pointer; font-weight:700; }
-
+  
   .agenda {
-    flex:1;
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:14px;
-    padding:16px 22px;
-    box-shadow:0 3px 8px rgba(0,0,0,0.06);
-    display:flex;
-    flex-direction:column;
+    padding: 12px;
   }
-
-  .agenda-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-  .agenda-header h4 { font-size:15px; color:#0d4043; font-weight:600; }
-  .agenda-date { font-size:15px; color:#0d4043; font-weight:600; }
-
+  
+  /* Reestrutura a agenda para o formato de lista */
   .agenda-body {
-    flex:1;
-    position:relative;
-    border-top:1px solid #d7e2e2;
-    display:flex;
-    flex-direction:column;
+    border-top: none;
   }
 
   .hour {
-    display:flex;
-    align-items:center;
-    padding-left:8px;
-    border-bottom:1px solid #555;
-    color:#0d4043;
-    font-size:13px;
-    flex:1;
+    flex-direction: column; /* Empilha a hora e o evento */
+    align-items: flex-start;
+    border-bottom: 1px solid #eee;
+    padding: 12px 0;
+  }
+  
+  .hour:last-child {
+    border-bottom: none;
   }
 
-  .hour span { width:72px; text-align:right; margin-right:12px; color:#0d4043; font-size:13px; }
+  .hour span {
+    width: auto;
+    text-align: left;
+    margin-right: 0;
+    margin-bottom: 8px; /* Espaço entre a hora e o evento */
+    font-weight: bold;
+  }
 
   .event {
-    position:absolute; left:112px; min-width:180px; height:28px; border-radius:6px; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600;
-    box-shadow:0 2px 0 rgba(0,0,0,0.06);
+    position: relative; /* Volta ao fluxo normal do documento */
+    left: auto;
+    width: 100%;
+    height: auto;
+    padding: 8px;
+    justify-content: flex-start;
+    font-size: 13px;
   }
-  .event.lab1 { background:#2ecc71; } 
-  .event.lab2 { background:#f1c40f; color:#000; } 
-  .event.lab3 { background:#e74c3c; } 
-
-  ::-webkit-scrollbar { width:8px; height:8px; }
-  ::-webkit-scrollbar-thumb { background:#ccc; border-radius:6px; }
+}
