@@ -333,56 +333,46 @@ button {
   border-radius: 6px;
 }
 
-/* === AJUSTES DE RESPONSIVIDADE === */
-
-/*-- Para Telas de Tablet (Paisagem) e Desktops Pequenos --*/
-/*-- Para Telas de Tablet (Paisagem) e Desktops Pequenos --*/
+/* RESPONSIVIDADE */
 @media (max-width: 1024px) {
-  /* Traz a navbar de volta para o fluxo normal da página */
   .navbar {
-    height: auto; /* Remove a altura fixa */
-    padding: 20px 0; /* Adiciona um espaçamento interno */
+    height: auto; 
+    padding: 20px 0; 
   }
 
-  /* Reposiciona a navegação para o fluxo natural do documento */
   nav.navbar {
-    position: relative; /* Remove o 'absolute' que causava a sobreposição */
+    position: relative; 
     top: auto;
     left: auto;
-    transform: none; /* Reseta a transformação */
+    transform: none; 
     
-    width: 100%; /* Garante que o container ocupe a largura toda */
-    justify-content: center; /* Centraliza os itens de navegação */
-    gap: 40px; /* Um espaçamento mais adequado para esta resolução */
+    width: 100%; 
+    justify-content: center; 
+    gap: 40px; 
   }
 
-  /* Remove o espaçamento extra do header que não é mais necessário */
   header {
     padding-top: 0;
   }
 
   main {
-    padding: 20px 32px 40px; /* Reduz o padding lateral */
+    padding: 20px 32px 40px; 
   }
 }
 
-/*-- Para Telas de Tablet (Retrato) --*/
 @media (max-width: 768px) {
-  /* Altera o layout principal para uma única coluna */
   main {
     flex-direction: column;
     padding: 20px;
     gap: 20px;
   }
 
-  /* Faz a barra lateral ocupar toda a largura */
   aside {
     width: 100%;
   }
   
-  /* Ajusta a barra de navegação que estava absoluta */
   nav.navbar {
-    position: relative; /* Remove o posicionamento absoluto */
+    position: relative;
     left: auto;
     top: auto;
     transform: none;
@@ -411,15 +401,13 @@ button {
   }
   
   .event {
-    left: 95px; /* Puxa os eventos um pouco para a esquerda */
+    left: 95px;
     min-width: 150px;
     font-size: 14px;
   }
 }
 
-/*-- Para Telas de Celular --*/
 @media (max-width: 480px) {
-  /* Empilha os itens de navegação verticalmente */
   nav.navbar {
     flex-direction: column;
     align-items: center;
@@ -427,7 +415,7 @@ button {
   }
 
   .nav-item {
-    width: 80%; /* Ocupa a maior parte da largura */
+    width: 80%; 
     max-width: 300px;
     height: 80px;
   }
@@ -441,7 +429,6 @@ button {
     font-size: 16px;
   }
 
-  /* Centraliza o cabeçalho e ajusta o título */
   h1.logo {
     text-align: center;
     padding-left: 0;
@@ -465,13 +452,12 @@ button {
     padding: 12px;
   }
   
-  /* Reestrutura a agenda para o formato de lista */
   .agenda-body {
     border-top: none;
   }
 
   .hour {
-    flex-direction: column; /* Empilha a hora e o evento */
+    flex-direction: column; 
     align-items: flex-start;
     border-bottom: 1px solid #eee;
     padding: 12px 0;
@@ -485,12 +471,12 @@ button {
     width: auto;
     text-align: left;
     margin-right: 0;
-    margin-bottom: 8px; /* Espaço entre a hora e o evento */
+    margin-bottom: 8px; 
     font-weight: bold;
   }
 
   .event {
-    position: relative; /* Volta ao fluxo normal do documento */
+    position: relative; 
     left: auto;
     width: 100%;
     height: auto;
