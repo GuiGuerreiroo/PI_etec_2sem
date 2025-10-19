@@ -1,0 +1,163 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* Ajuste opcional para alinhar no topo */
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  /* background: url('https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/1/2022/07/bg_cinza-right-62e1426c08f60.png'); */
+  background-size: 70vh;
+  background-position: center;
+  background-repeat: repeat;
+}
+
+.container {
+  /* background: #fff; */
+  width: 100%;
+  max-width: 1500px;
+  /* limite opcional para telas muito grandes */
+  height: 100vh;
+  padding: 40px;
+  border-radius: 0;
+  /* Se quiser bordas nos cantos, pode voltar a 30px */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* Ou mantenha a sombra se desejar */
+  overflow-y: auto;
+  /* Se o conteúdo for maior que a tela */
+  scrollbar-width: none;
+}
+
+h2 {
+  color: #005b5f;
+  margin-bottom: 10px;
+}
+
+.progress {
+  height: 8px;
+  background-color: #800000;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 60%;
+}
+
+.section {
+  border: 1px solid #800000;
+  border-radius: 25px;
+  padding: 10px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  color: #005b5f;
+  font-weight: bold;
+  border-bottom: 1px solid #800000;
+  padding-bottom: 4px;
+  backdrop-filter: blur(10px);
+}
+
+.nav {
+  font-size: 16px;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.calendar div {
+  background: #f0f0f0;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  backdrop-filter: blur(10px);
+}
+
+.calendar .selected {
+  background-color: #888;
+  color: white;
+}
+
+.label {
+  color: #005b5f;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.btn {
+  background-color: #005b5f;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 15px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn.outline {
+  background: none;
+  color: #005b5f;
+  border: 1px solid #005b5f;
+}
+
+.info-box {
+  border: 1px solid #800000;
+  border-radius: 25px;
+  padding: 10px;
+  text-align: center;
+  margin-top: 20px;
+  width: 60%;
+  margin-bottom: 10px;
+  margin: auto;
+  backdrop-filter: blur(10px);
+}
+
+/* 100vh pra deixar tamanho */
+.info-box .title {
+  border-bottom: 2px solid #800000;
+  display: inline-block;
+  margin-bottom: 10px;
+  padding-bottom: 4px;
+}
+
+.info-item {
+  font-size: 16px;
+  margin-bottom: 6px;
+  margin: 20px;
+}
+
+.concluir-btn {
+  background-color: #005b5f;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* transition: ; */
+}
+
+hr {
+  border: 1px solid #800000;
+  margin: 20px 0;
+}
