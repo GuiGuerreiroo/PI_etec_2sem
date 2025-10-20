@@ -1,0 +1,457 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+
+body {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+}
+
+
+
+
+.dropbtn {
+  background-color: #4D8D99;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #F4F4F4;
+  min-width: 140px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 8px 12px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
+.card {
+  background-color: #F4F4F4;
+  border-radius: 12px;
+  height: 500px; /* Essa altura é crucial para o posicionamento */
+  padding: 20px;
+  width: 800px;
+  box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+
+  
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+thead th {
+  text-align: left;
+  padding: 10px;
+  font-weight: bold;
+  color: #555;
+  border-bottom: 2px solid #4D8D99;
+}
+
+tbody td {
+  padding: 12px 10px;
+  color: #333;
+  border-bottom: 1px solid #A2A2A2;
+}
+
+
+.cargo-badge {
+  background-color: #4D8D99;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+
+.btn-criar {
+  background-color: #1A6C7C;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.btn-criar:hover {
+  background-color: #145561;
+}
+
+
+
+
+
+
+
+
+.form-card {
+    max-width: 500px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  padding: 30px 40px;
+}
+
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.logo-img {
+  width: 80px;
+  height: 80px;
+}
+
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form label {
+  font-size: 14px;
+  color: #333;
+}
+
+.form input,
+.form select {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #d9d9d9;
+  font-size: 14px;
+  outline: none;
+}
+
+.form input:focus,
+.form select:focus {
+  border: 2px solid #4D8D99;
+  background-color: #fff;
+}
+
+
+.form .btn-criar {
+  margin-top: 20px;
+  background-color: #1A6C7C;
+  color: white;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.form .btn-criar:hover {
+  background-color: #145561;
+}
+
+
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-voltar {
+  background-color: #A2A2A2;
+  color: white;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  flex: 1;
+}
+
+.btn-voltar:hover {
+  background-color: #7d7d7d;
+}
+
+
+.form .btn-criar {
+  flex: 2;
+}
+
+
+
+
+    .voltar-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #1A6C7C;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .voltar-link:hover {
+      color: #145561;
+    }
+
+    .voltar-link span {
+      font-size: 18px;
+      margin-right: 6px;
+    }
+
+    
+
+
+
+.page-title {
+font-size: 20px;
+font-weight: bold;
+color: #333;
+}
+
+
+.top-bar {
+width: 600px;
+display: flex;
+justify-content: flex-end;
+background-color: #F4F4F4;
+padding: 5px 10px;
+border-radius: 50px;
+box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+margin: 0 auto 20px auto; 
+border: 1px solid #A2A2A2;
+}
+
+.filters-container {
+display: flex;
+gap: 15px;
+align-items: center;
+margin-left: auto; 
+}
+
+.filter-dropdown {
+position: relative;
+}
+
+.filter-btn {
+background-color: #4D8D99;
+color: white;
+padding: 8px 18px;
+border: none;
+border-radius: 25px;
+cursor: pointer;
+font-size: 14px;
+display: flex;
+align-items: center;
+gap: 6px;
+box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+transition: background-color 0.2s ease-in-out;
+}
+
+.filter-btn:hover {
+background-color: #417b85;
+}
+
+.filter-btn i {
+font-size: 10px;
+}
+
+.filter-content {
+display: none;
+position: absolute;
+background-color: #F4F4F4;
+min-width: 180px;
+box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+border-radius: 10px;
+z-index: 1;
+padding: 10px;
+}
+
+.filter-content label {
+display: flex;
+align-items: center;
+gap: 6px;
+font-size: 13px;
+color: #333;
+padding: 4px 0;
+}
+
+.filter-dropdown:hover .filter-content {
+display: block;
+}
+
+
+.table-custom {
+width: 100%;
+border-collapse: collapse;
+}
+
+.table-custom thead th {
+text-align: left;
+padding: 10px;
+font-weight: bold;
+color: #555;
+border-bottom: 2px solid #4D8D99;
+}
+
+.table-custom tbody td {
+padding: 12px 10px;
+color: #333;
+border-bottom: 1px solid #A2A2A2;
+}
+
+
+.status-badge {
+padding: 5px 14px;
+border-radius: 20px;
+color: white;
+font-size: 13px;
+font-weight: bold;
+display: inline-block;
+}
+
+.status-concluido {
+background-color: #0090E1;
+}
+
+.status-andamento {
+background-color: #E14444;
+}
+
+.status-pendente {
+background-color: #E19D00;
+}
+
+
+.kit-badge {
+background-color: #4D8D99;
+color: white;
+padding: 5px 15px;
+border-radius: 20px;
+font-size: 13px;
+font-weight: bold;
+}
+
+
+        /* Estilos de responsividade e ajuste fino para mobile */
+        
+        /* O card deve se ajustar à largura do container e não ter altura fixa no mobile */
+        .card {
+            width: 100%;
+            max-width: 800px; /* Limita a largura em telas grandes, como no seu CSS original */
+            height: auto !important; /* Remove a altura fixa para melhor responsividade */
+            margin-bottom: 20px; /* Espaçamento com o rodapé */
+            /* A cor de fundo do card já está definida no seu style.css como #F4F4F4 */
+        }
+        
+        /* Ajusta a barra de filtros para ser responsiva */
+        .top-bar {
+            width: 100%;
+            max-width: 800px;
+            /* Seus estilos de cor/borda do .top-bar no style.css serão mantidos */
+        }
+        
+        /* Centraliza o conteúdo (tabela e botão) */
+        body {
+            /* Removendo display: flex do body para usar o grid/container do Bootstrap */
+            display: block; 
+            padding: 20px;
+        }
+
+        /* NOVO: Garante que o fundo da tabela seja igual ao do card */
+        .table {
+            --bs-table-bg: #F4F4F4; /* Usa a variável do Bootstrap para definir o fundo */
+            background-color: #F4F4F4; /* Fallback e override garantido */
+        }
+
+
+
+            /* Estilos de ajuste para garantir que o Bootstrap funcione com seu CSS */
+    
+    /* Centraliza o conteúdo e garante que os containers tenham largura máxima */
+    .container-list {
+        width: 100%;
+        max-width: 800px; /* Limita a largura do conteúdo principal */
+        padding: 0 15px; /* Padding lateral em mobile */
+        margin: 0 auto; /* Centraliza */
+    }
+
+    /* O top-bar agora se torna um container flexível do Bootstrap */
+    .top-bar {
+        /* Seu CSS em style.css já limita a 600px, vamos garantir que seja responsivo */
+        width: 100%; 
+        max-width: 800px;
+        margin-bottom: 20px;
+    }
+
+    /* A barra de filtros usa d-flex e flex-wrap para quebrar em múltiplas linhas no mobile */
+    .filters-container {
+        display: flex;
+        flex-wrap: wrap; /* ESSENCIAL para responsividade: quebra os dropdowns no mobile */
+        gap: 10px; /* Espaçamento entre os dropdowns */
+    }
+
+    /* Garante que o fundo da tabela dentro do card seja o mesmo do card (#F4F4F4) */
+    .table-custom {
+        --bs-table-bg: #F4F4F4;
+        background-color: #F4F4F4;
+    }
+
+    /* O card deve se ajustar à largura do container e não ter altura fixa */
+    .card {
+        width: 100%;
+        height: auto !important; /* Anula a altura fixa de 500px do seu CSS */
+        padding: 20px; /* Garante o padding interno */
+    }
