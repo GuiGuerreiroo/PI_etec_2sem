@@ -1,3 +1,55 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.nav-item {
+  width: 170px;
+  /* Você pode manter ou remover o width/height fixo */
+  height: 120px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.08);
+  padding: 25px 25px;
+
+  /* Esta linha é ótima para responsividade!
+    flex: 1 1 160px; 
+    Significa: cresça (1), encolha (1), com base de 160px.
+    Combinado com max-width, é muito flexível.
+  */
+  flex: 1 1 160px;
+  max-width: 200px;
+
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item svg {
+  width: 26px;
+  height: 26px;
+  fill: #0d7377;
+  margin-bottom: 4px;
+  margin-top: 10px;
+}
+
+.nav-item span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0d7377;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -24,9 +76,10 @@ body {
   border: 2px solid #666;
   overflow: hidden;
   box-shadow: 0 6px 0 rgba(0, 0, 0, 0.06); */
-  margin-top: 60px;
+  margin-top: 15px;
 
 }
+
 
 .title {
   margin: 0;
@@ -34,12 +87,14 @@ body {
   font-size: 56px;
   letter-spacing: 2px;
   color: #0b6970;
-  margin-top: 100px;
+  margin-top: 40px;
+  text-align: center;
 }
+
 
 .title-bar-line {
   height: 2px;
-  width: 50%;
+  width: 550px;
   background: #8c1b1b;
 }
 
