@@ -14,6 +14,11 @@
     </div>
   </header>
 <body>
+  <div class="menu-toggle" onclick="this.classList.toggle('active'); document.querySelector('nav.navbar').classList.toggle('active')">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   <nav class="navbar">
       <div class="nav-item">
         <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 
@@ -54,9 +59,9 @@
       <div class="card filters">
         <h3>Filtros</h3>
         <div class="line"></div>
-        <label><input type="checkbox" checked> <span class="lab1">Laboratório 01</span></label>
-        <label><input type="checkbox" checked> <span class="lab2">Laboratório 02</span></label>
-        <label><input type="checkbox" checked> <span class="lab3">Laboratório 03</span></label>
+        <label><input type="checkbox" checked> <span class="lab1" title="Laboratório 01">Laboratório 01</span></label>
+        <label><input type="checkbox" checked> <span class="lab2" title="Laboratório 02">Laboratório 02</span></label>
+        <label><input type="checkbox" checked> <span class="lab3" title="Laboratório 03">Laboratório 03</span></label>
       </div>
 
       <div class="card info">
