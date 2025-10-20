@@ -7,21 +7,13 @@
 
 .nav-item {
   width: 170px;
-  /* Você pode manter ou remover o width/height fixo */
   height: 120px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.08);
   padding: 25px 25px;
-
-  /* Esta linha é ótima para responsividade!
-    flex: 1 1 160px; 
-    Significa: cresça (1), encolha (1), com base de 160px.
-    Combinado com max-width, é muito flexível.
-  */
   flex: 1 1 160px;
   max-width: 200px;
-
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
