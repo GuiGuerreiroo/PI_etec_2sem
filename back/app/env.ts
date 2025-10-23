@@ -1,7 +1,7 @@
-import {config} from "dotenv";
+import {config as dotenvConfig} from "dotenv";
 
 // le o .env file
-config()
+dotenvConfig();
 
 export enum StageEnum {
     TEST= "test",
@@ -10,6 +10,6 @@ export enum StageEnum {
 }
 
 export class Env {
-    static readonly STAGE: StageEnum =
+    static readonly STAGE: StageEnum = 
         (process.env.STAGE as StageEnum) || StageEnum.ERROR;
 }
