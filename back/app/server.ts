@@ -2,9 +2,10 @@ import { routes } from "./routes/routes";
 // import { errorHandlerMiddleware } from "./shared/middleware/error_middleware";
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
 
 
-// dotenv.config();
+dotenv.config();
 
 const app = express();
 
@@ -26,9 +27,7 @@ process.on("unhandledRejection", (reason, promise) => {
 
 routes(app);
 
-// app.use("/docs", swaggerUi.serve, swaggerUi.setup(openApiDoc));
-
-// app.use(errorHandlerMiddleware);
+app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT} 🚀`);
