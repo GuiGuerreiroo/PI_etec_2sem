@@ -49,3 +49,28 @@ export class LabRepository {
         }
     }
 }
+
+export class ReservationRepository {
+    public laboratoryRepo: ILaboratoryRepository;
+    public reservationRepo: IReservationRepository;
+    // private mongoDb?: MongoDBResources;
+
+    constructor(){
+        if(Env.STAGE === "error"){
+            console.log("You need to add a .env in you main folder contin the stage you want to interact")
+        }
+        if (Env.STAGE === "test") {
+            this.reservationRepo= new ReservationRepoMock()
+
+            this.laboratoryRepo= new LaboratoryRepoMock()
+        } 
+        // AQUI DEVE SE CONFIGURAR O MONGO, por enquanto esta com o default
+        else {
+            // this mongoDB=  new MongoDBResources();
+            // this.userRepo= new UserRepositoryMongoDB(this.mongoDb);
+            this.reservationRepo= new ReservationRepoMock()
+
+            this.laboratoryRepo= new LaboratoryRepoMock()
+        }
+    }
+}

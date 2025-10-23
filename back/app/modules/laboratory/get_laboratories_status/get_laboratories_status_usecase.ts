@@ -2,6 +2,7 @@ import { IReservationRepository } from "../../../shared/domain/interface/IReserv
 import { ILaboratoryRepository } from "../../../shared/domain/interface/ILaboratoryRepository";
 
 export interface LaboratoryAvailableOficialModel{
+    laboratoryId: string;
     laboratoryName: string;
     available: boolean;
 }
@@ -21,6 +22,7 @@ export class GetLaboratoriesStatusUseCase {
             
             const LaboratoryAvailableOficialModel= allLaboratories.map( (lab) => {
                 return {
+                    laboratoryId: lab.idLab,
                     laboratoryName: lab.name,
                     available: true
                 }
@@ -39,6 +41,7 @@ export class GetLaboratoriesStatusUseCase {
                 const isReserved = reservedLabIds.has(lab.idLab);
 
                 return {
+                    laboratoryId: lab.idLab,
                     laboratoryName: lab.name,
                     available: !isReserved
                 };

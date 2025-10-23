@@ -1,16 +1,16 @@
 import { BadRequestException } from "../../../shared/helpers/exceptions";
-import { LaboratoryAvailableOficialModel } from "./get_laboratories_status_usecase";
+import { GetHoursStatusDTO } from "./get_hours_status_usecase";
 
-
-
-export async function getLaboratoriesStatusValidate(query: unknown): Promise<{ date: string }> {
+export async function getHoursStatusValidate(query: unknown): Promise<{ date: string, idLab: string }> {
     if (!query || typeof query !== 'object')
         throw new BadRequestException('query strings inválida');
 
-    const { date } = query as {
+    const { date, idLab } = query as {
         date?: unknown;
+        idLab?: unknown;
     }
 
+    // todas as validacoes de data
     if (!date || typeof date !== 'string')
         throw new BadRequestException('formato da data inválido');
 
@@ -36,16 +36,19 @@ export async function getLaboratoriesStatusValidate(query: unknown): Promise<{ d
     if (diffDays > 30)
         throw new BadRequestException('a data não pode ser superior a 30 dias a partir de hoje');
 
-    return { date };
+    // todas as validacoes de idLab
+    if (!idLab || typeof idLab !== 'string' || idLab.length < 36)
+        throw new BadRequestException('Id do laboratório inválido');
+
+    return { date, idLab };
 }
 
-export async function getLaboratoriesStatusResponse(laboratories: LaboratoryAvailableOficialModel[]) {
+export async function getHoursStatusResponse(hourStatus: GetHoursStatusDTO[]){
     return {
-        message: "Laboratórios disponíveis retornados com sucesso",
-        laboratories: laboratories.map((lab) => ({
-            laboratoryId: lab.laboratoryId,
-            laboratory: lab.laboratoryName,
-            available: lab.available
+        message: "Status das horas retornado com sucesso",
+        hours: hourStatus.map((hours) => ({
+            hour: hours.hour,
+            available: hours.available
         }))
     }
 }

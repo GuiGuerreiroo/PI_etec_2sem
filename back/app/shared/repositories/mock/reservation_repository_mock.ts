@@ -11,9 +11,10 @@ export class ReservationRepoMock {
             HOUR["7:10"],
             "128d890b-2740-4176-b6d0-5d07b365e7af",//Lab Química 1
             "b5c1d3e3-9c2b-46d1-97ee-c2d5d582a2d4",//Nuncio
-            STATUS.COMPLETED,
+            STATUS.SCHEDULED,
             "92306291-d379-415a-810a-199503f006c5"//Kit Química 1
         ),
+
         new Reservation(
             "f674012b-c6d4-45e7-b319-c7044c57a602",
             "2025-11-15",
