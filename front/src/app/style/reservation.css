@@ -73,6 +73,7 @@ h2 {
   gap: 10px;
   text-align: center;
   backdrop-filter: blur(10px);
+  cursor: pointer;
 }
 
 .calendar div {
@@ -82,10 +83,11 @@ h2 {
   font-size: 14px;
   font-weight: bold;
   backdrop-filter: blur(10px);
+  /* border: 2px solid #005b5f; */
 }
 
 .calendar .selected {
-  background-color: #888;
+  background-color: #800000;
   color: white;
 }
 
