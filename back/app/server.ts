@@ -1,5 +1,5 @@
 import { routes } from "./routes/routes";
-import { errorHandlerMiddleware } from "./shared/middleware/error_middleware";
+// import { errorHandlerMiddleware } from "./shared/middleware/error_middleware";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
