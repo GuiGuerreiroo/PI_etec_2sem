@@ -25,19 +25,22 @@
                         <h1 class="entrada_professor">Entrada do Professor</h1>
 
                         <div class="input-box-user">
-                            <input class="form-control" placeholder="Usuário" type="email">
+                            <input class="form-control" placeholder="Usuário" type="email" id="emailInput">
                         </div>
 
                         <div class="input-box-password">
-                            <input class="form-control" placeholder="Senha" type="password">
+                            <input class="form-control" placeholder="Senha" type="password" id="passwordInput">
                         </div>
 
-                        <button type="submit" class="login">Entrar</button>
+                        <button type="submit" class="login" onclick="userDirection(event)">Entrar</button>
                     </form>
                 </main>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../api/user/auth_user.js"></script>
+    <script src="../scripts/login.js"></script>
 </body>
 
 </html>
