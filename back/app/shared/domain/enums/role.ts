@@ -19,3 +19,8 @@ export function toEnum(value: string): ROLE {
       throw new Error("Invalid value");
   }
 }
+
+export function isRole(possibleRole: string): boolean{
+  // caso a possible role seja uma das roles disponiveis, ele retornara true
+  return Object.values(ROLE).includes(possibleRole as ROLE)
+}
