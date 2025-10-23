@@ -1,6 +1,6 @@
-// const addCard = document.getElementById('addCard');
+const addCard = document.getElementById('addCard');
 const modal = document.getElementById('novoKitModal');
-// const closeModal = document.getElementById('closeModal');
+const closeModal = document.getElementById('closeModal');
 
 addCard.addEventListener('click', (e) => {
   e.preventDefault();

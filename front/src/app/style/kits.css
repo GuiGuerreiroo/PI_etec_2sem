@@ -54,20 +54,20 @@ body {
   height: 100%;
 
   /* background: url('https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/1/2022/07/bg_cinza-right-62e1426c08f60.png');
-  background-size: 70vh;
-  background-position: center;
-  background-repeat: repeat;
-  margin: 0;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  -webkit-font-smoothing: antialiased; */
+  background-size: 70vh;
+  background-position: center;
+  background-repeat: repeat;
+  margin: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  -webkit-font-smoothing: antialiased; */
 }
 
 .page-frame {
   /* background: #fff;
-  border-radius: 40px;
-  border: 2px solid #666;
-  overflow: hidden;
-  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.06); */
+  border-radius: 40px;
+  border: 2px solid #666;
+  overflow: hidden;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.06); */
   margin-top: 15px;
 
 }
@@ -83,15 +83,20 @@ body {
   text-align: center;
 }
 
+.title-bar {
+  width: 100%;
+}
 
 .title-bar-line {
   height: 2px;
-  width: 550px;
+  flex-grow: 1;
+  max-width: 550px;
   background: #8c1b1b;
 }
 
 .title-bar-knob {
   width: 180px;
+  flex-shrink: 0;
   height: 20px;
   background: #8c1b1b;
   border-radius: 8px;
