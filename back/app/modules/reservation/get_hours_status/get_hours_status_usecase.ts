@@ -41,11 +41,8 @@ export class GetHoursStatusUseCase{
 
         else{
             const reservedHours = new Set(reservationsScheduled
-                .map((reservation) => {
-                if (reservation.status === "MARCADO"){
-                    return reservation.hour;
-                }
-            }));
+                .filter((reservation) => reservation.status === "MARCADO")
+                .map((reservation) => reservation.hour ));
             
             const hoursStatus= Object.values(HOUR).map((hour)=> {
                 const isReserved = reservedHours.has(hour);

@@ -26,7 +26,7 @@ export class ReservationRepoMock {
         ),
         new Reservation(
             "53705239-99c1-46c5-b131-5aa4650e40e9",
-            "18-09-2025",
+            "2025-09-18",
             HOUR["13:00"],
             "864f60dd-135e-4397-992b-e35dad801304",//Lab Física 3
             "b5c1d3e3-9c2b-46d1-97ee-c2d5d582a2d4",

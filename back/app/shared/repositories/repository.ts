@@ -57,7 +57,7 @@ export class ReservationRepository {
 
     constructor(){
         if(Env.STAGE === "error"){
-            console.log("You need to add a .env in you main folder contin the stage you want to interact")
+            console.log("You need to add a .env in you main folder containing the stage you want to interact")
         }
         if (Env.STAGE === "test") {
             this.reservationRepo= new ReservationRepoMock()

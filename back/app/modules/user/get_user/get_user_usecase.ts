@@ -21,7 +21,7 @@ export class GetUserUseCase {
 
         if (!isAdmin && selectedUser.role === 'ADMIN')
             throw new ForbiddenException(
-            "Você não tem permissão para vizualizar um admin"
+            "Você não tem permissão para visualizar um admin"
             );
 
         return selectedUser;

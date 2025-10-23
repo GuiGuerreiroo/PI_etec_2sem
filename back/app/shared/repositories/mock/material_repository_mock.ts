@@ -62,7 +62,7 @@ export class MaterialRepoMock implements IMaterialRepository {
             return null
         }
 
-        Object.assign(material, quantity)
+        Object.assign(material, {quantity})
 
         return material
     }

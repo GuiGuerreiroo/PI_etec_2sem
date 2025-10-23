@@ -28,7 +28,7 @@ export class UserRepoMock implements IUserRepository {
     new User(
       "b5c1d3e3-9c2b-46d1-97ee-c2d5d582a2d4",
       "Nuncio Perrela",
-      "nunfio@etec.br",
+      "nuncio@etec.br",
       ROLE.PROFESSOR,
       "ProjetoDuCaralho123"
     ),
