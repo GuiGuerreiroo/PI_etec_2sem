@@ -1,13 +1,14 @@
 import { Reservation } from "../../domain/entities/resevation";
+import { HOUR } from "../../domain/enums/hours";
 import { STATUS } from "../../domain/enums/status";
 import { ReservationFilterOptions, ReservationUpdateOptions } from "../../domain/interface/IReservationRepository";
 
-export class ReservationRepositoryMock {
+export class ReservationRepoMock {
     private reservations: Reservation[] = [
         new Reservation(
             "387b1a2c-a9a6-4851-9cf7-8d84cb24339a",
-            "15/09/2025",
-            "7:10",
+            "2025-11-15",
+            HOUR["7:10"],
             "128d890b-2740-4176-b6d0-5d07b365e7af",//Lab Química 1
             "b5c1d3e3-9c2b-46d1-97ee-c2d5d582a2d4",//Nuncio
             STATUS.COMPLETED,
@@ -15,8 +16,8 @@ export class ReservationRepositoryMock {
         ),
         new Reservation(
             "f674012b-c6d4-45e7-b319-c7044c57a602",
-            "15/09/2025",
-            "7:10",
+            "2025-11-15",
+            HOUR["7:10"],
             "d99b317a-bb11-4859-bee2-1223bb5a6560",//Lab Química 2
             "e5f4g6h6-6i7j-4k1l-88hh-i2j3k4l5m6n7",//Peter Parker
             STATUS.SCHEDULED,
@@ -24,8 +25,8 @@ export class ReservationRepositoryMock {
         ),
         new Reservation(
             "53705239-99c1-46c5-b131-5aa4650e40e9",
-            "18/09/2025",
-            "13:30",
+            "18-09-2025",
+            HOUR["13:00"],
             "864f60dd-135e-4397-992b-e35dad801304",//Lab Física 3
             "b5c1d3e3-9c2b-46d1-97ee-c2d5d582a2d4",
             STATUS.SCHEDULED,

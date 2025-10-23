@@ -1,8 +1,9 @@
 import { Reservation } from "../entities/resevation";
+import { HOUR } from "../enums/hours";
 
 export type ReservationFilterOptions = {
     date?: string,
-    hour?: string
+    hour?: HOUR,
     idLab?: string,
     idUser?: string,
     status?: string;
@@ -21,6 +22,8 @@ export interface IReservationRepository{
     getReservationById(reservationId: string): Promise<Reservation | null>;
 
     getReservationByFilter(filter: ReservationFilterOptions): Promise<Reservation[] | null>;
+
+    // getAvailableHour(date: string, idLab: string): Promise<HOUR[]>;
 
     deleteReservationById(reservationId: string): Promise<Reservation | null>;
 

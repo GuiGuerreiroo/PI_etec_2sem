@@ -1,4 +1,5 @@
 import { Kit } from "../entities/kit";
+import { HOUR } from "../enums/hours";
 
 export type KitUpdateOptions = {
     name?: string;
@@ -15,6 +16,8 @@ export interface IKitRepository {
     getKitByUserId(userId: string): Promise<Kit[] | null>;
 
     getKitsByOrigin(origin: string): Promise<Kit[] | null>;
+
+    // getAvailableKits(date: string, idLab: string, hour: HOUR): Promise<Kit[]>;
 
     deleteKitById(kitId: string): Promise<Kit | null>;
 
