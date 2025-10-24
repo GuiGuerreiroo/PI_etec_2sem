@@ -255,7 +255,6 @@ class UIController {
         return this.dayNames[date.getDay()];
     }
 
-    /**VERIFICA SE DIA JÁ PASSOU */
     isDateInPast(date) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -338,7 +337,6 @@ class ReservationController {
         this.clearForm();
     }
 
-    /**RENDERIZA CALENDÁRIO COM DIAS PASSADOS BLOQUEADOS */
     renderCalendar() {
         const calendarGrid = document.getElementById('calendar');
         const monthYearSpan = document.querySelector('.calendar-header span:nth-child(2)');
@@ -347,7 +345,6 @@ class ReservationController {
 
         monthYearSpan.textContent = this.ui.getMonthYearString(this.ui.currentDate);
 
-        //Limpa dias antigos (mantém os 7 nomes da semana)
         while (calendarGrid.children.length > 7) {
             calendarGrid.removeChild(calendarGrid.lastChild);
         }
@@ -364,7 +361,6 @@ class ReservationController {
             0
         ).getDate();
 
-        //Espaços vazios antes do primeiro dia
         for (let i = 0; i < firstDay; i++) {
             const emptyDiv = document.createElement('div');
             emptyDiv.style.backgroundColor = 'transparent';
@@ -372,7 +368,6 @@ class ReservationController {
             calendarGrid.appendChild(emptyDiv);
         }
 
-        //Gera todos os dias do mês
         for (let day = 1; day <= daysInMonth; day++) {
             const dayDiv = document.createElement('div');
             dayDiv.textContent = day;
@@ -383,7 +378,6 @@ class ReservationController {
                 day
             );
 
-            //BLOQUEIA DIAS QUE JÁ PASSARAM 
             if (this.ui.isDateInPast(dayDate)) {
                 dayDiv.classList.add('past-day');
                 dayDiv.style.cursor = 'not-allowed';
@@ -608,7 +602,7 @@ class ReservationController {
         });
 
         if (result.success) {
-            this.ui.showNotification('✅ Reserva criada com sucesso!', 'success');
+            this.ui.showNotification('Reserva criada com sucesso!', 'success');
             this.render();
         } else {
             this.ui.showErrorMessages(result.errors);
@@ -623,70 +617,75 @@ class ReservationController {
         });
 
         if (result.success) {
-            this.ui.showNotification('✅ Reserva atualizada!', 'success');
+            this.ui.showNotification('Reserva atualizada!', 'success');
             this.render();
         } else {
             this.ui.showErrorMessages(result.errors);
         }
     }
 
-    /*CONFIGURA LISTENERS DE EVENTOS*/
     setupEventListeners() {
-        // Menu Mobile
         const menuToggle = document.querySelector('.menu-toggle');
-        const navbar = document.querySelector('.sidebar');
+        const sidebar = document.querySelector('.sidebar');
 
-        if (menuToggle && navbar) {
-            menuToggle.addEventListener('click', () => {
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
                 menuToggle.classList.toggle('active');
-                navbar.classList.toggle('active');
+                sidebar.classList.toggle('active');
             });
 
             document.addEventListener('click', (e) => {
-                if (!navbar.contains(e.target) && !menuToggle.contains(e.target) && navbar.classList.contains('active')) {
+                if (!sidebar.contains(e.target) && 
+                    !menuToggle.contains(e.target) && 
+                    sidebar.classList.contains('active')) {
                     menuToggle.classList.remove('active');
-                    navbar.classList.remove('active');
+                    sidebar.classList.remove('active');
                 }
             });
         }
 
-        // NAVEGAÇÃO DO CALENDÁRIO 
         const calendarHeader = document.querySelector('.calendar-header');
         if (calendarHeader) {
             const prevBtn = calendarHeader.querySelector('span:first-child');
             const nextBtn = calendarHeader.querySelector('span:last-child');
 
-            prevBtn?.addEventListener('click', () => {
-                this.ui.currentDate.setMonth(this.ui.currentDate.getMonth() - 1);
-                this.renderCalendar();
-            });
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    this.ui.currentDate.setMonth(this.ui.currentDate.getMonth() - 1);
+                    this.renderCalendar();
+                });
+            }
 
-            nextBtn?.addEventListener('click', () => {
-                this.ui.currentDate.setMonth(this.ui.currentDate.getMonth() + 1);
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    this.ui.currentDate.setMonth(this.ui.currentDate.getMonth() + 1);
+                    this.renderCalendar();
+                });
+            }
+        }
+
+        const calendarGrid = document.getElementById('calendar');
+        if (calendarGrid) {
+            calendarGrid.addEventListener('click', (e) => {
+                const dayNumber = parseInt(e.target.textContent);
+                if (!dayNumber || e.target.classList.contains('past-day')) return;
+
+                this.ui.selectedDate = new Date(
+                    this.ui.currentDate.getFullYear(),
+                    this.ui.currentDate.getMonth(),
+                    dayNumber
+                );
+
                 this.renderCalendar();
+                this.renderAgenda();
+                this.clearForm();
             });
         }
 
-        // Seleção de Dias no Calendário
-        const calendarGrid = document.getElementById('calendar');
-        calendarGrid?.addEventListener('click', (e) => {
-            const dayNumber = parseInt(e.target.textContent);
-            if (!dayNumber || e.target.classList.contains('past-day')) return;
-
-            this.ui.selectedDate = new Date(
-                this.ui.currentDate.getFullYear(),
-                this.ui.currentDate.getMonth(),
-                dayNumber
-            );
-
-            this.renderCalendar();
-            this.renderAgenda();
-            this.clearForm();
-        });
-
-        //NAVEGAÇÃO DA AGENDA 
         const prevDayBtn = document.querySelector('.prev');
         const nextDayBtn = document.querySelector('.next');
+        
         if (prevDayBtn) {
             prevDayBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -698,7 +697,7 @@ class ReservationController {
                     this.ui.currentDate = new Date(prevDate);
                     this.render();
                 } else {
-                    this.ui.showNotification('⚠️ Não é possível selecionar dias passados', 'warning');
+                    this.ui.showNotification('Não é possível selecionar dias passados', 'warning');
                 }
             });
         }
@@ -715,17 +714,19 @@ class ReservationController {
             });
         }
 
-        // Filtros de Laboratório
         const filters = document.querySelectorAll('.filters input[type="checkbox"]');
         filters.forEach(filter => {
             filter.addEventListener('change', this.handleFilterChange);
         });
 
-        // Menu de Navegação
-        document.querySelectorAll('.nav-item').forEach(item => {
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
             item.addEventListener('click', () => {
-                const action = item.querySelector('span').textContent;
-                this.handleNavigation(action);
+                const span = item.querySelector('span');
+                if (span) {
+                    const action = span.textContent;
+                    this.handleNavigation(action);
+                }
             });
         });
     }
@@ -735,8 +736,10 @@ class ReservationController {
             case 'RESERVAS':
                 break;
             case 'AGENDAMENTO':
+                this.ui.showNotification('Funcionalidade em desenvolvimento', 'info');
                 break;
             case 'KITS':
+                this.ui.showNotification('Gestão de kits em desenvolvimento', 'info');
                 break;
         }
     }
@@ -834,6 +837,6 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
         window.reservationController = new ReservationController();
     } catch (error) {
-        console.error('❌ Erro ao inicializar sistema:', error);
+        console.error('Erro ao inicializar sistema:', error);
     }
 });
