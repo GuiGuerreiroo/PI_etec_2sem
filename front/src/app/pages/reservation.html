@@ -105,7 +105,7 @@
           <div class="info-item"><strong>Laboratório:</strong><span id="info-lab">--</span></div>
           <div class="info-item"><strong>Horário:</strong><span id="info-horario">--</span></div>
           <div class="info-item"><strong>Kits:</strong><span id="info-kits">--</span></div>
-          <button class="concluir-btn">Concluir</button>
+          <button class="concluir-btn" onclick="getLaboratory()">Concluir</button>
         </div>
       </div>
     </div>
@@ -121,6 +121,8 @@
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app')
   </script>
+  <script src="../api/reservation/get_laboratory_status.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </script>
 </body>
 
