@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Estado da aplicação
     const state = {
         selectedDate: new Date(),
-        // selectedTeacher: null,
         selectedLab: null,
         selectedTime: null,
         selectedKit: null,
@@ -15,18 +14,99 @@ document.addEventListener('DOMContentLoaded', function () {
     const nextMonthBtn = document.getElementById('next-month');
 
     const infoDateEl = document.getElementById('info-data');
-    // const infoTeacherEl = document.getElementById('info-professor');
     const infoLabEl = document.getElementById('info-lab');
     const infoHorarioEl = document.getElementById('info-horario');
     const infoKitsEl = document.getElementById('info-kits');
 
     const labButtonsContainer = document.getElementById('lab-buttons');
-    // const teacherButtonsContainer = document.getElementById('teacher-buttons');
     const timeSlotsContainer = document.getElementById('time-slots');
     const kitButtonsContainer = document.getElementById('kit-buttons');
     const progressBar = document.getElementById('progress-bar');
 
     const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+
+   
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function updateLabButtons(laboratories) {
+        const labButtonsContainer = document.getElementById('lab-buttons');
+        
+       
+        labButtonsContainer.innerHTML = '';
+        
+        
+        laboratories.forEach(lab => {
+            const button = document.createElement('button');
+            button.className = lab.available ? 'btn outline' : 'btn outline disabled';
+            button.textContent = lab.laboratory;
+            button.dataset.value = lab.laboratory;
+            button.dataset.labId = lab.laboratoryId;
+            button.dataset.available = lab.available;
+            
+            
+            if (!lab.available) {
+                button.disabled = true;
+                button.style.cursor = 'not-allowed';
+                button.style.opacity = '0.6';
+            }
+            
+            labButtonsContainer.appendChild(button);
+        });
+        
+        
+        setupLabButtonListeners();
+    }
+
+    
+    function setupLabButtonListeners() {
+        const labButtonsContainer = document.getElementById('lab-buttons');
+        
+        labButtonsContainer.addEventListener('click', e => {
+            const button = e.target.closest('button');
+            if (!button) return;
+            
+            
+            if (button.dataset.available === 'false') {
+                return; 
+            }
+            
+            
+            labButtonsContainer.querySelectorAll('button').forEach(btn => {
+                btn.classList.add('outline');
+            });
+            
+           
+            button.classList.remove('outline');
+            state.selectedLab = button.dataset.value;
+            
+            updateInfo();
+        });
+    }
+
+
+
+    async function fetchLaboratories() {
+        try {
+            const date = formatDate(state.selectedDate);
+            const labData = await getLaboratoryStatus(date);
+            
+            console.log('Dados dos laboratórios:', labData);
+            
+            if (labData && labData.laboratories) {
+                updateLabButtons(labData.laboratories);
+            }
+        }
+        catch(error) {
+            console.error('Erro ao buscar laboratórios:', error);
+        }
+    }
+
+
 
     function renderCalendar() {
         calendarDaysEl.innerHTML = '';
@@ -44,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const dayEl = document.createElement('div');
             dayEl.classList.add('weekday');
             dayEl.textContent = day;
-            dayEl.style.border = '2px solid #005b5f'; // <-- Define a borda para os dias da semana, pode ser verde como os outros itens ou preto, depense do solicitado
+            dayEl.style.border = '2px solid #005b5f';
             calendarDaysEl.appendChild(dayEl);
         });
 
@@ -58,12 +138,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Adiciona os dias do mês
         const today = new Date();
-        // Normaliza 'hoje' para o início do dia (meia-noite)
         const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate()); 
         
-        // Calcula a data máxima selecionável (30 dias a partir de hoje)
         const maxDate = new Date(normalizedToday);
-        maxDate.setDate(maxDate.getDate() + 30); // Este é o último dia que pode ser selecionado( nos foi passado que deveria ser em até 30 dias)
+        maxDate.setDate(maxDate.getDate() + 30);
 
         for (let i = 1; i <= daysInMonth; i++) {
             const dayEl = document.createElement('div');
@@ -72,10 +150,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const currentDate = new Date(year, month, i);
 
-            // Verifica se o dia é passado OU se está além do limite de 30 dias
             if (currentDate < normalizedToday || currentDate > maxDate) {
                 dayEl.classList.add('disabled');
-                dayEl.style.color = '#ccc'; // <-- Define a cor cinza para dias não selecionáveis( qualquer alteração será possivel)
+                dayEl.style.color = '#ccc';
             }
 
             if (i === state.selectedDate.getDate() && month === state.selectedDate.getMonth() && year === state.selectedDate.getFullYear()) {
@@ -83,14 +160,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             calendarDaysEl.appendChild(dayEl);
         }
-        // --- FIM DA MODIFICAÇÃO ---
 
+        // Busca os laboratórios sempre que o calendário é renderizado
+        fetchLaboratories();
         updateInfo();
     }
 
     function updateInfo() {
         infoDateEl.textContent = state.selectedDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        // infoTeacherEl.textContent = state.selectedTeacher || '--';
         infoLabEl.textContent = state.selectedLab || '--';
         infoHorarioEl.textContent = state.selectedTime || '--';
         infoKitsEl.textContent = state.selectedKit || '--';
@@ -100,7 +177,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateProgress() {
         let completedSteps = 0;
         if (state.selectedDate) completedSteps++;
-        // if (state.selectedTeacher) completedSteps++;
         if (state.selectedLab) completedSteps++;
         if (state.selectedTime) completedSteps++;
         if (state.selectedKit) completedSteps++;
@@ -115,33 +191,31 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!button) return;
 
             if (isSingleSelection) {
-                // Remove a seleção de todos os botões no grupo
                 container.querySelectorAll('button').forEach(btn => {
                     btn.classList.add('outline');
                 });
-                // Adiciona a seleção ao botão clicado
                 button.classList.remove('outline');
                 state[stateKey] = button.dataset.value;
             }
             updateInfo();
         });
     }
+
     // --- Event Listeners ---
     prevMonthBtn.addEventListener('click', () => {
-        state.selectedDate.setDate(1); // Evita pular meses
+        state.selectedDate.setDate(1);
         state.selectedDate.setMonth(state.selectedDate.getMonth() - 1);
         renderCalendar();
     });
 
     nextMonthBtn.addEventListener('click', () => {
-        state.selectedDate.setDate(1); // Evita pular meses
+        state.selectedDate.setDate(1);
         state.selectedDate.setMonth(state.selectedDate.getMonth() + 1);
         renderCalendar();
     });
 
     calendarDaysEl.addEventListener('click', (e) => {
         const dayEl = e.target;
-        // A lógica original (verificar 'disabled') já impede o clique
         if (dayEl.dataset.day && !dayEl.classList.contains('disabled')) {
             const day = parseInt(dayEl.dataset.day, 10);
             state.selectedDate.setDate(day);
@@ -149,8 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // handleSelection(teacherButtonsContainer, 'selectedTeacher');
-    handleSelection(labButtonsContainer, 'selectedLab');
+    // Configura os event listeners
     handleSelection(timeSlotsContainer, 'selectedTime');
     handleSelection(kitButtonsContainer, 'selectedKit');
 

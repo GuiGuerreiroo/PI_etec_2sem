@@ -163,3 +163,19 @@ hr {
   border: 1px solid #800000;
   margin: 20px 0;
 }
+
+
+
+.btn.disabled {
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+  background-color: #f0f0f0 !important;
+  color: #999 !important;
+  border-color: #ddd !important;
+}
+
+.btn.disabled:hover {
+  background-color: #f0f0f0 !important;
+  color: #999 !important;
+  border-color: #ddd !important;
+}

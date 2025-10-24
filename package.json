@@ -4,11 +4,15 @@
     "dev": "nodemon --exec ts-node back/app/server.ts"
   },
   "dependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/uuid": "^10.0.0",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.1",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "uuid": "^13.0.0"
