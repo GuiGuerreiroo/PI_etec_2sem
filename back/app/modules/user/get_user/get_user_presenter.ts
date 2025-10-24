@@ -10,7 +10,7 @@ const repository = new UserRepository();
 const getUserUseCase = new GetUserUseCase(repository.userRepo);
 const getUserController = new GetUserController(getUserUseCase);
 
-router.get("/user", authenticateToken,  async (req: Request, res: Response) => {
+router.get("/user", authenticateToken, async (req: Request, res: Response) => {
     await getUserController.handler(req, res);
 })
 

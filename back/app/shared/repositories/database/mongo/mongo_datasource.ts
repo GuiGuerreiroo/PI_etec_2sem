@@ -1,17 +1,49 @@
-type MongoConfig = {
-    user: string;
-    password: string;
-    url: string;
-    dataBase: string;
-}
+import mongoose, {connect} from 'mongoose';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export class MongoDBResources {
-    // AQUI DEVE SE COLOCAR AS CONFIGS DO MONGODB
-    // private connection:  string;
+    private static instance: MongoDBResources;
+    private connected = false;
+    private connecting = false;
+    private url: string;
 
-    // constructor(config: MongoConfig) {
-    //     this.connection ={
-    //         `mongodb+srv://${config.user}:${config.password}@${config.url}/${config.dataBase}`;
-    //     }
-    // }
+    constructor() {
+        const password = process.env.PASSWORD;
+        const appName = process.env.APPNAME;
+        const dbName = process.env.DBNAME;
+
+        this.url =`mongodb+srv://projetoetec2ul_db_user:${password}@pi-etec-2ul.g6v29i0.mongodb.net/${dbName}?appName=${appName}`;
+    }
+
+    public async connectMongoDB(): Promise<void> {
+        if (this.connected) {
+            return;
+        }
+
+        this.connecting = true;
+        await mongoose.connect(this.url);
+
+        console.log("🗄️  Connected to MongoDB successfully");
+        this.connected = true;
+    }
+
+    public async disconnectMongoDB(): Promise<void> {
+        if (!this.connected) {
+            return;
+        }
+        await mongoose.connection.close();
+
+        console.log("🔌 MongoDB connection closed.");
+
+        this.connected = false;
+    }
+
+    public static getInstance(): MongoDBResources {
+        if (!MongoDBResources.instance) {
+        MongoDBResources.instance = new MongoDBResources();
+        }
+        return MongoDBResources.instance;
+    }
 }
