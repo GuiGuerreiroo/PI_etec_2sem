@@ -88,30 +88,25 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    async function getLaboratory() {
+
+
+    async function fetchLaboratories() {
         try {
             const date = formatDate(state.selectedDate);
-
-            const response = await axios.get(
-                `http://localhost:3000/api/lab-status?date=${date}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
-                    }
-                }
-            );
+            const labData = await getLaboratoryStatus(date);
             
-            console.log('Dados dos laboratórios:', response.data);
+            console.log('Dados dos laboratórios:', labData);
             
-            // Atualiza os botões com os dados recebidos
-            if (response.data && response.data.laboratories) {
-                updateLabButtons(response.data.laboratories);
+            if (labData && labData.laboratories) {
+                updateLabButtons(labData.laboratories);
             }
         }
         catch(error) {
             console.error('Erro ao buscar laboratórios:', error);
         }
     }
+
+
 
     function renderCalendar() {
         calendarDaysEl.innerHTML = '';
@@ -167,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Busca os laboratórios sempre que o calendário é renderizado
-        getLaboratory();
+        fetchLaboratories();
         updateInfo();
     }
 
