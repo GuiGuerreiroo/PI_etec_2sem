@@ -199,7 +199,7 @@ aside {
 }
 .calendar-grid .selected {
   background: #8a1d1b;
-  color: #fff;
+  color: #ffffff;
   font-weight: 700;
 }
 
@@ -300,6 +300,30 @@ button {
   color: #0d4043;
   font-weight: 600;
 }
+.agenda-navigation {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.prev-day,
+.next-day {
+    cursor: pointer;
+    user-select: none;
+    padding: 5px 10px;
+    transition: all 0.2s ease;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.prev-day:hover,
+.next-day:hover {
+    opacity: 0.7;
+    transform: scale(1.2);
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
 .agenda-date {
   font-size: 15px;
   color: #0d4043;
