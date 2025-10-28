@@ -1,10 +1,15 @@
 import { Env } from "../../env";
+import { IKitRepository } from "../domain/interface/IKitRepository";
 import { ILaboratoryRepository } from "../domain/interface/ILaboratoryRepository";
+import { IMaterialRepository } from "../domain/interface/IMaterialRepository";
 import { IReservationRepository } from "../domain/interface/IReservationRepository";
 import { IUserRepository } from "../domain/interface/IUserRepository"
-import { MongoDBResources } from "./database/mongo/mongo_datasource";
+import { KitRepoMongoDB } from "./database/mongo/kit_repository_mongo";
+import { MaterialRepoMongoDB } from "./database/mongo/material_repository_mongo";
 import { UserRepoMongoDB } from "./database/mongo/user_repository_mongodb";
+import { KitRepoMock } from "./mock/kit_repository_mock";
 import { LaboratoryRepoMock } from "./mock/laboratory_repository_mock";
+import { MaterialRepoMock } from "./mock/material_repository_mock";
 import { ReservationRepoMock } from "./mock/reservation_repository_mock";
 import { UserRepoMock } from "./mock/user_repository_mock";
 
@@ -18,9 +23,7 @@ export class UserRepository {
         if (Env.STAGE === "test") {
             this.userRepo = new UserRepoMock()
         }
-        // AQUI DEVE SE CONFIGURAR O MONGO, por enquanto esta com o default
         else {
-            // Usa a instância única do MongoDB (Singleton)
             // A conexão já foi estabelecida no server.ts
             this.userRepo = new UserRepoMongoDB();
         }
@@ -30,7 +33,6 @@ export class UserRepository {
 export class LabRepository {
     public laboratoryRepo: ILaboratoryRepository;
     public reservationRepo: IReservationRepository;
-    // private mongoDb?: MongoDBResources;
 
     constructor() {
         if (Env.STAGE === "error") {
@@ -42,10 +44,45 @@ export class LabRepository {
         }
         // AQUI DEVE SE CONFIGURAR O MONGO, por enquanto esta com o default
         else {
-            // this mongoDB=  new MongoDBResources();
-            // this.userRepo= new UserRepositoryMongoDB(this.mongoDb);
             this.laboratoryRepo = new LaboratoryRepoMock()
             this.reservationRepo = new ReservationRepoMock()
+        }
+    }
+}
+
+export class MaterialRepository {
+    public materialRepo: IMaterialRepository;
+
+    constructor() {
+        if (Env.STAGE === "error") {
+            console.log("You need to add a .env in you main folder containing the stage you want to interact")
+        }
+        if (Env.STAGE === "test") {
+            this.materialRepo = new MaterialRepoMock()
+        }
+        else {
+            // A conexão já foi estabelecida no server.ts
+            this.materialRepo= new MaterialRepoMongoDB();
+        }
+    }
+}
+
+export class KitRepository {
+    public kitRepo: IKitRepository;
+    public materialRepo: IMaterialRepository;
+
+    constructor() {
+        if (Env.STAGE === "error") {
+            console.log("You need to add a .env in you main folder containing the stage you want to interact")
+        }
+        if (Env.STAGE === "test") {
+            this.kitRepo = new KitRepoMock();
+            this.materialRepo = new MaterialRepoMock()
+        }
+        else {
+            // A conexão já foi estabelecida no server.ts
+            this.kitRepo = new KitRepoMongoDB()
+            this.materialRepo = new MaterialRepoMongoDB();
         }
     }
 }
@@ -53,7 +90,6 @@ export class LabRepository {
 export class ReservationRepository {
     public laboratoryRepo: ILaboratoryRepository;
     public reservationRepo: IReservationRepository;
-    // private mongoDb?: MongoDBResources;
 
     constructor() {
         if (Env.STAGE === "error") {

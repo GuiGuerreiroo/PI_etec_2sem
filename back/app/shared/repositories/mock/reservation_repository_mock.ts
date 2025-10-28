@@ -43,40 +43,40 @@ export class ReservationRepoMock {
     async fetchReservations(): Promise<Reservation[]> {
         return this.reservations;
     }
-    
+
     async getReservationById(reservationId: string): Promise<Reservation | null> {
         return this.reservations.find((reservation) => reservation.reservationId === reservationId) || null;
     }
 
     async getReservationByFilter(filter: ReservationFilterOptions): Promise<Reservation[] | null> {
-        const result= this.reservations.filter((reservation) =>
+        const result = this.reservations.filter((reservation) =>
             (!filter.date || reservation.date === filter.date) &&
             (!filter.hour || reservation.hour === filter.hour) &&
-            (!filter.idLab || reservation.idLab === filter.idLab) &&
+            (!filter.labId || reservation.labId === filter.labId) &&
             (!filter.idUser || reservation.idUser === filter.idUser) &&
             (!filter.status || reservation.status === filter.status)
         );
 
         return result.length > 0 ? result : null;
     }
-    
-    async deleteReservationById(reservationId: string): Promise<Reservation | null> {
-        const index= this.reservations.findIndex((reservation) => reservation.reservationId === reservationId)
 
-        if (index === -1){
+    async deleteReservationById(reservationId: string): Promise<Reservation | null> {
+        const index = this.reservations.findIndex((reservation) => reservation.reservationId === reservationId)
+
+        if (index === -1) {
             return null
         }
-        
+
         return this.reservations.splice(index, 1)[0]
     }
 
-    async updateReservationStatus(reservationId: string, reservationUpdateOptions: ReservationUpdateOptions ): Promise<Reservation | null> {
-        const reservation= this.reservations.find((reservation) => reservation.reservationId === reservationId)|| null;
+    async updateReservationStatus(reservationId: string, reservationUpdateOptions: ReservationUpdateOptions): Promise<Reservation | null> {
+        const reservation = this.reservations.find((reservation) => reservation.reservationId === reservationId) || null;
 
         if (reservation === null) {
             return null;
         }
-        
+
         Object.assign(reservation, reservationUpdateOptions);
 
         return reservation;

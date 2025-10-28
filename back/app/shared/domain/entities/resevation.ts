@@ -2,21 +2,21 @@ import { HOUR } from "../enums/hours";
 import { STATUS } from "../enums/status";
 
 export class Reservation {
-    constructor (
+    constructor(
         public reservationId: string,
         public date: string, //pensar se devo usar timestamp e como restringiria para somente os horarios que se tem no portal
         public hour: HOUR,
-        public idLab: string,
+        public labId: string,
         public idUser: string,
         public status: STATUS,
         public idKit: string,
-    ) {}
+    ) { }
 
     toJson(): {
         reservationId: string;
         date: string;
         hour: HOUR;
-        idLab: string;
+        labId: string;
         idUser: string;
         status: STATUS;
         idKit: string;
@@ -25,7 +25,7 @@ export class Reservation {
             reservationId: this.reservationId,
             date: this.date,
             hour: this.hour,
-            idLab: this.idLab,
+            labId: this.labId,
             idUser: this.idUser,
             status: this.status,
             idKit: this.idKit
@@ -36,7 +36,7 @@ export class Reservation {
         reservationId: string;
         date: string;
         hour: HOUR;
-        idLab: string;
+        labId: string;
         idUser: string;
         status: STATUS;
         idKit: string;
@@ -45,7 +45,7 @@ export class Reservation {
             json.reservationId,
             json.date,
             json.hour,
-            json.idLab,
+            json.labId,
             json.idUser,
             json.status,
             json.idKit
