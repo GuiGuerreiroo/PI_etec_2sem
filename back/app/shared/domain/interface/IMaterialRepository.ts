@@ -10,5 +10,5 @@ export interface IMaterialRepository {
 
     deleteMaterialById(materialId: string): Promise<Material | null>;
 
-    updateMaterialQuantity(materialId: string, quantity: number): Promise<Material | null>;
+    updateMaterialQuantity(materialId: string, selectedQuantity: number): Promise<Material | null>;
 }
