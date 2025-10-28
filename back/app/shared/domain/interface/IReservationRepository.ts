@@ -4,17 +4,17 @@ import { HOUR } from "../enums/hours";
 export type ReservationFilterOptions = {
     date?: string,
     hour?: HOUR,
-    idLab?: string,
+    labId?: string,
     idUser?: string,
     status?: string;
 }
 
 export type ReservationUpdateOptions = {
-    idLab?: string,
+    labId?: string,
     status?: string;
 }
 
-export interface IReservationRepository{
+export interface IReservationRepository {
     createReservation(reservation: Reservation): Promise<Reservation>;
 
     fetchReservations(): Promise<Reservation[]>;
@@ -23,7 +23,7 @@ export interface IReservationRepository{
 
     getReservationByFilter(filter: ReservationFilterOptions): Promise<Reservation[] | null>;
 
-    // getAvailableHour(date: string, idLab: string): Promise<HOUR[]>;
+    // getAvailableHour(date: string, labId: string): Promise<HOUR[]>;
 
     deleteReservationById(reservationId: string): Promise<Reservation | null>;
 

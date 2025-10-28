@@ -3,48 +3,48 @@ import { HOUR } from "../../../shared/domain/enums/hours";
 import { IReservationRepository } from "../../../shared/domain/interface/IReservationRepository";
 import { NotFoundException } from "../../../shared/helpers/exceptions";
 
-interface GetHoursStatusInput{
+interface GetHoursStatusInput {
     date: string;
-    idLab: string;
+    labId: string;
 }
 
-export interface GetHoursStatusDTO{
+export interface GetHoursStatusDTO {
     hour: HOUR;
     available: boolean;
 }
 
-export class GetHoursStatusUseCase{
+export class GetHoursStatusUseCase {
     constructor(
         private reservationRepo: IReservationRepository,
         private laboratoryRepo: ILaboratoryRepository
-    ) {}
+    ) { }
 
-    async execute({date, idLab}: GetHoursStatusInput): Promise<GetHoursStatusDTO[]> {
-        const laboratory= await this.laboratoryRepo.getLaboratoryById(idLab);
+    async execute({ date, labId }: GetHoursStatusInput): Promise<GetHoursStatusDTO[]> {
+        const laboratory = await this.laboratoryRepo.getLaboratoryById(labId);
 
-        if (!laboratory){
+        if (!laboratory) {
             throw new NotFoundException("Laboratório não encontrado no banco de dados");
         }
 
-        const reservationsScheduled= await this.reservationRepo.getReservationByFilter({date, idLab});
+        const reservationsScheduled = await this.reservationRepo.getReservationByFilter({ date, labId });
 
-        if (reservationsScheduled === null){
-            const hoursStatus= Object.values(HOUR).map((hour) => {
+        if (reservationsScheduled === null) {
+            const hoursStatus = Object.values(HOUR).map((hour) => {
                 return {
                     hour,
                     available: true
                 }
             })
-        
+
             return hoursStatus;
         }
 
-        else{
+        else {
             const reservedHours = new Set(reservationsScheduled
                 .filter((reservation) => reservation.status === "MARCADO")
-                .map((reservation) => reservation.hour ));
-            
-            const hoursStatus= Object.values(HOUR).map((hour)=> {
+                .map((reservation) => reservation.hour));
+
+            const hoursStatus = Object.values(HOUR).map((hour) => {
                 const isReserved = reservedHours.has(hour);
                 return {
                     hour,
@@ -52,7 +52,7 @@ export class GetHoursStatusUseCase{
                 };
             })
 
-            return hoursStatus;           
+            return hoursStatus;
         }
     }
 }

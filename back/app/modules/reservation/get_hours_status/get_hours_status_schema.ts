@@ -1,13 +1,13 @@
 import { BadRequestException } from "../../../shared/helpers/exceptions";
 import { GetHoursStatusDTO } from "./get_hours_status_usecase";
 
-export async function getHoursStatusValidate(query: unknown): Promise<{ date: string, idLab: string }> {
+export async function getHoursStatusValidate(query: unknown): Promise<{ date: string, labId: string }> {
     if (!query || typeof query !== 'object')
         throw new BadRequestException('query strings inválida');
 
-    const { date, idLab } = query as {
+    const { date, labId } = query as {
         date?: unknown;
-        idLab?: unknown;
+        labId?: unknown;
     }
 
     // todas as validacoes de data
@@ -36,14 +36,14 @@ export async function getHoursStatusValidate(query: unknown): Promise<{ date: st
     if (diffDays > 30)
         throw new BadRequestException('a data não pode ser superior a 30 dias a partir de hoje');
 
-    // todas as validacoes de idLab
-    if (!idLab || typeof idLab !== 'string' || idLab.length < 36)
+    // todas as validacoes de labId
+    if (!labId || typeof labId !== 'string' || labId.length > 24)
         throw new BadRequestException('Id do laboratório inválido');
 
-    return { date, idLab };
+    return { date, labId };
 }
 
-export async function getHoursStatusResponse(hourStatus: GetHoursStatusDTO[]){
+export async function getHoursStatusResponse(hourStatus: GetHoursStatusDTO[]) {
     return {
         message: "Status das horas retornado com sucesso",
         hours: hourStatus.map((hours) => ({
