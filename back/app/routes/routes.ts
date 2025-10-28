@@ -4,6 +4,8 @@ import CreateUserPresenter from "../modules/user/create_user/create_user_present
 import GetUserPresenter from "../modules/user/get_user/get_user_presenter";
 import GetLaboratoriesStatus from "../modules/laboratory/get_laboratories_status/get_laboratories_status_presenter";
 import GetHoursPresenter from "../modules/reservation/get_hours_status/get_hours_status_presenter";
+import CreateMaterialPresenter from "../modules/material/create_material/create_material_presenter";
+import CreateKitPresenter from "../modules/kit/create_kit/create_kit_presenter";
 
 export const routes = (app: Express) => {
   app
@@ -21,6 +23,12 @@ export const routes = (app: Express) => {
 
   // laboratory routes
   app.use("/api", GetLaboratoriesStatus);
+
+  // material routes
+  app.use("/api", CreateMaterialPresenter);
+
+  // kit routes
+  app.use("/api", CreateKitPresenter)
 
   // reservation routes
   app.use("/api", GetHoursPresenter);

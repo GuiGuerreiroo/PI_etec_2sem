@@ -36,13 +36,13 @@ export class AuthUseCase {
         if (!validPassword)
             throw new ForbiddenException("Senha inválida")
 
-        const token= JWToken.encode(user.userId, user.role)
+        const token= JWToken.encode(user.userId!, user.role)
 
         return {
             message: "Login realizado com sucesso",
             token,
             user: {
-                id: user.userId,
+                id: user.userId!,
                 name: user.name,
                 email: user.email,
                 role: user.role,
