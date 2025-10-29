@@ -1,3 +1,4 @@
+import { pipeline } from "stream";
 import { Kit } from "../../../domain/entities/kit";
 import { Material } from "../../../domain/entities/material";
 import { IKitRepository, KitUpdateOptions } from "../../../domain/interface/IKitRepository";
@@ -6,7 +7,7 @@ import { model, Schema, Types } from "mongoose";
 
 export interface KitMongoDbInterface {
     name: string;
-    materials: {selectedQuantity: number; materialId: string}[];
+    materials: {selectedQuantity: number; materialId: Types.ObjectId}[];
     origin: string;
     userId?: string;
 } {}
@@ -15,10 +16,10 @@ const KitMongoSchema = new Schema({
     name: { type: String, required: true },
     materials: [{
       selectedQuantity: { type: Number, required: true },
-      materialId: { type: String, required: true }
+      materialId: { type: Types.ObjectId, required: true, ref: 'Materials' }
     }],
     origin: { type: String, required: true },
-    userId: { type: String, required: false }
+    userId: { type: Types.ObjectId, required: false, ref: 'Users' }
 });
 
 const KitMongo= model<KitMongoDbInterface>("Kit", KitMongoSchema);
@@ -31,17 +32,24 @@ export interface KitMongoDTO{
     userName?: string
 }
 
-async function KitMongoDTOFunction(kitId: string): Promise<KitMongoDTO> {
+async function KitMongoDTOFunction(kitId: Types.ObjectId): Promise<KitMongoDTO> {
     const result= await KitMongo.aggregate<KitMongoDTO>([
         {$match: {
-            "_id": new Types.ObjectId(kitId)
+            "_id": kitId
         }},
         {
             $lookup: {
-                from: "Materials", //pode ser que seja Materials
+                from: "materials",
                 localField: "materials.materialId",
                 foreignField: "_id",
-                as: "materialsData"
+                as: "materialsData",
+                pipeline: [
+                    {
+                        $project: {
+                            __v: 0,
+                        }
+                    }
+                ]
             },
         },
         {
@@ -59,7 +67,7 @@ async function KitMongoDTOFunction(kitId: string): Promise<KitMongoDTO> {
                                         $filter: {
                                             input: "$materialsData",
                                             as: "md",
-                                            cond: {$eq: ["$$md._id", "$$mat.materialId"]}
+                                            cond: {$eq: ["$$md._id", "$$mat.materialId" ]}
                                         } 
                                     },
                                     //para pegar o item 0 do array retornado
@@ -73,7 +81,7 @@ async function KitMongoDTOFunction(kitId: string): Promise<KitMongoDTO> {
         },
         {
             $lookup: {
-                from: "Users",
+                from: "users",
                 let: {userId: "$userId"},
                 pipeline: [
                     {$match :
@@ -82,14 +90,11 @@ async function KitMongoDTOFunction(kitId: string): Promise<KitMongoDTO> {
                                 {
                                     $and: [
                                         {$ne: ["$$userId", null]},
-                                        { $eq: ["$_id", { $toObjectId: "$$userId" }] }
+                                        { $eq: ["$_id", "$$userId"] }
                                     ]
                                 }                            
                         }
                 
-                    },
-                    {
-                        $project: {_id: 0, name: 1}
                     }
                 ],
                 as: "userInfo"
@@ -102,10 +107,31 @@ async function KitMongoDTOFunction(kitId: string): Promise<KitMongoDTO> {
             }
         },
         {
-            $unset: ["materialsData", "userId", "userInfo"]
+            $project: {
+                _id: 0,
+                id: {"$toString": "$_id"},
+                name: 1,
+                materials: {
+                    $map: {
+                        input: "$materials", 
+                        as: "m",
+                        in: {
+                            selectedQuantity: "$$m.selectedQuantity",
+                            material: { 
+                                name: "$$m.material.name",
+                                reusable: "$$m.material.reusable",
+                                totalQuantity: "$$m.material.totalQuantity",
+                                size: "$$m.material.size"
+                            }
+                        }
+                    }
+                },
+                origin: 1,
+                userName: 1
+            }
         }
     ]);
-    
+
     return result[0];
 }
 
@@ -114,37 +140,88 @@ export class KitRepoMongoDB implements IKitRepository {
     async createKit(kit: Kit): Promise<KitMongoDTO> {
         const createdKit= await KitMongo.create({
             name: kit.name,
-            materials: kit.materials,
+            materials: kit.materials.map((materials) => ({
+                selectedQuantity: materials.selectedQuantity,
+                materialId: new Types.ObjectId(materials.materialId)
+            })),
             origin: kit.origin,
-            userId: kit.userId
+            userId: kit.userId ? new Types.ObjectId(kit.userId) : undefined,
         });
-        
-        const kitDTOModel= await KitMongoDTOFunction(createdKit.id);
 
-        return kitDTOModel
+        const kitDTOModel= await KitMongoDTOFunction(createdKit._id);
+
+        return kitDTOModel;
     }
     
-    async fetchKits(): Promise<Kit[]> {
-        throw BadRequestException;
+    async fetchKits(): Promise<KitMongoDTO[]> {
+        const kitsData= await KitMongo.find().exec();
+
+        return await Promise.all(kitsData.map(async (kitData) => {
+            return await KitMongoDTOFunction(kitData._id);
+        }));
     }
 
-    getKitById(kitId: string): Promise<Kit | null> {
-        throw BadRequestException;
+    async getKitById(kitId: string): Promise<KitMongoDTO | null> {
+        const kitDataDTO= await KitMongoDTOFunction(new Types.ObjectId(kitId));
+
+        if (!kitDataDTO)
+            return null;
+
+        return kitDataDTO
     }
 
-    getKitByUserId(userId: string): Promise<Kit[] | null> {
-        throw BadRequestException;
+    async getKitByUserId(userId: string): Promise<KitMongoDTO[] | null> {
+        const kitsData = await KitMongo.find({ userId: new Types.ObjectId(userId) }).exec();
+
+        if (kitsData.length === 0) {
+            return null;
+        }
+
+        return await Promise.all(kitsData.map(async (kitData) => {
+            return await KitMongoDTOFunction(kitData._id);
+        }));
     }
 
-    getKitsByOrigin(origin: string): Promise<Kit[] | null> {
-        throw BadRequestException;
+    async getKitsByOrigin(origin: string): Promise<KitMongoDTO[] | null> {
+        const kitsData = await KitMongo.find({ origin: origin }).exec();
+
+        if (kitsData.length === 0) {
+            return null;
+        }
+
+        return await Promise.all(kitsData.map(async (kitData) => {
+            return await KitMongoDTOFunction(kitData._id);
+        }));
     }
 
-    deleteKitById(kitId: string): Promise<Kit | null> {
-        throw BadRequestException;
+    async deleteKitById(kitId: string): Promise<KitMongoDTO | null> {
+        const kitData= await KitMongo.findByIdAndDelete(kitId).exec();
+
+        if (!kitData) {
+            return null;
+        }
+
+        return await KitMongoDTOFunction(kitData._id);
     }
 
-    updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<Kit | null> {
-        throw BadRequestException;
+    async updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<KitMongoDTO | null> {
+        const kitData= await KitMongo.findByIdAndUpdate(
+            kitId,
+            {
+                ...(kitUpdateOptions.name && {name: kitUpdateOptions.name}),
+                ...(kitUpdateOptions.materials && {
+                    materials: kitUpdateOptions.materials.map((material) => ({
+                        selectedQuantity: material.selectedQuantity,
+                        materialId: new Types.ObjectId(material.materialId)
+                    }))
+                })
+            },
+        ).exec();
+
+        if (!kitData) {
+            return null;
+        }
+
+        return await KitMongoDTOFunction(kitData._id);
     }
 }

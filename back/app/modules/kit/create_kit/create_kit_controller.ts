@@ -9,9 +9,12 @@ export class CreateKitController {
     async handler(req: Request, res: Response){
         const userFromToken= req.user as UserFromToken;
 
-        let userId: string | undefined= undefined;
+        let userId: string | undefined;
 
-        if (!["ADMIN", "MODERATOR"].includes(userFromToken.role))
+
+        const adminRoles= ["ADMIN", "MODERATOR"];
+
+        if (!adminRoles.includes(userFromToken.role))
             userId= userFromToken.id;
 
         const {name, materials} = await createKitRequestValidate(req.body);

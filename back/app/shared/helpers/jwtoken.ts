@@ -19,7 +19,7 @@ export class JWToken {
     );
 
     const payload: any = {
-      user_id: userId,
+      id: userId,
       role: role,
       exp: exp,
     };
