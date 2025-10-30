@@ -67,4 +67,16 @@ export class MaterialRepoMock implements IMaterialRepository {
 
         return material
     }
+
+    async adjustMaterialQuantity(materialId: string, amountToAdjust: number): Promise<Material | null> {
+        const material= this.materials.find((material) => material.materialId === materialId)|| null;
+
+        if (material === null){
+            return null
+        }
+
+        material.totalQuantity += amountToAdjust;
+
+        return material
+    }
 }

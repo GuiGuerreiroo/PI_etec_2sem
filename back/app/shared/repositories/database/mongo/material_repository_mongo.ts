@@ -1,6 +1,6 @@
 import { Material } from "../../../../shared/domain/entities/material";
 import { IMaterialRepository } from "../../../../shared/domain/interface/IMaterialRepository";
-import { model, Schema } from "mongoose"
+import { model, Schema, Types } from "mongoose"
 
 export interface MaterialMongoDbInterface {
     name: string,
@@ -80,10 +80,13 @@ export class MaterialRepoMongoDB implements IMaterialRepository{
     }
 
     async updateMaterialQuantity(materialId: string, totalQuantity: number): Promise<Material | null> {
+        console.log(materialId)
         const materialData= await MaterialMongo.findByIdAndUpdate(
-            materialId,
+            new Types.ObjectId(materialId),
             {totalQuantity: totalQuantity},
         ).exec()
+
+        console.log(materialData);
 
         if(materialData === null)
             return null
@@ -96,4 +99,28 @@ export class MaterialRepoMongoDB implements IMaterialRepository{
             size: materialData.size
         });
     }
+
+    async adjustMaterialQuantity(materialId: string, amountToAdjust: number): Promise<Material | null> {
+    console.log(materialId)
+    const materialData = await MaterialMongo.findByIdAndUpdate(
+        new Types.ObjectId(materialId),
+        { $inc: { totalQuantity: amountToAdjust } },
+        
+        { new: true }
+    ).exec();
+
+    console.log(materialData);
+
+    if(materialData === null)
+        return null;
+
+    return Material.fromJson({
+        materialId: materialData._id.toString(),
+        name: materialData.name,
+        reusable: materialData.reusable,
+        totalQuantity: materialData.totalQuantity,
+        size: materialData.size
+    });
+}
+
 }
