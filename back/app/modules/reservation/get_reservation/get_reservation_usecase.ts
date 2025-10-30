@@ -1,3 +1,4 @@
+import { BadRequestException } from "../../../shared/helpers/exceptions";
 import { HOUR } from "../../../shared/domain/enums/hours";
 import { STATUS } from "../../../shared/domain/enums/status";
 import { IReservationRepository } from "../../../shared/domain/interface/IReservationRepository";
@@ -15,16 +16,16 @@ interface GetReservationInputInterface {
 }
 
 export class GetReservationUseCase {
-    constructor(private readonly reservationRepository: IReservationRepository) { }
+    constructor(private readonly reservationRepository: IReservationRepository) {}
 
     async execute({ id, reservationFilter }: GetReservationInputInterface): Promise<ReservationMongoDTO[]> {
-        // aqui ele sempre testa o id primeiro entao nao tme problema eu passar o id do usuario pelo token dele
+        // aqui ele sempre testa o id primeiro entao nao tem problema eu passar o id do usuario pelo token dele
         const selectedReservations = id
             ? await this.reservationRepository.getReservationById(id)
             : await this.reservationRepository.getReservationsByFilter(reservationFilter);
 
         if (!selectedReservations)
-            throw new Error('Nenhuma reserva encontrada no banco');
+            throw new BadRequestException('Nenhuma reserva encontrada no banco');
 
         const reservationsArray =  Array.isArray(selectedReservations) ? selectedReservations : [selectedReservations];
 

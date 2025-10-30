@@ -7,16 +7,18 @@ export async function getReservationRequestValidate(query: unknown): Promise<{
     id?: string,
     date?: string,
     hour?: HOUR,
+    userId?: string,
     labId?: string,
     status?: STATUS
 }>{
     if (!query || typeof query !== 'object')
         throw new BadRequestException('query strings inválida');
 
-    let {id, date, hour, labId, status} = query as {
+    let {id, date, hour, userId, labId, status} = query as {
         id?: unknown;
         date?: unknown;
         hour?: unknown;
+        userId?: unknown;
         labId?: unknown;
         status?: unknown;
     }
@@ -24,10 +26,10 @@ export async function getReservationRequestValidate(query: unknown): Promise<{
     let hourEnum: HOUR | undefined = undefined;
     let statusEnum: STATUS | undefined = undefined;
 
-    if (id && date || id && hour || id && labId || id && status)
+    if (id && date || id && hour || id && userId || id && labId || id && status)
         throw new BadRequestException('forneça apenas um dos parâmetros: id ou os filtro de reserva');
 
-    if (!id && !date && !hour && !labId && !status)
+    if (!id && !date && !hour && !userId && !labId && !status)
         throw new BadRequestException('forneça o id ou ao menos um dos filtros de reserva: date, hour, labId, userId, status');
 
     if (id){
@@ -66,8 +68,7 @@ export async function getReservationRequestValidate(query: unknown): Promise<{
        if (typeof hour !== 'string' || !isHour(hour))
         throw new BadRequestException('hora inválida');
        
-       const hourEnum= toEnum(hour);
-
+        hourEnum= toEnum(hour);
     }
 
     if (labId){
@@ -75,16 +76,16 @@ export async function getReservationRequestValidate(query: unknown): Promise<{
             throw new BadRequestException('formato do labId inválido');
     }
 
-    // if (userId){
-    //     if (typeof userId !== 'string' || userId.length > 24)
-    //         throw new BadRequestException('formato do userId inválido');
-    // }
+    if (userId){
+        if (typeof userId !== 'string' || userId.length > 24)
+            throw new BadRequestException('formato do userId inválido');
+    }
 
     if (status){
         if (typeof status !== 'string' || !isStatus(status))
             throw new BadRequestException('formato do status inválido');
 
-        const statusEnum= toEnumStatus(status);
+        statusEnum= toEnumStatus(status);
     }
     
     return {
@@ -92,6 +93,7 @@ export async function getReservationRequestValidate(query: unknown): Promise<{
         date: date as string | undefined,
         hour: hourEnum as HOUR | undefined,
         labId: labId as string | undefined,
+        userId: userId as string | undefined,
         status: statusEnum as STATUS | undefined
     };
 }

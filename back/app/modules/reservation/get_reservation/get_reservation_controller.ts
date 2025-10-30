@@ -10,7 +10,7 @@ export class GetReservationController {
         const userFromToken= req.user as UserFromToken;
 
         
-        const {id, date, hour, labId, status}= await getReservationRequestValidate(req.query)
+        const {id, date, hour, labId, userId, status}= await getReservationRequestValidate(req.query)
 
         const reservations= await this.usecase.execute({
             id,
@@ -18,7 +18,7 @@ export class GetReservationController {
                 date,
                 hour,
                 labId,
-                userId: userFromToken.id,
+                userId,
                 status
             }
         });
