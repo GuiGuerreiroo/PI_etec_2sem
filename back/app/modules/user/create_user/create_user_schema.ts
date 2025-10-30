@@ -3,7 +3,6 @@ import { isRole, ROLE, toEnum} from "../../../shared/domain/enums/role";
 import { BadRequestException } from "../../../shared/helpers/exceptions";
 
 export async function createUserRequestValidate(body: unknown): Promise<{name: string, email: string, roleEnum: ROLE, password: string}>{
-    console.log(body);
     if (!body || typeof body !== 'object')
         throw new BadRequestException('request body inválido');
 

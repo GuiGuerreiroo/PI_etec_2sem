@@ -2,53 +2,53 @@ import { HOUR } from "../enums/hours";
 import { STATUS } from "../enums/status";
 
 export class Reservation {
-    constructor (
-        public reservationId: string,
+    constructor(
         public date: string, //pensar se devo usar timestamp e como restringiria para somente os horarios que se tem no portal
         public hour: HOUR,
-        public idLab: string,
-        public idUser: string,
+        public labId: string,
+        public userId: string,
         public status: STATUS,
-        public idKit: string,
-    ) {}
+        public kitId: string,
+        public reservationId?: string,
+    ) { }
 
     toJson(): {
-        reservationId: string;
+        reservationId?: string;
         date: string;
         hour: HOUR;
-        idLab: string;
-        idUser: string;
+        labId: string;
+        userId: string;
         status: STATUS;
-        idKit: string;
+        kitId: string;
     } {
         return {
-            reservationId: this.reservationId,
             date: this.date,
             hour: this.hour,
-            idLab: this.idLab,
-            idUser: this.idUser,
+            labId: this.labId,
+            userId: this.userId,
             status: this.status,
-            idKit: this.idKit
+            kitId: this.kitId,
+            reservationId: this.reservationId,
         };
     }
 
     static fromJson(json: {
-        reservationId: string;
         date: string;
         hour: HOUR;
-        idLab: string;
-        idUser: string;
+        labId: string;
+        userId: string;
         status: STATUS;
-        idKit: string;
+        kitId: string;
+        reservationId?: string;
     }): Reservation {
         return new Reservation(
-            json.reservationId,
             json.date,
             json.hour,
-            json.idLab,
-            json.idUser,
+            json.labId,
+            json.userId,
             json.status,
-            json.idKit
+            json.kitId,
+            json.reservationId
         );
     }
 }

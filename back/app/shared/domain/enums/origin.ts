@@ -15,3 +15,8 @@ export function toEnum(value: string): ORIGIN{
             throw new Error("Invalid value");
     }
 }
+
+export function isOrigin(possibleOrigin: string): boolean{
+    // caso a possible origin seja uma das origins disponiveis, ele retornara true
+    return Object.values(ORIGIN).includes(possibleOrigin as ORIGIN)
+}

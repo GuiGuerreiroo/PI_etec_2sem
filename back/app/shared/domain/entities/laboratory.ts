@@ -1,24 +1,24 @@
 export class Laboratory {
     constructor(
-        public idLab: string,
-        public name: string
-    ) {}
+        public name: string,
+        public labId?: string
+    ) { }
 
 
     toJson(): {
-        idLab: string;
         name: string;
-    }   {
+        labId?: string;
+    } {
         return {
-            idLab: this.idLab,
-            name: this.name
+            name: this.name,
+            labId: this.labId
         };
     }
 
     static fromJson(json: {
-        idLab: string;
         name: string;
+        labId: string;
     }): Laboratory {
-        return new Laboratory(json.idLab, json.name);
+        return new Laboratory(json.name, json.labId);
     }
 }

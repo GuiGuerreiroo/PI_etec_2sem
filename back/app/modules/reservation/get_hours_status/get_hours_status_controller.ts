@@ -5,11 +5,11 @@ import { getHoursStatusResponse, getHoursStatusValidate } from "./get_hours_stat
 import { GetHoursStatusUseCase } from "./get_hours_status_usecase";
 
 export class GetHoursStatusController {
-    constructor(private readonly usecase: GetHoursStatusUseCase) {}
+    constructor(private readonly usecase: GetHoursStatusUseCase) { }
 
     async handler(req: Request, res: Response) {
         const userFromToken = req.user as UserFromToken;
-        
+
         const allowedRoles = ["PROFESSOR"];
 
         if (!allowedRoles.includes(userFromToken.role)) {
@@ -18,11 +18,11 @@ export class GetHoursStatusController {
             );
         }
 
-        const {date, idLab} = await getHoursStatusValidate(req.query);
+        const { date, labId } = await getHoursStatusValidate(req.query);
 
         const hoursStatus = await this.usecase.execute({
             date,
-            idLab
+            labId
         });
 
         const response = await getHoursStatusResponse(hoursStatus);

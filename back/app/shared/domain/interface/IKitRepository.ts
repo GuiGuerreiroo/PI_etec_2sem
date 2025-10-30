@@ -1,25 +1,25 @@
+import { KitMongoDTO } from "../../repositories/database/mongo/kit_repository_mongo";
 import { Kit } from "../entities/kit";
-import { HOUR } from "../enums/hours";
 
 export type KitUpdateOptions = {
     name?: string;
-    materialsIdList?: string[];
+    materials?: {selectedQuantity: number; materialId: string}[];
 }
 
 export interface IKitRepository {
-    createKit(kit: Kit): Promise<Kit>;
+    createKit(kit: Kit): Promise<KitMongoDTO>;
 
-    fetchKits(): Promise<Kit[]>;
+    fetchKits(): Promise<KitMongoDTO[]>;
 
-    getKitById(kitId: string): Promise<Kit | null>;
+    getKitById(kitId: string): Promise<KitMongoDTO | null>;
 
-    getKitByUserId(userId: string): Promise<Kit[] | null>;
+    getKitByUserId(userId: string): Promise<KitMongoDTO[] | null>;
 
-    getKitsByOrigin(origin: string): Promise<Kit[] | null>;
+    getKitsByOrigin(origin: string): Promise<KitMongoDTO[] | null>;
 
-    // getAvailableKits(date: string, idLab: string, hour: HOUR): Promise<Kit[]>;
+    // getAvailableKits(date: string, labId: string, hour: HOUR): Promise<Kit[]>;
 
-    deleteKitById(kitId: string): Promise<Kit | null>;
+    deleteKitById(kitId: string): Promise<KitMongoDTO | null>;
 
-    updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<Kit | null>;
+    updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<KitMongoDTO | null>;
 }

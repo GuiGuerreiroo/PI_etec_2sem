@@ -1,35 +1,35 @@
 export class Material {
     constructor(
-        public materialId: string,
         public name: string,
         public reusable: boolean,
-        public quantity: number,
-        public size?: string
+        public totalQuantity: number,
+        public size?: string,
+        public materialId?: string
     ) {}
 
     toJson() : {
-        materialId: string;
         name: string;
         reusable: boolean;
-        quantity: number;
+        totalQuantity: number;
         size?: string;
+        materialId?: string;
     } {
         return {
-            materialId: this.materialId,
             name: this.name,
             reusable: this.reusable,
-            quantity: this.quantity,
-            size: this.size
+            totalQuantity: this.totalQuantity,
+            size: this.size,
+            materialId: this.materialId
         }
     }
 
     static fromJson(json: {
-        materialId: string;
         name: string;
         reusable: boolean;
-        quantity: number;
+        totalQuantity: number;
         size?: string;
-    }) {
-        return new Material(json.materialId, json.name, json.reusable, json.quantity, json.size);
+        materialId?: string;
+    }): Material {
+        return new Material(json.name, json.reusable, json.totalQuantity, json.size, json.materialId);
     }
 }

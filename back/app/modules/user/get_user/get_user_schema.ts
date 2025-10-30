@@ -19,7 +19,7 @@ export async function getUserRequestValidate(query: unknown): Promise<{id?: stri
     }
 
     if (id){
-        if (typeof id !== 'string' || id.length < 36)
+        if (typeof id !== 'string' || id.length > 24)
             throw new BadRequestException('formato do id inválido');
     }
 

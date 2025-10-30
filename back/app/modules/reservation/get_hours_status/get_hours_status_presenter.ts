@@ -7,7 +7,7 @@ import { ReservationRepository } from "../../../shared/repositories/repository";
 const router = express.Router();
 
 const repository = new ReservationRepository();
-const getHoursStatusUseCase = new GetHoursStatusUseCase(repository.reservationRepo, repository.laboratoryRepo);
+const getHoursStatusUseCase = new GetHoursStatusUseCase(repository.reservationRepo);
 const getHoursStatusController = new GetHoursStatusController(getHoursStatusUseCase);
 
 router.get("/hours-status", authenticateToken,  async (req: Request, res: Response) => {

@@ -4,31 +4,32 @@ import { IMaterialRepository } from "../../domain/interface/IMaterialRepository"
 export class MaterialRepoMock implements IMaterialRepository {
     private materials: Material[] = [
         new Material(
-            "3de12b09-592b-4c77-9899-9be5ffa0caf1",
             "Beker de vidro",
             true,
             10,
-            "250ml"
+            "250ml",
+            "3de12b09-592b-4c77-9899-9be5ffa0caf1"
         ),
         new Material(
-            "7fda37d8-1cbb-4c57-a63c-b84ead277ed0",
             "Beker de vidro",
             true,
             20,
-            "100ml"
+            "100ml",
+            "7fda37d8-1cbb-4c57-a63c-b84ead277ed0"
         ),
         new Material(
-            "914ed099-3896-4c50-8f99-90782190b877",
             "Pipeta de vidro",
             true,
             15,
-            "25ml"
+            "25ml",
+            "914ed099-3896-4c50-8f99-90782190b877",
         ),
         new Material(
-            "b08f81e4-a5ba-45a7-af2e-f64f7a826a10",
             "Cloreto de sódio",
             false,
-            50
+            50,
+            undefined,
+            "b08f81e4-a5ba-45a7-af2e-f64f7a826a10"
         ),
     ];
 
@@ -55,14 +56,26 @@ export class MaterialRepoMock implements IMaterialRepository {
         return this.materials.splice(index, 1)[0]
     }
     // testar o update
-    async updateMaterialQuantity(materialId: string, quantity: number): Promise<Material | null> {
+    async updateMaterialQuantity(materialId: string, selectedQuantity: number): Promise<Material | null> {
         const material= this.materials.find((material) => material.materialId === materialId)|| null;
 
         if (material === null){
             return null
         }
 
-        Object.assign(material, {quantity})
+        Object.assign(material, {selectedQuantity})
+
+        return material
+    }
+
+    async adjustMaterialQuantity(materialId: string, amountToAdjust: number): Promise<Material | null> {
+        const material= this.materials.find((material) => material.materialId === materialId)|| null;
+
+        if (material === null){
+            return null
+        }
+
+        material.totalQuantity += amountToAdjust;
 
         return material
     }

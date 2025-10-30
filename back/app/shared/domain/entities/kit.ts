@@ -2,36 +2,36 @@ import { ORIGIN } from "../enums/origin";
 
 export class Kit {
     constructor(
-        public kitId: string,
         public name: string,
-        public materialsIdList: Record<string, number>,
+        public materials: {selectedQuantity: number; materialId: string}[],
         public origin: ORIGIN,
-        public userId?: string
+        public userId?: string,
+        public kitId?: string,
     ) {}
 
     toJson(): {
-        kitId: string;
         name: string;
-        materialsIdList: Record<string, number>;
+        materials: {selectedQuantity: number; materialId: string}[];
         origin: ORIGIN;
         userId?: string;
+        kitId?: string;
     } {
         return {
-            kitId: this.kitId,
             name: this.name,
-            materialsIdList: this.materialsIdList,
+            materials: this.materials,
             origin: this.origin,
-            userId: this.userId
+            userId: this.userId,
+            kitId: this.kitId
         };
     }
     
     static fromJson(json: {
-        kitId: string;
         name: string;
-        materialsIdList: Record<string, number>;
+        materials: {selectedQuantity: number; materialId: string}[];
         origin: ORIGIN;
         userId?: string;
+        kitId?: string;
     }): Kit {
-        return new Kit(json.kitId, json.name, json.materialsIdList, json.origin, json.userId);
+        return new Kit(json.name, json.materials, json.origin, json.userId, json.kitId);
     }
 }
