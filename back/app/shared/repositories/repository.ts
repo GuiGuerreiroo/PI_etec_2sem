@@ -5,7 +5,9 @@ import { IMaterialRepository } from "../domain/interface/IMaterialRepository";
 import { IReservationRepository } from "../domain/interface/IReservationRepository";
 import { IUserRepository } from "../domain/interface/IUserRepository"
 import { KitRepoMongoDB } from "./database/mongo/kit_repository_mongo";
+import { LaboratoryRepoMongoDB } from "./database/mongo/laboratory_repository_mongo";
 import { MaterialRepoMongoDB } from "./database/mongo/material_repository_mongo";
+import { ReservationRepoMongoDB } from "./database/mongo/reservation_repository_mongo";
 import { UserRepoMongoDB } from "./database/mongo/user_repository_mongodb";
 import { KitRepoMock } from "./mock/kit_repository_mock";
 import { LaboratoryRepoMock } from "./mock/laboratory_repository_mock";
@@ -62,7 +64,7 @@ export class MaterialRepository {
         }
         else {
             // A conexão já foi estabelecida no server.ts
-            this.materialRepo= new MaterialRepoMongoDB();
+            this.materialRepo = new MaterialRepoMongoDB();
         }
     }
 }
@@ -70,6 +72,7 @@ export class MaterialRepository {
 export class KitRepository {
     public kitRepo: IKitRepository;
     public materialRepo: IMaterialRepository;
+    public reservationRepo: IReservationRepository;
 
     constructor() {
         if (Env.STAGE === "error") {
@@ -78,35 +81,38 @@ export class KitRepository {
         if (Env.STAGE === "test") {
             this.kitRepo = new KitRepoMock();
             this.materialRepo = new MaterialRepoMock()
+            this.reservationRepo= new ReservationRepoMock()
         }
         else {
             // A conexão já foi estabelecida no server.ts
             this.kitRepo = new KitRepoMongoDB()
             this.materialRepo = new MaterialRepoMongoDB();
+            this.reservationRepo= new ReservationRepoMongoDB()
         }
     }
 }
 
 export class ReservationRepository {
-    public laboratoryRepo: ILaboratoryRepository;
     public reservationRepo: IReservationRepository;
+    public laboratoryRepo: ILaboratoryRepository;
+    public kitRepo: IKitRepository;
+    public materialRepo: IMaterialRepository;
 
     constructor() {
         if (Env.STAGE === "error") {
             console.log("You need to add a .env in you main folder containing the stage you want to interact")
         }
         if (Env.STAGE === "test") {
-            this.reservationRepo = new ReservationRepoMock()
-
-            this.laboratoryRepo = new LaboratoryRepoMock()
+            this.reservationRepo = new ReservationRepoMock();
+            this.laboratoryRepo = new LaboratoryRepoMock();
+            this.kitRepo = new KitRepoMock();
+            this.materialRepo = new MaterialRepoMock()
         }
-        // AQUI DEVE SE CONFIGURAR O MONGO, por enquanto esta com o default
         else {
-            // this mongoDB=  new MongoDBResources();
-            // this.userRepo= new UserRepositoryMongoDB(this.mongoDb);
-            this.reservationRepo = new ReservationRepoMock()
-
-            this.laboratoryRepo = new LaboratoryRepoMock()
+            this.reservationRepo = new ReservationRepoMongoDB()
+            this.laboratoryRepo = new LaboratoryRepoMongoDB()
+            this.kitRepo = new KitRepoMongoDB();
+            this.materialRepo = new MaterialRepoMongoDB();
         }
     }
 }

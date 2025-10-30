@@ -59,3 +59,8 @@ export function toEnum(value: string): HOUR{
             throw new Error("Invalid value");
     }
 }
+
+export function isHour(possibleHour: string): boolean{
+  // caso a possible role seja uma das roles disponiveis, ele retornara true
+  return Object.values(HOUR).includes(possibleHour as HOUR)
+}

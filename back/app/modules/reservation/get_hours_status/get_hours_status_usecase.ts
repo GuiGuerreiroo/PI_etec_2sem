@@ -26,7 +26,7 @@ export class GetHoursStatusUseCase {
             throw new NotFoundException("Laboratório não encontrado no banco de dados");
         }
 
-        const reservationsScheduled = await this.reservationRepo.getReservationByFilter({ date, labId });
+        const reservationsScheduled = await this.reservationRepo.getReservationsByFilter({ date: date, labId: labId, status: "MARCADO" });
 
         if (reservationsScheduled === null) {
             const hoursStatus = Object.values(HOUR).map((hour) => {
@@ -41,7 +41,6 @@ export class GetHoursStatusUseCase {
 
         else {
             const reservedHours = new Set(reservationsScheduled
-                .filter((reservation) => reservation.status === "MARCADO")
                 .map((reservation) => reservation.hour));
 
             const hoursStatus = Object.values(HOUR).map((hour) => {

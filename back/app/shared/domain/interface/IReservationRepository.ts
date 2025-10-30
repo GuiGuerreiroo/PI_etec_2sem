@@ -1,3 +1,4 @@
+import { ReservationMongoDTO } from "../../repositories/database/mongo/reservation_repository_mongo";
 import { Reservation } from "../entities/resevation";
 import { HOUR } from "../enums/hours";
 
@@ -5,7 +6,7 @@ export type ReservationFilterOptions = {
     date?: string,
     hour?: HOUR,
     labId?: string,
-    idUser?: string,
+    userId?: string,
     status?: string;
 }
 
@@ -15,17 +16,17 @@ export type ReservationUpdateOptions = {
 }
 
 export interface IReservationRepository {
-    createReservation(reservation: Reservation): Promise<Reservation>;
+    createReservation(reservation: Reservation): Promise<ReservationMongoDTO>;
 
-    fetchReservations(): Promise<Reservation[]>;
+    fetchReservations(): Promise<ReservationMongoDTO[]>;
 
-    getReservationById(reservationId: string): Promise<Reservation | null>;
+    getReservationById(reservationId: string): Promise<ReservationMongoDTO | null>;
 
-    getReservationByFilter(filter: ReservationFilterOptions): Promise<Reservation[] | null>;
+    getReservationsByFilter(filter: ReservationFilterOptions): Promise<ReservationMongoDTO[] | null>;
 
     // getAvailableHour(date: string, labId: string): Promise<HOUR[]>;
 
-    deleteReservationById(reservationId: string): Promise<Reservation | null>;
+    deleteReservationById(reservationId: string): Promise<ReservationMongoDTO | null>;
 
-    updateReservationStatus(reservationId: string, reservationUpdateOptions: ReservationUpdateOptions): Promise<Reservation | null>;
+    updateReservationStatus(reservationId: string, reservationUpdateOptions: ReservationUpdateOptions): Promise<ReservationMongoDTO | null>;
 }

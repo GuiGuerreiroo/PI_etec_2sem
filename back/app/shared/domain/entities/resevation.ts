@@ -3,52 +3,52 @@ import { STATUS } from "../enums/status";
 
 export class Reservation {
     constructor(
-        public reservationId: string,
         public date: string, //pensar se devo usar timestamp e como restringiria para somente os horarios que se tem no portal
         public hour: HOUR,
         public labId: string,
-        public idUser: string,
+        public userId: string,
         public status: STATUS,
-        public idKit: string,
+        public kitId: string,
+        public reservationId?: string,
     ) { }
 
     toJson(): {
-        reservationId: string;
+        reservationId?: string;
         date: string;
         hour: HOUR;
         labId: string;
-        idUser: string;
+        userId: string;
         status: STATUS;
-        idKit: string;
+        kitId: string;
     } {
         return {
-            reservationId: this.reservationId,
             date: this.date,
             hour: this.hour,
             labId: this.labId,
-            idUser: this.idUser,
+            userId: this.userId,
             status: this.status,
-            idKit: this.idKit
+            kitId: this.kitId,
+            reservationId: this.reservationId,
         };
     }
 
     static fromJson(json: {
-        reservationId: string;
         date: string;
         hour: HOUR;
         labId: string;
-        idUser: string;
+        userId: string;
         status: STATUS;
-        idKit: string;
+        kitId: string;
+        reservationId?: string;
     }): Reservation {
         return new Reservation(
-            json.reservationId,
             json.date,
             json.hour,
             json.labId,
-            json.idUser,
+            json.userId,
             json.status,
-            json.idKit
+            json.kitId,
+            json.reservationId
         );
     }
 }

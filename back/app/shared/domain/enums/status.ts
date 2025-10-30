@@ -3,7 +3,7 @@ export enum STATUS {
     COMPLETED= "CONCLUIDO"
 }
 
-export function toEnum(value: string): STATUS {
+export function toEnumStatus(value: string): STATUS {
     switch(value) {
         case "MARCADO":
             return STATUS.SCHEDULED;
@@ -14,4 +14,8 @@ export function toEnum(value: string): STATUS {
         default:
             throw new Error("Invalid value");
     }
+}
+
+export function isStatus(value: string): boolean {
+    return Object.values(STATUS).includes(value as STATUS);
 }
