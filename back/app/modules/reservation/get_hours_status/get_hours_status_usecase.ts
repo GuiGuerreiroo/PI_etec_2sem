@@ -1,7 +1,5 @@
-import { ILaboratoryRepository } from "../../../shared/domain/interface/ILaboratoryRepository";
 import { HOUR } from "../../../shared/domain/enums/hours";
 import { IReservationRepository } from "../../../shared/domain/interface/IReservationRepository";
-import { NotFoundException } from "../../../shared/helpers/exceptions";
 
 interface GetHoursStatusInput {
     date: string;
@@ -16,15 +14,10 @@ export interface GetHoursStatusDTO {
 export class GetHoursStatusUseCase {
     constructor(
         private reservationRepo: IReservationRepository,
-        private laboratoryRepo: ILaboratoryRepository
     ) { }
 
     async execute({ date, labId }: GetHoursStatusInput): Promise<GetHoursStatusDTO[]> {
-        const laboratory = await this.laboratoryRepo.getLaboratoryById(labId);
-
-        if (!laboratory) {
-            throw new NotFoundException("Laboratório não encontrado no banco de dados");
-        }
+        // nao fiz a validacao para o laboratorio existir pois presumo que me passara um id valido
 
         const reservationsScheduled = await this.reservationRepo.getReservationsByFilter({ date: date, labId: labId, status: "MARCADO" });
 
