@@ -1,9 +1,9 @@
+/* ESTILO DO KITS.CSS */
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 
 .nav-item {
   width: 170px;
@@ -52,26 +52,11 @@ body {
   align-items: center;
   background-color: #fff;
   height: 100%;
-
-  /* background: url('https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/1/2022/07/bg_cinza-right-62e1426c08f60.png');
-  background-size: 70vh;
-  background-position: center;
-  background-repeat: repeat;
-  margin: 0;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  -webkit-font-smoothing: antialiased; */
 }
 
 .page-frame {
-  /* background: #fff;
-  border-radius: 40px;
-  border: 2px solid #666;
-  overflow: hidden;
-  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.06); */
   margin-top: 15px;
-
 }
-
 
 .title {
   margin: 0;
@@ -140,39 +125,79 @@ body {
   transform: translateY(-2px) translateX(0);
 }
 
-.modal {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.35);
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity .18s ease, visibility .18s;
+/* ESTILO DO MATERIAIS.CSS PARA O MODAL */
+.form-modal-content {
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
 }
 
-.modal[aria-hidden="false"] {
-  visibility: visible;
-  opacity: 1;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 320px;
-  max-width: 92%;
+.form-modal-content .modal-title {
   text-align: center;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+  color: #004e56;
+  margin-bottom: 1.5rem;
+  font-family: 'Inter', sans-serif;
 }
 
-.btn {
-  margin-top: 12px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: none;
-  background: #0b6970;
+.form-modal-content label {
+  display: block;
+  color: #004e56;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  margin-top: 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.form-modal-content input,
+.form-modal-content textarea {
+  width: 100%;
+  border: 1px solid #777;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.form-btn {
+  display: block;
+  margin: 1.5rem auto 0;
+  background-color: #004e56;
   color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.3s;
+  font-family: 'Inter', sans-serif;
+}
+
+.form-btn:hover {
+  background-color: #006670;
+}
+
+.success-message {
+  display: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.success-message.show {
+  display: block;
+  opacity: 1;
 }

@@ -1,21 +1,36 @@
 const addCard = document.getElementById('addCard');
-const modal = document.getElementById('novoKitModal');
-const closeModal = document.getElementById('closeModal');
+const modal = new bootstrap.Modal(document.getElementById('novoKitModal'));
 
 addCard.addEventListener('click', (e) => {
   e.preventDefault();
   // remove foco visual do botao
   e.currentTarget.blur();
-  // trava o scroll 
-  document.body.style.overflow = 'hidden';
-  // abre o modal apos o proximo frame
-  requestAnimationFrame(() => {
-    modal.setAttribute('aria-hidden', 'false');
-    modal.classList.add('show');
-  });
+  // abre o modal
+  modal.show();
 });
+
+const closeModal = document.getElementById('closeModal');
 closeModal.addEventListener('click', () => {
-  modal.classList.remove('show');
-  modal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
+  modal.hide();
+});
+
+const form = document.getElementById("itemForm");
+const successMessage = document.getElementById("successMessage");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const nome = document.getElementById("nome").value.trim();
+  const descricao = document.getElementById("descricao").value.trim();
+
+  if (nome !== "" && descricao !== "") {
+    successMessage.classList.add("show");
+
+    setTimeout(() => {
+      successMessage.classList.remove("show");
+      modal.hide();
+      form.reset();
+    }, 5000);
+  } else {
+    alert("Preencha todos os campos antes de criar o kit!");
+  }
 });
