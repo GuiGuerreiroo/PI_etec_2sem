@@ -7,7 +7,7 @@ export interface LaboratoryMongoDbInterface {
 }
 
 const LabMongoSchema = new Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true},
 })
 
 const LabMongo = model<LaboratoryMongoDbInterface>("Laboratory", LabMongoSchema)

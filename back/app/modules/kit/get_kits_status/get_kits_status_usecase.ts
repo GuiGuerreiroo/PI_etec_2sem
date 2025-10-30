@@ -91,7 +91,9 @@ export class GetKitsStatusUseCase {
             const allKitsStatus = allKits.map((kit) => {
                 const isKitAvailable = kit.materials.every((selectedMaterial) => {
                     const materialInfo = selectedMaterial.material;
+
                     const quantitySelected = selectedMaterial.selectedQuantity;
+                    
                     const totalQuantity = selectedMaterial.material.totalQuantity;
 
                     const key = `${materialInfo.name}-${materialInfo.size}`
