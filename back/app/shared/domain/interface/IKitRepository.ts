@@ -1,6 +1,5 @@
 import { KitMongoDTO } from "../../repositories/database/mongo/kit_repository_mongo";
 import { Kit } from "../entities/kit";
-import { HOUR } from "../enums/hours";
 
 export type KitUpdateOptions = {
     name?: string;

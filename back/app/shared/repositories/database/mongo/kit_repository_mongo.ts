@@ -1,8 +1,6 @@
-import { pipeline } from "stream";
 import { Kit } from "../../../domain/entities/kit";
 import { Material } from "../../../domain/entities/material";
 import { IKitRepository, KitUpdateOptions } from "../../../domain/interface/IKitRepository";
-import { BadRequestException } from "../../../helpers/exceptions";
 import { model, Schema, Types } from "mongoose";
 
 export interface KitMongoDbInterface {
@@ -16,10 +14,10 @@ const KitMongoSchema = new Schema({
     name: { type: String, required: true },
     materials: [{
       selectedQuantity: { type: Number, required: true },
-      materialId: { type: Types.ObjectId, required: true, ref: 'Materials' }
+      materialId: { type: Types.ObjectId, required: true, ref: 'materials' }
     }],
     origin: { type: String, required: true },
-    userId: { type: Types.ObjectId, required: false, ref: 'Users' }
+    userId: { type: Types.ObjectId, required: false, ref: 'users' }
 });
 
 const KitMongo= model<KitMongoDbInterface>("Kit", KitMongoSchema);
@@ -117,7 +115,8 @@ async function KitMongoDTOFunction(kitId: Types.ObjectId): Promise<KitMongoDTO> 
                         as: "m",
                         in: {
                             selectedQuantity: "$$m.selectedQuantity",
-                            material: { 
+                            material: {
+                                materialId: {"$toString": "$$m.material._id"}, //adicionando para testar
                                 name: "$$m.material.name",
                                 reusable: "$$m.material.reusable",
                                 totalQuantity: "$$m.material.totalQuantity",
@@ -206,7 +205,7 @@ export class KitRepoMongoDB implements IKitRepository {
 
     async updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<KitMongoDTO | null> {
         const kitData= await KitMongo.findByIdAndUpdate(
-            kitId,
+            new Types.ObjectId(kitId),
             {
                 ...(kitUpdateOptions.name && {name: kitUpdateOptions.name}),
                 ...(kitUpdateOptions.materials && {

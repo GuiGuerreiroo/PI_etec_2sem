@@ -11,7 +11,6 @@ export class CreateKitController {
 
         let userId: string | undefined;
 
-
         const adminRoles= ["ADMIN", "MODERATOR"];
 
         if (!adminRoles.includes(userFromToken.role))

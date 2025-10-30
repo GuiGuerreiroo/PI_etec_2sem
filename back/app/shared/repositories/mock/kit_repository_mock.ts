@@ -43,41 +43,47 @@ export class KitRepoMock implements IKitRepository {
         throw BadRequestException;
     }
 
-    async fetchKits(): Promise<Kit[]> {
-        return this.kits;
+    async fetchKits(): Promise<KitMongoDTO[]> {
+        throw BadRequestException;
+        // return this.kits;
     }
 
-    async getKitById(kitId: string): Promise<Kit | null> {
-        return this.kits.find((kit) => kit.kitId === kitId) || null;
+    async getKitById(kitId: string): Promise<KitMongoDTO | null> {
+        throw BadRequestException;
+        // return this.kits.find((kit) => kit.kitId === kitId) || null;
     }
 
-    async getKitByUserId(userId: string): Promise<Kit[] | null> {
-        return this.kits.filter((kit) => kit.userId === userId) || null;
+    async getKitByUserId(userId: string): Promise<KitMongoDTO[] | null> {
+        throw BadRequestException;
+        // return this.kits.filter((kit) => kit.userId === userId) || null;
     }
 
-    async getKitsByOrigin(origin: ORIGIN): Promise<Kit[] | null> {
-        return this.kits.filter((kit) => kit.origin === origin) || null;
+    async getKitsByOrigin(origin: ORIGIN): Promise<KitMongoDTO[] | null> {
+        throw BadRequestException;
+        // return this.kits.filter((kit) => kit.origin === origin) || null;
     }
 
-    async deleteKitById(kitId: string): Promise<Kit | null> {
-        const index = this.kits.findIndex((kit) => kit.kitId === kitId);
+    async deleteKitById(kitId: string): Promise<KitMongoDTO | null> {
+        throw BadRequestException;
+        // const index = this.kits.findIndex((kit) => kit.kitId === kitId);
 
-        if (index === -1) {
-            return null;
-        }
+        // if (index === -1) {
+        //     return null;
+        // }
 
-        return this.kits.splice(index, 1)[0];
+        // return this.kits.splice(index, 1)[0];
     }
 
-    async updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<Kit | null> {
-        const kit= this.kits.find((kit) => kit.kitId === kitId) || null;
+    async updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<KitMongoDTO | null> {
+        throw BadRequestException;
+        // const kit= this.kits.find((kit) => kit.kitId === kitId) || null;
 
-        if (kit === null) {
-            return null;
-        }
+        // if (kit === null) {
+        //     return null;
+        // }
 
-        Object.assign(kit, kitUpdateOptions);
+        // Object.assign(kit, kitUpdateOptions);
 
-        return kit;
+        // return kit;
     }
 }

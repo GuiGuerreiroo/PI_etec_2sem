@@ -42,7 +42,7 @@ export class CreateKitUseCase {
             originEnum= ORIGIN.INDIVIDUAL;
         
 
-        const newKit= await new Kit(
+        const newKit= new Kit(
             name,
             materials,
             originEnum,
