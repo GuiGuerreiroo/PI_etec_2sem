@@ -46,8 +46,8 @@ export class LabRepository {
         }
         // AQUI DEVE SE CONFIGURAR O MONGO, por enquanto esta com o default
         else {
-            this.laboratoryRepo = new LaboratoryRepoMock()
-            this.reservationRepo = new ReservationRepoMock()
+            this.laboratoryRepo = new LaboratoryRepoMongoDB();
+            this.reservationRepo = new ReservationRepoMongoDB()
         }
     }
 }
