@@ -100,7 +100,7 @@ export async function getReservationRequestValidate(query: unknown): Promise<{
 
 export async function getReservationResponse(reservations: ReservationMongoDTO[]) {
     return {
-        menssage: "Reserva(s) retornada(s) com sucesso",
+        message: "Reserva(s) retornada(s) com sucesso",
         reservations: reservations.map((reservation) => ({
             id: reservation.id,
             date: reservation.date,

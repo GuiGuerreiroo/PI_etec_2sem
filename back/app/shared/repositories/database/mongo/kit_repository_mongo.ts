@@ -8,7 +8,7 @@ export interface KitMongoDbInterface {
     materials: {selectedQuantity: number; materialId: Types.ObjectId}[];
     origin: string;
     userId?: string;
-} {}
+}
 
 const KitMongoSchema = new Schema({
     name: { type: String, required: true },

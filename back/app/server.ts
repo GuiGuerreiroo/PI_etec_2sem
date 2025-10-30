@@ -4,7 +4,6 @@ import { MongoDBResources } from "./shared/repositories/database/mongo/mongo_dat
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import { Env } from "./env";
 
 
