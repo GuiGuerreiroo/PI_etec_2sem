@@ -13,7 +13,7 @@ const LabMongoSchema = new Schema({
 const LabMongo = model<LaboratoryMongoDbInterface>("Laboratory", LabMongoSchema)
 
 
-export class LaboratoryMongoDB implements ILaboratoryRepository {
+export class LaboratoryRepoMongoDB implements ILaboratoryRepository {
     async getLaboratoryById(labId: string): Promise<Laboratory | null> {
         const labData = await LabMongo.findById(labId).exec();
 
