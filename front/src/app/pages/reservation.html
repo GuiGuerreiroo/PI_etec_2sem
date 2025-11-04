@@ -43,7 +43,7 @@
         </div> -->
 
         <!-- Laboratórios -->
-        <div class="section">
+        <div class="section hidden">
           <div class="label">Laboratórios:</div>
           <div class="buttons" id="lab-buttons">
             <button class="btn outline" data-value="Lab 01">Lab 01</button>
@@ -55,37 +55,37 @@
         <hr>
 
         <!-- Horários -->
-        <div class="section" id="time-slots">
+        <div class="section hidden" id="time-slots">
           <div class="label">Manhã:</div>
           <div class="buttons">
-            <button class="btn outline" data-value="07h10-08h00">7h10-8h00</button>
-            <button class="btn outline" data-value="08h00-08h50">8h00-8h50</button>
-            <button class="btn outline" data-value="08h50-09h40">8h50-9h40</button>
-            <button class="btn outline" data-value="10h00-10h50">10h00-10h50</button>
-            <button class="btn outline" data-value="10h50-11h40">10h50-11h40</button>
-            <button class="btn outline" data-value="11h40-12h30">11h40-12h30</button>
+            <button class="btn outline" data-value="07h10-08h00" id="7h10">7h10-8h00</button>
+            <button class="btn outline" data-value="08h00-08h50" id="8h00">8h00-8h50</button>
+            <button class="btn outline" data-value="08h50-09h40" id="8h50">8h50-9h40</button>
+            <button class="btn outline" data-value="10h00-10h50" id="9h40">10h00-10h50</button>
+            <button class="btn outline" data-value="10h50-11h40" id="10h50">10h50-11h40</button>
+            <button class="btn outline" data-value="11h40-12h30" id="11h40">11h40-12h30</button>
           </div>
 
           <div class="label">Tarde:</div>
           <div class="buttons">
-            <button class="btn outline" data-value="13h00-13h50">13h00-13h50</button>
-            <button class="btn outline" data-value="13h50-14h40">13h50-14h40</button>
-            <button class="btn outline" data-value="14h40-15h30">14h40-15h30</button>
-            <button class="btn outline" data-value="15h50-16h40">15h50-16h40</button>
-            <button class="btn outline" data-value="16h40-17h30">16h40-17h30</button>
-            <button class="btn outline" data-value="17h30-18h20">17h30-18h20</button>
+            <button class="btn outline" data-value="13h00-13h50" id="13h00">13h00-13h50</button>
+            <button class="btn outline" data-value="13h50-14h40" id="13h50">13h50-14h40</button>
+            <button class="btn outline" data-value="14h40-15h30" id="14h40">14h40-15h30</button>
+            <button class="btn outline" data-value="15h50-16h40" id="15h50">15h50-16h40</button>
+            <button class="btn outline" data-value="16h40-17h30" id="16h40">16h40-17h30</button>
+            <button class="btn outline" data-value="17h30-18h20" id="17h30">17h30-18h20</button>
           </div>
           <div class="label">Noite:</div>
           <div class="buttons">
-            <button class="btn outline" data-value="18h50-20h44">18h50-20h44</button>
-            <button class="btn outline" data-value="20h58-22h50">20h58-22h50</button>
+            <button class="btn outline" data-value="18h50-20h44" id="18h50">18h50-20h44</button>
+            <button class="btn outline" data-value="20h58-22h50" id="20h58">20h58-22h50</button>
           </div>
         </div>
 
         <hr>
 
         <!-- Kits -->
-        <div class="section">
+        <div class="section hidden">
           <div class="label">Kits:</div>
           <div class="buttons" id="kit-buttons">
             <button class="btn outline" data-value="Kit 01">Kit 01</button>
@@ -105,7 +105,7 @@
           <div class="info-item"><strong>Laboratório:</strong><span id="info-lab">--</span></div>
           <div class="info-item"><strong>Horário:</strong><span id="info-horario">--</span></div>
           <div class="info-item"><strong>Kits:</strong><span id="info-kits">--</span></div>
-          <button class="concluir-btn" onclick="getLaboratory()">Concluir</button>
+          <button class="concluir-btn" >Concluir</button>
         </div>
       </div>
     </div>
@@ -117,15 +117,15 @@
     </div>
   </div>
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script src="../scripts/reservation.js"></script>
+  <script src="../scripts/reservation.js" type="module"></script>
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app')
   </script>
+  <script src="../api/kit/get_kit_status.js"></script>
+  <script src="../api/reservation/get_hour_status.js"></script>
   <script src="../api/reservation/get_laboratory_status.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://app.embed.im/accessibility.js" defer></script>
-  <script src="../api/reservation/get_laboratory_status.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </script>
 </body>
 
