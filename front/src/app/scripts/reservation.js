@@ -8,24 +8,41 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedKit: null,
     };
 
-
+    
     const monthYearEl = document.getElementById('month-year');
     const calendarDaysEl = document.getElementById('calendar-days');
     const prevMonthBtn = document.getElementById('prev-month');
     const nextMonthBtn = document.getElementById('next-month');
 
+    // Seletores da Info-Box (os spans internos)
     const infoDateEl = document.getElementById('info-data');
     const infoLabEl = document.getElementById('info-lab');
     const infoHorarioEl = document.getElementById('info-horario');
     const infoKitsEl = document.getElementById('info-kits');
-
-    const labButtonsContainer = document.getElementById('lab-buttons');
+    
+    // 💡 NOVO: Seletor do container principal da Info-Box
+    const infoBoxContainer = document.getElementById('info-box-container'); 
+    
+    const labSection = document.getElementById('lab-buttons'); 
     const timeSlotsContainer = document.getElementById('time-slots');
-    const kitButtonsContainer = document.getElementById('kit-buttons');
+    const kitSection = document.getElementById('kit-buttons'); 
+    
+    
+    const labButtonsInner = labSection.querySelector('.buttons');
+    const kitButtonsInner = kitSection.querySelector('.buttons');
+    
     const progressBar = document.getElementById('progress-bar');
-
     const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
+    
+    function toggleVisibility(container, show) {
+        if (!container) return;
+        if (show) {
+            container.classList.remove('hidden');
+        } else {
+            container.classList.add('hidden');
+        }
+    }
 
     function formatDate(date) {
         const year = date.getFullYear();
@@ -35,24 +52,27 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-
     function resetSelections() {
         state.selectedLab = null;
         state.selectedLabId = null;
         state.selectedTime = null;
         state.selectedKit = null;
 
+        
+        toggleVisibility(labSection, false); 
+        toggleVisibility(timeSlotsContainer, false);
+        toggleVisibility(kitSection, false);
 
-        // timeSlotsContainer.innerHTML = 'Selecione um laboratório...';
-        // kitButtonsContainer.innerHTML = 'Selecione um horário e laboratório...';
+        // 💡 NOVO: Esconde a Info-Box sempre que as seleções são resetadas
+        toggleVisibility(infoBoxContainer, false);
 
         updateInfo();
     }
 
 
-
     function updateLabButtons(laboratories) {
-        labButtonsContainer.innerHTML = '';
+        // ... (código existente sem alteração) ...
+        labButtonsInner.innerHTML = ''; 
         laboratories.forEach(lab => {
             const button = document.createElement('button');
             button.className = lab.available ? 'btn outline' : 'btn outline disabled';
@@ -66,18 +86,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 button.style.cursor = 'not-allowed';
                 button.style.opacity = '0.6';
             }
-            labButtonsContainer.appendChild(button);
+            labButtonsInner.appendChild(button);
         });
-
-
     }
 
     function setupLabButtonListeners() {
-        labButtonsContainer.addEventListener('click', e => {
+        
+        labButtonsInner.addEventListener('click', e => { 
             const button = e.target.closest('button');
             if (!button || button.dataset.available === 'false') return;
 
-            labButtonsContainer.querySelectorAll('button').forEach(btn => {
+            labButtonsInner.querySelectorAll('button').forEach(btn => {
                 btn.classList.add('outline');
             });
 
@@ -88,8 +107,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             state.selectedTime = null;
             state.selectedKit = null;
-            kitButtonsContainer.innerHTML = 'Selecione um horário...';
-
+            
+            toggleVisibility(kitSection, false); 
+            // 💡 NOVO: Esconde a Info-Box se Lab for re-selecionado (ou seja, falta o Kit)
+            toggleVisibility(infoBoxContainer, false);
 
             updateInfo();
             fetchHorarios();
@@ -97,6 +118,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function fetchLaboratories() {
+        // ... (código existente sem alteração) ...
+        toggleVisibility(timeSlotsContainer, false); 
+        toggleVisibility(kitSection, false); 
+        toggleVisibility(infoBoxContainer, false); // Garante que é escondido no fetch
+        
         try {
             const date = formatDate(state.selectedDate);
             const labData = await getLaboratoryStatus(date);
@@ -104,26 +130,32 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Dados dos laboratórios:', labData);
             if (labData && labData.laboratories) {
                 updateLabButtons(labData.laboratories);
+                
+                
+                toggleVisibility(labSection, true); 
             }
         }
         catch (error) {
             console.error('Erro ao buscar laboratórios:', error);
-            labButtonsContainer.innerHTML = 'Erro ao carregar laboratórios.';
+            labButtonsInner.innerHTML = 'Erro ao carregar laboratórios.';
+            // Opcional: Mostrar o container para exibir a mensagem de erro
+            toggleVisibility(labSection, true); 
         }
     }
 
 
-
     async function fetchHorarios() {
-        // timeSlotsContainer.innerHTML = 'Selecione um laboratório e um kit...';
         state.selectedTime = null;
         updateInfo();
-
+        
+        
+        toggleVisibility(kitSection, false);
+        toggleVisibility(infoBoxContainer, false); // Garante que é escondido
+        
         if (!state.selectedDate || !state.selectedLabId) {
             return;
         }
-
-        // timeSlotsContainer.innerHTML = 'Carregando horários...';
+        // ... (restante do fetchHorarios) ...
         try {
             const date = formatDate(state.selectedDate);
             const labId = state.selectedLabId;
@@ -132,109 +164,52 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Dados dos horários:', hourData);
             if (hourData && hourData.hours && hourData.hours.length > 0) {
                 updateHourButtons(hourData.hours);
+
+                toggleVisibility(timeSlotsContainer, true); 
             } else {
-                // timeSlotsContainer.innerHTML = 'Nenhum horário disponível para este lab/data.';
+                
             }
         } catch (error) {
             console.error('Erro ao buscar horários:', error);
-            // timeSlotsContainer.innerHTML = 'Erro ao carregar horários.';
+            
         }
     }
 
     function updateHourButtons(horarios) {
-        // timeSlotsContainer.innerHTML = '';
-        const ListId = [
-            '7h10', '8h00', '8h50', '9h40', '10h50', '11h40',
-            '13h00', '13h50', "14h40", '15h50', '16h40', '17h30',
-            '18h40', '20h58'
-        ]
-        for (let i=0; i < horarios.length; i++) {
-            const button = document.getElementById(ListId[i])
-            button.class = horarios[i].available ? 'btn outline' : 'btn outline disabled';
-            button.dataset.available = horarios[i].available;
-            button.dataset.value = horarios[i].hour;
-            if (!horarios[i].available) {
+        // ... (código existente sem alteração) ...
+        const hourToIdMap = {
+            '7:10': '7h10', '8:00': '8h00', '8:50': '8h50', '10:00': '9h40', '10:50': '10h50', '11:40': '11h40',
+            '13:00': '13h00', '13:50': '13h50', "14:40": '14h40', '15:50': '15h50', '16:40': '16h40', '17:30': '17h30',
+            '18:50': '18h50', '20:58': '20h58'
+        };
+
+        
+        for (const [jsonHour, id] of Object.entries(hourToIdMap)) {
+            const button = document.getElementById(id);
+            if (!button) continue;
+
+            const horarioData = horarios.find(h => h.hour === jsonHour);
+            const isAvailable = horarioData ? horarioData.available : false;
+
+            button.dataset.available = isAvailable;
+            button.dataset.value = horarioData ? horarioData.hour : ''; 
+            
+            
+            if (!isAvailable) {
+                // DESABILITADO
+                button.className = 'btn outline disabled'; 
                 button.disabled = true;
                 button.style.cursor = 'not-allowed';
                 button.style.opacity = '0.6';
+            } else {
+                // HABILITADO
+                button.className = 'btn outline'; 
+                button.disabled = false;
+                button.style.cursor = 'pointer';
+                button.style.opacity = '1';
             }
         }
-    //     // horarios.forEach(horario => {
-    //     //     const button = document.getElementById('7h10');
-    //     //     button.class = horario.available ? 'btn outline' : 'btn outline disabled';
-    //     //     // button.textContent = horario.hour;
-    //     //     // button.dataset.value = horario.hour;
-    //     //     button.dataset.available = horario.available;
-
-    //     //     if (!horario.available) {
-    //     //         button.disabled = true;
-    //     //         button.style.cursor = 'not-allowed';
-    //     //         button.style.opacity = '0.6';
-    //     //     }
-    //         // timeSlotsContainer.appendChild(button);
-    //     });
     }
-
-    //     function updateHourButtons(horarios) {
-    //     // Limpa apenas os botões dentro das seções, mantendo os rótulos e estrutura
-    //     document.querySelectorAll('#time-slots .buttons').forEach(div => div.innerHTML = '');
-
-    //     horarios.forEach(horario => {
-    //         // const button = document.createElement('button');
-    //         // button.classList.add('btn', 'outline');
-    //         // button.textContent = horario.hour;
-    //         // button.dataset.value = horario.hour;
-    //         // button.dataset.available = horario.available;
-
-    //         if (!horario.available) {
-    //             button.disabled = true;
-    //             button.classList.add('disabled');
-    //         }
-
-    //         // Aqui, escolha o grupo de acordo com o horário
-    //         const hour = horario.hour;
-    //         let targetDiv;
-
-
-    //         if (hour.startsWith('7') || hour.startsWith('8') || hour.startsWith('9') || hour.startsWith('10') || hour.startsWith('11')) {
-    //             targetDiv = document.querySelector('#time-slots .buttons:nth-of-type(1)'); // manhã
-    //         } else if (hour.startsWith('13') || hour.startsWith('14') || hour.startsWith('15') || hour.startsWith('16') || hour.startsWith('17')) {
-    //             targetDiv = document.querySelector('#time-slots .buttons:nth-of-type(2)'); // tarde
-    //         } else {
-    //             targetDiv = document.querySelector('#time-slots .buttons:nth-of-type(3)'); // noite
-    //         }
-
-    //         if (targetDiv) targetDiv.appendChild(button);
-    //     });
-    // }
-
-    // function updateHourButtons(horarios) {
-    //     const groups = document.querySelectorAll('#time-slots .buttons');
-    //     if (groups.length < 3) return;
-
-    //     groups.forEach(div => div.innerHTML = '');
-
-    //     horarios.forEach(horario => {
-    //         const button = document.createElement('button');
-    //         button.classList.add('btn', 'outline');
-    //         button.textContent = horario.hour;
-    //         button.dataset.value = horario.hour;
-    //         button.dataset.available = horario.available;
-
-    //         if (!horario.available) {
-    //             button.disabled = true;
-    //             button.classList.add('disabled');
-    //         }
-
-    //         const hour = horario.hour;
-    //         let targetDiv = groups[2]; // padrão: noite
-    //         if (/^(7|8|9|10|11)/.test(hour)) targetDiv = groups[0];
-    //         else if (/^(13|14|15|16|17)/.test(hour)) targetDiv = groups[1];
-
-    //         targetDiv.appendChild(button);
-    //     });
-    // }
-
 
 
     function setupHourButtonListeners() {
@@ -252,6 +227,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             state.selectedKit = null;
 
+            // 💡 NOVO: Esconde a Info-Box se Horário for re-selecionado (falta o Kit)
+            toggleVisibility(infoBoxContainer, false); 
 
             updateInfo();
             fetchKits();
@@ -259,9 +236,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-
     function updateKitButtons(kits) {
-        kitButtonsContainer.innerHTML = '';
+        // ... (código existente sem alteração) ...
+        kitButtonsInner.innerHTML = '';
         kits.forEach(kit => {
             const button = document.createElement('button');
 
@@ -276,16 +253,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 button.style.cursor = 'not-allowed';
                 button.style.opacity = '0.6';
             }
-            kitButtonsContainer.appendChild(button);
+            kitButtonsInner.appendChild(button);
         });
     }
 
     function setupKitButtonListeners() {
-        kitButtonsContainer.addEventListener('click', e => {
+        kitButtonsInner.addEventListener('click', e => {
             const button = e.target.closest('button');
             if (!button || button.dataset.available === 'false') return;
 
-            kitButtonsContainer.querySelectorAll('button').forEach(btn => {
+            kitButtonsInner.querySelectorAll('button').forEach(btn => {
                 btn.classList.add('outline');
             });
 
@@ -294,21 +271,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             updateInfo();
-
+            // 💡 NOVO: O updateInfo() agora cuidará de mostrar a Info-Box
         });
     }
 
     async function fetchKits() {
-        kitButtonsContainer.innerHTML = 'Selecione um horário...';
+        // ... (código existente sem alteração) ...
         state.selectedKit = null;
         updateInfo();
 
         if (!state.selectedDate || !state.selectedLabId || !state.selectedTime) {
-            kitButtonsContainer.innerHTML = 'Selecione um horário...';
+            kitButtonsInner.innerHTML = 'Selecione um horário...';
             return;
         }
 
-        kitButtonsContainer.innerHTML = 'Carregando kits...';
+        kitButtonsInner.innerHTML = 'Carregando kits...';
         try {
             const date = formatDate(state.selectedDate);
 
@@ -317,19 +294,22 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Dados dos kits:', kitData);
             if (kitData && kitData.kits && kitData.kits.length > 0) {
                 updateKitButtons(kitData.kits);
+                toggleVisibility(kitSection, true); 
             } else {
-                kitButtonsContainer.innerHTML = 'Nenhum kit disponível.';
+                kitButtonsInner.innerHTML = 'Nenhum kit disponível.';
             }
         }
         catch (error) {
             console.error('Erro ao buscar kits:', error);
-            kitButtonsContainer.innerHTML = 'Erro ao carregar kits.';
+            kitButtonsInner.innerHTML = 'Erro ao carregar kits.';
         }
     }
 
     function renderCalendar() {
+        // ... (código existente sem alteração) ...
         calendarDaysEl.innerHTML = '';
         const date = new Date(state.selectedDate);
+        
         const month = date.getMonth();
         const year = date.getFullYear();
 
@@ -376,8 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             calendarDaysEl.appendChild(dayEl);
         }
-
-        fetchLaboratories();
+        
         updateInfo();
     }
 
@@ -386,34 +365,62 @@ document.addEventListener('DOMContentLoaded', function () {
         infoLabEl.textContent = state.selectedLab || '--';
         infoHorarioEl.textContent = state.selectedTime || '--';
         infoKitsEl.textContent = state.selectedKit || '--';
+        
+        // 💡 Lógica para mostrar/esconder a Info-Box
+        const allSelected = state.selectedDate && state.selectedLab && state.selectedTime && state.selectedKit;
+        toggleVisibility(infoBoxContainer, allSelected);
+
         updateProgress();
     }
 
     function updateProgress() {
         let completedSteps = 0;
-        if (state.selectedDate) completedSteps++;
-        if (state.selectedLab) completedSteps++;
+        // Não precisamos verificar 'state.selectedDate' aqui, pois ela sempre tem um valor inicial.
+        if (state.selectedLab) completedSteps++; 
         if (state.selectedTime) completedSteps++;
         if (state.selectedKit) completedSteps++;
+        
+        // Ajustei a contagem de passos se você considerar a data como o primeiro passo já dado
+        // Se você quiser 4 passos: Data, Lab, Horário, Kit.
+        // Se a data SEMPRE tem valor: Lab, Horário, Kit = 3 passos restantes.
 
-        const progressPercentage = (completedSteps / 4) * 100;
+        const totalSteps = 4; // Data + Lab + Horário + Kit
+        let stepsCompleted = state.selectedLab ? 2 : 1; // 1 (Data) + 1 (Lab)
+        if (state.selectedTime) stepsCompleted++;
+        if (state.selectedKit) stepsCompleted++;
+        
+        // Vamos manter a lógica original, mas o check de `allSelected` em `updateInfo` é o que importa.
+        // O `completedSteps` abaixo considera Data, Lab, Hora, Kit.
+        
+        let finalSteps = 0;
+        if (state.selectedDate) finalSteps++;
+        if (state.selectedLab) finalSteps++;
+        if (state.selectedTime) finalSteps++;
+        if (state.selectedKit) finalSteps++;
+
+        const progressPercentage = (finalSteps / totalSteps) * 100;
         progressBar.style.width = `${progressPercentage}%`;
     }
 
+    
     prevMonthBtn.addEventListener('click', () => {
         state.selectedDate.setDate(1);
         state.selectedDate.setMonth(state.selectedDate.getMonth() - 1);
         resetSelections();
         renderCalendar();
+        fetchLaboratories(); 
     });
 
+    
     nextMonthBtn.addEventListener('click', () => {
         state.selectedDate.setDate(1);
         state.selectedDate.setMonth(state.selectedDate.getMonth() + 1);
         resetSelections();
         renderCalendar();
+        fetchLaboratories(); 
     });
 
+    
     calendarDaysEl.addEventListener('click', (e) => {
         const dayEl = e.target;
         if (dayEl.dataset.day && !dayEl.classList.contains('disabled')) {
@@ -427,12 +434,19 @@ document.addEventListener('DOMContentLoaded', function () {
             state.selectedDate.setDate(day);
             resetSelections();
             renderCalendar();
+            fetchLaboratories(); 
         }
     });
 
     setupLabButtonListeners();
     setupHourButtonListeners();
     setupKitButtonListeners();
+
+    
+    toggleVisibility(labSection, false);
+    toggleVisibility(timeSlotsContainer, false);
+    toggleVisibility(kitSection, false);
+    toggleVisibility(infoBoxContainer, false); // Garante que a Info-Box está escondida na inicialização
 
     renderCalendar();
 });

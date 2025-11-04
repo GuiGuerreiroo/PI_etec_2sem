@@ -178,7 +178,5 @@ hr {
   border-color: #ddd !important;
 } 
 .hidden {
-    /* Esta propriedade remove o elemento do fluxo da página, 
-       não ocupando espaço. */
     display: none; 
 }
