@@ -9,7 +9,7 @@ import CreateKitPresenter from "../modules/kit/create_kit/create_kit_presenter";
 import CreateReservationPresenter from "../modules/reservation/create_reservation/create_reservation_presenter";
 import GetKitsStatusPresenter from "../modules/kit/get_kits_status/get_kits_status_presenter";
 import GetReservationPresenter from "../modules/reservation/get_reservation/get_reservation_presenter";
-import GetUsersPresenter from "../modules/user/get_users/get_users_presenter";
+import GetAllUsersPresenter from "../modules/user/get_all_users/get_all_users_presenter";
 
 export const routes = (app: Express) => {
   app
@@ -24,7 +24,7 @@ export const routes = (app: Express) => {
   app.use("/api", AuthPresenter);
   app.use("/api", CreateUserPresenter);
   app.use("/api", GetUserPresenter);
-  app.use("/api", GetUsersPresenter);
+  app.use("/api", GetAllUsersPresenter);
 
   // laboratory routes
   app.use("/api", GetLaboratoriesStatus);

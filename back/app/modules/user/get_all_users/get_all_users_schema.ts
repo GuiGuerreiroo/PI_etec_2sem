@@ -1,6 +1,6 @@
 import { User } from "../../../shared/domain/entities/user";
 
-export async function getUsersResponse(users: User[]) {
+export async function getAllUsersResponse(users: User[]) {
     return {
         message: "Usuários retornados com sucesso",
         users: users.map((user) => ({
