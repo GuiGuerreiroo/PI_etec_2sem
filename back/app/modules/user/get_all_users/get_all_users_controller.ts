@@ -1,14 +1,14 @@
 import { ForbiddenException } from "../../../shared/helpers/exceptions";
 import { UserFromToken } from "../../../shared/middleware/jwt_middleware";
 import { Request, Response } from "express";
-import { getUsersResponse } from "./get_users_schema";
-import { GetUsersUseCase } from "./get_users_usecase";
+import { getAllUsersResponse } from "./get_all_users_schema";
+import { GetAllUsersUseCase } from "./get_all_users_usecase";
 
-export class GetUsersController {
-    constructor(private readonly usecase: GetUsersUseCase) {}
-    
+export class GetAllUsersController {
+    constructor(private readonly usecase: GetAllUsersUseCase) { }
+
     async handler(req: Request, res: Response): Promise<void> {
-        const userFromToken= req.user as UserFromToken;
+        const userFromToken = req.user as UserFromToken;
 
         const allowedRoles = ["ADMIN", "MODERATOR"];
 
@@ -18,9 +18,9 @@ export class GetUsersController {
             );
         }
 
-        const users= await this.usecase.execute();
+        const users = await this.usecase.execute();
 
-        const response= await getUsersResponse(users);
+        const response = await getAllUsersResponse(users);
 
         res.status(200).json(response);
     }
