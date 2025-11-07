@@ -384,27 +384,37 @@ async function getReservationByDay() {
     const selectedDateStr = selectedDate.toISOString().slice(0, 10);
 
     const response = await getReservationByFilter(selectedDateStr);
-    const agendaBody = document.getElementById('agendaBody');
 
-    const linha710 = agendaBody.children[0];
-    response.reservations.forEach(reservation => {
-        linha710.appendChild(window.reservationController.createEventElement(reservation.id));
-        console.log('Reservation:', reservation);
+    response.reservations.forEach(reserva => {
+      // localiza a linha pelo horário (id)
+        const row = document.getElementById(reserva.hour);
+
+        console.log(document.body.innerHTML);
+        console.log(row)
+
+        if (row) {
+            // pega todas as colunas da linha
+            const cols = row.querySelectorAll(".col-md-3");
+
+            console.log(reservation)
+
+            // ignora a primeira (é o horário)
+            for (let i = 1; i < cols.length; i++) {
+            if (cols[i].textContent.trim() === "") {
+                cols[i].textContent = reserva.userName;
+                break; // sai após preencher o primeiro campo vazio
+            }
+            }
+        }
     });
 
+    // const agendaBody = document.getElementById('agendaBody');
 
-
-
-
-
-
-
-
-
-
-
-
-    
+    // const linha710 = agendaBody.children[0];
+    // response.reservations.forEach(reservation => {
+    //     linha710.appendChild(window.reservationController.createEventElement(reservation.userName));
+    //     console.log('Reservation:', reservation);
+    // });
 }
 
 

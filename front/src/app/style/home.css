@@ -341,7 +341,6 @@ button {
 .hour {
   display: flex;
   align-items: center;
-  justify-content: space-around;
   padding-left: 8px;
   border-bottom: 1px solid black;
   color: #0d4043;
