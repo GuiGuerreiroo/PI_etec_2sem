@@ -5,7 +5,7 @@ async function userDirection(event){
         const user = JSON.parse(localStorage.getItem('user'));
     
         if (user.role === 'PROFESSOR') {
-            window.location.href = '../pages/reservation.html';
+            window.location.href = '../pages/home.html';
         }
     }
     catch(error){
