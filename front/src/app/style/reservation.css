@@ -164,7 +164,9 @@ hr {
   margin: 20px 0;
 }
 
- .btn.outline.disabled {
+
+
+.btn.disabled {
   cursor: not-allowed !important;
   opacity: 0.6 !important;
   background-color: #f0f0f0 !important;
@@ -172,11 +174,8 @@ hr {
   border-color: #ddd !important;
 }
 
-.btn.outline.disabled:hover {
+.btn.disabled:hover {
   background-color: #f0f0f0 !important;
   color: #999 !important;
   border-color: #ddd !important;
-} 
-.hidden {
-    display: none; 
 }
