@@ -10,6 +10,7 @@ import CreateReservationPresenter from "../modules/reservation/create_reservatio
 import GetKitsStatusPresenter from "../modules/kit/get_kits_status/get_kits_status_presenter";
 import GetReservationPresenter from "../modules/reservation/get_reservation/get_reservation_presenter";
 import GetAllUsersPresenter from "../modules/user/get_all_users/get_all_users_presenter";
+import GetAllReservationsPresenter from "../modules/reservation/get_all_reservations/get_all_reservations_presenter";
 
 export const routes = (app: Express) => {
   app
@@ -46,4 +47,7 @@ export const routes = (app: Express) => {
 
   // get reservation
   app.use("/api", GetReservationPresenter);
+
+  // get all get all reservations
+  app.use("/api", GetAllReservationsPresenter);
 }
