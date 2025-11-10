@@ -18,14 +18,14 @@ interface GetReservationInputInterface {
 export class GetReservationUseCase {
     constructor(private readonly reservationRepository: IReservationRepository) {}
 
-    async execute({ id, reservationFilter }: GetReservationInputInterface): Promise<ReservationMongoDTO[]> {
+    async execute({ id, reservationFilter }: GetReservationInputInterface): Promise<ReservationMongoDTO[]| []> {
         // aqui ele sempre testa o id primeiro entao nao tem problema eu passar o id do usuario pelo token dele
         const selectedReservations = id
             ? await this.reservationRepository.getReservationById(id)
             : await this.reservationRepository.getReservationsByFilter(reservationFilter);
 
         if (!selectedReservations)
-            throw new BadRequestException('Nenhuma reserva encontrada no banco');
+            return [];
 
         const reservationsArray =  Array.isArray(selectedReservations) ? selectedReservations : [selectedReservations];
 
