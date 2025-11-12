@@ -37,7 +37,7 @@ export async function getHoursStatusValidate(query: unknown): Promise<{ date: st
         throw new BadRequestException('a data não pode ser superior a 30 dias a partir de hoje');
 
     // todas as validacoes de labId
-    if (!labId || typeof labId !== 'string' || labId.length > 24)
+    if (!labId || typeof labId !== 'string' || labId.length !== 24)
         throw new BadRequestException('Id do laboratório inválido');
 
     return { date, labId };

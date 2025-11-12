@@ -1,4 +1,3 @@
-import { BadRequestException } from "../../../shared/helpers/exceptions";
 import { HOUR } from "../../../shared/domain/enums/hours";
 import { STATUS } from "../../../shared/domain/enums/status";
 import { IReservationRepository } from "../../../shared/domain/interface/IReservationRepository";
