@@ -10,11 +10,11 @@ export async function getReservationRequestValidate(query: unknown): Promise<{
     userId?: string,
     labId?: string,
     status?: STATUS
-}>{
+}> {
     if (!query || typeof query !== 'object')
         throw new BadRequestException('query strings inválida');
 
-    let {id, date, hour, userId, labId, status} = query as {
+    let { id, date, hour, userId, labId, status } = query as {
         id?: unknown;
         date?: unknown;
         hour?: unknown;
@@ -32,62 +32,62 @@ export async function getReservationRequestValidate(query: unknown): Promise<{
     if (!id && !date && !hour && !userId && !labId && !status)
         throw new BadRequestException('forneça o id ou ao menos um dos filtros de reserva: date, hour, labId, userId, status');
 
-    if (id){
-        if (typeof id !== 'string' || id.length > 24)
+    if (id) {
+        if (typeof id !== 'string' || id.length !== 24)
             throw new BadRequestException('formato do id inválido');
     }
 
-    if (date){
+    if (date) {
         if (typeof date !== 'string')
             throw new BadRequestException('formato da data inválido');
-    
+
         // formato YYYY-MM-DD
         if (!/^\d{4}-\d{2}-\d{2}$/.test(date))
             throw new BadRequestException('formato da data inválido');
-    
+
         // aqui coloquei as horas como 0 para diminuir a diferenca do fuso
         const today = new Date(new Date().setHours(0, 0, 0, 0));
-    
+
         const inputDate = new Date(date);
-    
+
         // diferenca em milisegundos
         const diffMills = inputDate.getTime() - today.getTime();
-    
+
         // diferenca em dias
         const diffDays = diffMills / (1000 * 3600 * 24);
-    
+
         //aqui coloquei -0.5 para também considerar uma margem para o fuso horario
         if (diffDays < -0.5)
             throw new BadRequestException('a data não pode ser no passado');
-    
+
         if (diffDays > 30)
-            throw new BadRequestException('a data não pode ser superior a 30 dias a partir de hoje'); 
+            throw new BadRequestException('a data não pode ser superior a 30 dias a partir de hoje');
     }
 
-    if (hour){
-       if (typeof hour !== 'string' || !isHour(hour))
-        throw new BadRequestException('hora inválida');
-       
-        hourEnum= toEnum(hour);
+    if (hour) {
+        if (typeof hour !== 'string' || !isHour(hour))
+            throw new BadRequestException('hora inválida');
+
+        hourEnum = toEnum(hour);
     }
 
-    if (labId){
-        if (typeof labId !== 'string' || labId.length > 24)
+    if (labId) {
+        if (typeof labId !== 'string' || labId.length !== 24)
             throw new BadRequestException('formato do labId inválido');
     }
 
-    if (userId){
-        if (typeof userId !== 'string' || userId.length > 24)
+    if (userId) {
+        if (typeof userId !== 'string' || userId.length !== 24)
             throw new BadRequestException('formato do userId inválido');
     }
 
-    if (status){
+    if (status) {
         if (typeof status !== 'string' || !isStatus(status))
             throw new BadRequestException('formato do status inválido');
 
-        statusEnum= toEnumStatus(status);
+        statusEnum = toEnumStatus(status);
     }
-    
+
     return {
         id: id as string | undefined,
         date: date as string | undefined,
