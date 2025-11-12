@@ -24,9 +24,7 @@
                     </button>
 
                     <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1" onclick="event.stopPropagation()">
-                        <!-- ✅ REMOVA completamente esta linha: -->
-                        <!-- <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1" onclick="event.stopPropagation()"></ul> -->
-                        
+                     
                         <li>
                             <label class="dropdown-item mb-1">
                                 <input type="checkbox" id="filter-all" checked class="form-check-input me-2"> 
@@ -45,6 +43,10 @@
                             <label class="dropdown-item">
                                 <input type="checkbox" id="filter-adm" value="adm" class="form-check-input me-2"> 
                                 Administradores
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="checkbox" id="filter-mod" value="mod" class="form-check-input me-2"> 
+                                Técnico
                             </label>
                         </li>
                     </ul>
@@ -93,19 +95,19 @@
                     </div>
 
                     <form id="userForm" action="#" method="post" class="form">
-                        <!-- Campo NAME -->
+                        
                         <div class="mb-3">
                             <label for="name" class="form-label">Nome</label>
                             <input type="text" id="name" name="name" class="form-control" required>
                         </div>
 
-                        <!-- Campo EMAIL (JÁ EXISTIA) -->
+                      
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" id="email" name="email" class="form-control" required>
                         </div>
 
-                        <!-- Campo PASSWORD -->
+                        
                         <div class="mb-3">
                             <label for="password" class="form-label">Senha</label>
                             <input type="password" id="password" name="password" class="form-control" required>
@@ -118,6 +120,7 @@
                                 <option value="">Selecione</option>
                                 <option value="PROFESSOR">Professor</option>
                                 <option value="ADMINISTRATOR">Administrador</option>
+                                <option value="MODERATOR">Técnico</option>
                             </select>
                         </div>
 

@@ -462,3 +462,9 @@ padding: 20px;
   color: white;
   border-radius: 20px;
 }
+
+.badge-moderator {
+  background-color: #1A6C7C;
+  color: white;
+  border-radius: 20px;
+}

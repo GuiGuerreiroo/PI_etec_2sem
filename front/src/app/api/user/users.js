@@ -196,7 +196,9 @@ class User {
         user.email = document.getElementById('email').value;
         
         const roleValue = document.getElementById('role').value;
-        user.role = roleValue === 'PROFESSOR' ? 'PROFESSOR' : 'ADMIN';
+        // Atualizado para incluir MODERATOR
+        user.role = roleValue === 'PROFESSOR' ? 'PROFESSOR' : 
+                   roleValue === 'MODERATOR' ? 'MODERATOR' : 'ADMIN';
 
         return user;
     }
@@ -277,7 +279,9 @@ class User {
 
             let tr = tbody.insertRow();
             
-            let roleValue = user.role === 'PROFESSOR' ? 'prof' : 'adm';
+            // Atualizado para incluir MODERATOR
+            let roleValue = user.role === 'PROFESSOR' ? 'prof' : 
+                          user.role === 'MODERATOR' ? 'mod' : 'adm';
             tr.setAttribute('data-role', roleValue);
 
             let td_nome = tr.insertCell();
@@ -287,8 +291,12 @@ class User {
             td_nome.innerText = user.name;
             td_email.innerText = user.email;
             
-            let cargoDisplay = user.role === 'PROFESSOR' ? 'Professor' : 'Administrador';
-            let badgeClass = user.role === 'PROFESSOR' ? 'badge-professor' : 'badge-admin';
+            // Atualizado para incluir MODERATOR
+            let cargoDisplay = user.role === 'PROFESSOR' ? 'Professor' : 
+                             user.role === 'MODERATOR' ? 'Técnico' : 'Administrador';
+            
+            let badgeClass = user.role === 'PROFESSOR' ? 'badge-professor' : 
+                           user.role === 'MODERATOR' ? 'badge-moderator' : 'badge-admin';
             
             td_cargo.innerHTML = `<span class="badge ${badgeClass}">${cargoDisplay}</span>`;
         }
@@ -342,8 +350,9 @@ class User {
         const allCheckbox = document.getElementById('filter-all');
         const profCheckbox = document.getElementById('filter-prof');
         const admCheckbox = document.getElementById('filter-adm');
+        const modCheckbox = document.getElementById('filter-mod'); // Novo filtro para MODERATOR
 
-        if (!allCheckbox || !profCheckbox || !admCheckbox) {
+        if (!allCheckbox || !profCheckbox || !admCheckbox || !modCheckbox) {
             console.warn('Elementos de filtro não encontrados');
             return;
         }
@@ -354,11 +363,12 @@ class User {
             if (clickedCheckbox === allCheckbox && allCheckbox.checked) {
                 profCheckbox.checked = false;
                 admCheckbox.checked = false;
-            } else if (clickedCheckbox === profCheckbox || clickedCheckbox === admCheckbox) {
+                modCheckbox.checked = false;
+            } else if (clickedCheckbox === profCheckbox || clickedCheckbox === admCheckbox || clickedCheckbox === modCheckbox) {
                 allCheckbox.checked = false;
             }
 
-            if (!profCheckbox.checked && !admCheckbox.checked) {
+            if (!profCheckbox.checked && !admCheckbox.checked && !modCheckbox.checked) {
                 allCheckbox.checked = true;
             }
         }
@@ -370,19 +380,21 @@ class User {
         const allCheckbox = document.getElementById('filter-all');
         const profCheckbox = document.getElementById('filter-prof');
         const admCheckbox = document.getElementById('filter-adm');
+        const modCheckbox = document.getElementById('filter-mod'); // Novo filtro para MODERATOR
         const searchInput = document.getElementById('searchInput');
 
-        if (!allCheckbox || !profCheckbox || !admCheckbox) {
+        if (!allCheckbox || !profCheckbox || !admCheckbox || !modCheckbox) {
             return;
         }
 
         let activeFilters = [];
         
         if (allCheckbox.checked) {
-            activeFilters = ['prof', 'adm'];
+            activeFilters = ['prof', 'adm', 'mod'];
         } else {
             if (profCheckbox.checked) activeFilters.push('prof');
             if (admCheckbox.checked) activeFilters.push('adm');
+            if (modCheckbox.checked) activeFilters.push('mod');
         }
 
         const tbody = document.getElementById('tbody');
@@ -495,7 +507,10 @@ class User {
         const userInfoElement = document.getElementById('userInfo');
         
         if (userInfoElement && user) {
-            userInfoElement.textContent = `${user.name} (${user.role})`;
+            // Atualizado para incluir MODERATOR
+            const roleDisplay = user.role === 'PROFESSOR' ? 'Professor' : 
+                              user.role === 'MODERATOR' ? 'Técnico' : 'Administrador';
+            userInfoElement.textContent = `${user.name} (${roleDisplay})`;
         }
     }
 }
@@ -554,7 +569,7 @@ document.addEventListener('DOMContentLoaded', function() {
  
         if (user.arrayUsuarios.length === 0 && !user.isLoading) {
             user.loadUsersFromAPI();
-        }
+        } 
         user.displayUserInfo();
     }
     
