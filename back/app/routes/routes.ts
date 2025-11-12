@@ -11,6 +11,7 @@ import GetKitsStatusPresenter from "../modules/kit/get_kits_status/get_kits_stat
 import GetReservationPresenter from "../modules/reservation/get_reservation/get_reservation_presenter";
 import GetAllUsersPresenter from "../modules/user/get_all_users/get_all_users_presenter";
 import GetAllReservationsPresenter from "../modules/reservation/get_all_reservations/get_all_reservations_presenter";
+import UpdateReservationPresenter from "../modules/reservation/update_reservation/update_reservation_presenter";
 
 export const routes = (app: Express) => {
   app
@@ -50,4 +51,7 @@ export const routes = (app: Express) => {
 
   // get all get all reservations
   app.use("/api", GetAllReservationsPresenter);
+
+  // update reservation
+  app.use("/api", UpdateReservationPresenter);
 }
