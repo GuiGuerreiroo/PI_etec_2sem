@@ -346,7 +346,9 @@ document.addEventListener('DOMContentLoaded', function () {
             dayEl.dataset.day = i;
             const currentDate = new Date(year, month, i);
 
-            if (currentDate < normalizedToday || currentDate > maxDate) {
+            // ⭐️ MODIFICAÇÃO AQUI: Adicionado '|| currentDate.getDay() === 0'
+            // Onde 0 representa Domingo
+            if (currentDate < normalizedToday || currentDate > maxDate || currentDate.getDay() === 0) {
                 dayEl.classList.add('disabled');
                 dayEl.style.color = '#ccc';
             }
