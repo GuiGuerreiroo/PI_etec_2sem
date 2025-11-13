@@ -1,0 +1,18 @@
+async function getAllMaterials() {
+    try{
+        const response = await axios.get(
+            `http://localhost:3000/api/materials`,
+            {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`
+                }
+            } 
+        );
+        console.log("Resposta da API:");
+        console.log(response.data);
+        return response.data;
+    }
+    catch (error) {
+        console.error("Erro ao obter materiais: ", error);
+    }
+}

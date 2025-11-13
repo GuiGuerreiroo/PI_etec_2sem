@@ -16,8 +16,7 @@ async function createMaterial(name, reusable, totalQuantity) {
         );
         console.log("Resposta da API:");
         console.log(response.data);
-        localStorage.setItem("material", JSON.stringify(response.data));
-        localStorage.setItem("materialId", JSON.stringify(response.data.materialId));
+        return response.data;
     }
     catch (error) {
         console.error("Erro ao criar material: ", error);

@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const cards = document.querySelectorAll('.item-card');
+  // const cards = document.querySelectorAll('.item-card');
 
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      card.classList.toggle('selected');
-    });
-  });
+  // cards.forEach(card => {
+  //   card.addEventListener('click', () => {
+  //     card.classList.toggle('selected');
+  //   });
+  // });
 
   const botaoCancelar = document.querySelector('.cancelar');
   const botaoConcluir = document.querySelector('.concluir');
@@ -38,3 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+async function loadMaterials() {
+  const materials = await getAllMaterials();
+  console.log(materials);
+}

@@ -25,7 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     defaultOption.selected = true;
     combo.appendChild(defaultOption);
 
-    for (let i = 1; i <= 20; i++) {
+    const size = parseInt(document.getElementById('b500').textContent);
+
+    for (let i = 1; i <= size; i++) {
       const option = document.createElement('option');
       option.value = i;
       option.textContent = `${i}x`;

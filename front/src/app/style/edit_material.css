@@ -65,7 +65,7 @@ body {
 
 
 .title-bar-knob {
-  width: 570px;
+  width: 320px;
   height: 20px;
   background: #8c1b1b;
   border-radius: 8px;
@@ -75,7 +75,7 @@ body {
 .title-bar-line {
   height: 2px;
   flex-grow: 1;
-  width: 365px;
+  width: 490px;
   background: #8c1b1b;
 }
 
@@ -94,7 +94,7 @@ body {
 
 .item-card {
   background: #fff;
-  border: 2px solid #15747B;
+  /* border: 2px solid #15747B; */
   border-radius: 12px;
   padding: 20px;
   min-height: 190px;
@@ -174,7 +174,7 @@ body {
 .add-card {
   background: #fff;
   border-radius: 8px;
-  border: 2px solid #15747B;
+  /* border: 2px solid #15747B; */
   box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
