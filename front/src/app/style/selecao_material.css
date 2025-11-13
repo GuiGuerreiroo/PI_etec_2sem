@@ -1,0 +1,136 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f7f8f9;
+  margin: 0;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.overlay.ativo {
+  display: flex;
+}
+
+.popup {
+  background: #fff;
+  max-width: 900px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.close {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.close:hover {
+  color: #ff0000 !important;
+}
+
+.popup-content {
+  max-height: 500px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.popup-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+  background: #15747B;
+  border-radius: 4px;
+}
+
+.card {
+  background: #fff;
+  border: 2px solid #15747B;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 230px;
+  padding: 20px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card.selected {
+  background: #fff;
+  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  color: #15747B;
+  font-size: 1rem;
+  border-bottom: 1px solid #9e1b1b;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.combo-quantidade {
+  background: #15747B;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 28px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.combo-quantidade:hover {
+  background: #125e63;
+  transform: translateY(-2px);
+}
+
+.combo-quantidade:focus {
+  outline: none;
+}
+
+button.cancelar,
+button.concluir {
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.cancelar {
+  background: #9e1b1b;
+}
+
+.concluir {
+  background: #15747B;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
