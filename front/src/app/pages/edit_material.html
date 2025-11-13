@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
-<body class="body" onload="loadMaterials">
+<body class="body" onload="loadMaterials()">
 
   <div class="page-frame container py-4">
     <header class="header text-center">
@@ -51,34 +51,35 @@
     </header>
 
     <main class="panel mt-4">
-      <div class="cards-grid row g-4 justify-content-start px-3">
-
-        <div class="col-12 col-sm-6 col-lg-4">
+      <div class="cards-grid row g-4 justify-content-start px-3" id="materials-container">
+        
+        <!-- <div class="col-12 col-sm-6 col-lg-4">
           <div class="item-card">
             <h3>Becker 200ml</h3>
             <p>Quantidade <b>12x</b></p>
-            <button class="editar justify-content-center">Editar</button>
+            <button class="editar">Editar</button>
           </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-lg-4">
+        </div> -->
+        
+        <!-- <div class="col-12 col-sm-6 col-lg-4">
           <div class="item-card">
             <h3>Becker 500ml</h3>
             <p>Quantidade <b>8x</b></p>
             <button class="editar">Editar</button>
           </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-4">
+        </div> -->
+
+        <!-- <div class="col-12 col-sm-6 col-lg-4">
           <div class="add-card">
             <span>+</span>
           </div>
-        </div>
+        </div> -->
       </div>
-
-      <div class="actions d-flex justify-content-center gap-4 mt-5">
+      
+      <!-- <div class="actions d-flex justify-content-center gap-4 mt-5">
         <button class="btn cancelar">CANCELAR</button>
         <button class="btn concluir">CONCLUIR</button>
-      </div>
+      </div> -->
     </main>
   </div>
 
