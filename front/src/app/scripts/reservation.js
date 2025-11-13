@@ -346,8 +346,6 @@ document.addEventListener('DOMContentLoaded', function () {
             dayEl.dataset.day = i;
             const currentDate = new Date(year, month, i);
 
-            // ⭐️ MODIFICAÇÃO AQUI: Adicionado '|| currentDate.getDay() === 0'
-            // Onde 0 representa Domingo
             if (currentDate < normalizedToday || currentDate > maxDate || currentDate.getDay() === 0) {
                 dayEl.classList.add('disabled');
                 dayEl.style.color = '#ccc';
@@ -368,7 +366,6 @@ document.addEventListener('DOMContentLoaded', function () {
         infoHorarioEl.textContent = state.selectedTime || '--';
         infoKitsEl.textContent = state.selectedKit || '--';
         
-        // 💡 Lógica para mostrar/esconder a Info-Box
         const allSelected = state.selectedDate && state.selectedLab && state.selectedTime && state.selectedKit;
         toggleVisibility(infoBoxContainer, allSelected);
 
@@ -377,22 +374,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateProgress() {
         let completedSteps = 0;
-        // Não precisamos verificar 'state.selectedDate' aqui, pois ela sempre tem um valor inicial.
         if (state.selectedLab) completedSteps++; 
         if (state.selectedTime) completedSteps++;
         if (state.selectedKit) completedSteps++;
         
-        // Ajustei a contagem de passos se você considerar a data como o primeiro passo já dado
-        // Se você quiser 4 passos: Data, Lab, Horário, Kit.
-        // Se a data SEMPRE tem valor: Lab, Horário, Kit = 3 passos restantes.
 
         const totalSteps = 4; // Data + Lab + Horário + Kit
         let stepsCompleted = state.selectedLab ? 2 : 1; // 1 (Data) + 1 (Lab)
         if (state.selectedTime) stepsCompleted++;
         if (state.selectedKit) stepsCompleted++;
         
-        // Vamos manter a lógica original, mas o check de `allSelected` em `updateInfo` é o que importa.
-        // O `completedSteps` abaixo considera Data, Lab, Hora, Kit.
         
         let finalSteps = 0;
         if (state.selectedDate) finalSteps++;
