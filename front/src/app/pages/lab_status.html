@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+  <script src="https://kit.fontawesome.com/a2e0e6ad4a.js" crossorigin="anonymous"></script>
+  
+  <link rel="stylesheet" href="../style/lab.css"> 
+  
+  <style>
+    .status-badge, .kit-badge {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .status-badge:hover, .kit-badge:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+    
+    .kit-materials-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .material-item {
+      border-left: 4px solid #4D8D99;
+    }
+    
+    .reusable-badge {
+      background-color: #198754;
+    }
+    
+    .disposable-badge {
+      background-color: #ffc107;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container-list"> 
+
+    <div class="top-bar p-2 shadow-sm d-flex justify-content-center">
+        
+        <div class="filters-container justify-content-center"> 
+            
+            <div class="dropdown">
+                <button class="filter-btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Status <i class="fas fa-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu p-2">
+                    <li><label class="dropdown-item"><input type="checkbox" checked class="form-check-input me-2"> Todos</label></li>
+                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Concluído</label></li>
+                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Pendente</label></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <button class="filter-btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Laboratório <i class="fas fa-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu p-2">
+                    <li><label class="dropdown-item"><input type="checkbox" checked class="form-check-input me-2"> Todos</label></li>
+      
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <button class="filter-btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Data <i class="fas fa-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu p-2">
+                    <li><label class="dropdown-item"><input type="checkbox" checked class="form-check-input me-2"> Todos</label></li>
+                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Últimos 7 dias</label></li>
+                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Últimos 30 dias</label></li>
+                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Últimos 90 dias</label></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg p-3">
+        <div class="table-responsive">
+            <table class="table table-custom table-hover">
+                <thead>
+                    <tr>
+                        <th>Professor</th>
+                        <th>Status</th>
+                        <th>Kit</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Laboratório</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As reservas serão carregadas dinamicamente pelo JavaScript -->
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                            <div class="mt-2">Carregando reservas...</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+  </div> 
+
+  <!-- Modal para detalhes do Kit -->
+  <div class="modal fade" id="kitMaterialsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">
+            <i class="fas fa-box me-2"></i>
+            Detalhes do Kit
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <strong>Nome do Kit:</strong>
+              <span id="kitName" class="ms-2">-</span>
+            </div>
+            <div class="col-md-6">
+              <strong>Origem:</strong>
+              <span id="kitOrigin" class="ms-2">-</span>
+            </div>
+          </div>
+          
+          <hr>
+          
+          <h6 class="mb-3">
+            <i class="fas fa-tools me-2"></i>
+            Materiais do Kit
+          </h6>
+          
+          <div class="kit-materials-list" id="kitMaterialsList">
+            
+            <div class="text-center text-muted py-3">
+              Nenhum material encontrado
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-times me-2"></i>
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../api/lab/lab_status.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
