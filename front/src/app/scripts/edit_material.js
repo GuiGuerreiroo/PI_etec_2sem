@@ -83,3 +83,31 @@ async function loadMaterials() {
   plusCard.appendChild(addCard);
   materialContainer.appendChild(plusCard);
 }
+
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".add-card")) {
+    document.getElementById("popupOverlay").style.display = "flex";
+  }
+});
+
+document.getElementById("popupCancelar").addEventListener("click", () => {
+  document.getElementById("popupOverlay").style.display = "none";
+});
+
+document.getElementById("popupAdicionar").addEventListener("click", () => {
+
+  const nome = document.getElementById("popupNome").value;
+  const reutilizavel = document.getElementById("popupReutilizavel").value;
+  const quantidade = document.getElementById("popupQuantidade").value;
+  const unidade = document.getElementById("popupUnidade").value;
+
+  console.log("Novo Material:", nome, reutilizavel, quantidade, unidade);
+
+  alert("Material adicionado!");
+
+  document.getElementById("popupOverlay").style.display = "none";
+});
+
+function fecharPopup() {
+  document.querySelector('.popup-overlay').style.display = 'none';
+}

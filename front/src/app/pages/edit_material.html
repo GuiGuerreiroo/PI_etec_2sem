@@ -52,35 +52,41 @@
 
     <main class="panel mt-4">
       <div class="cards-grid row g-4 justify-content-start px-3" id="materials-container">
-        
-        <!-- <div class="col-12 col-sm-6 col-lg-4">
-          <div class="item-card">
-            <h3>Becker 200ml</h3>
-            <p>Quantidade <b>12x</b></p>
-            <button class="editar">Editar</button>
-          </div>
-        </div> -->
-        
-        <!-- <div class="col-12 col-sm-6 col-lg-4">
-          <div class="item-card">
-            <h3>Becker 500ml</h3>
-            <p>Quantidade <b>8x</b></p>
-            <button class="editar">Editar</button>
-          </div>
-        </div> -->
-
-        <!-- <div class="col-12 col-sm-6 col-lg-4">
-          <div class="add-card">
-            <span>+</span>
-          </div>
-        </div> -->
       </div>
-      
-      <!-- <div class="actions d-flex justify-content-center gap-4 mt-5">
-        <button class="btn cancelar">CANCELAR</button>
-        <button class="btn concluir">CONCLUIR</button>
-      </div> -->
     </main>
+  </div>
+
+
+  <div id="popupOverlay" class="popup-overlay">
+    <div class="popup-box">
+      <h2 class="popup-title">Adicionar Material</h2>
+      <button class="close-popup" onclick="fecharPopup()">✕</button>
+
+
+      <label>Nome:</label>
+      <input type="text" id="popupNome" class="popup-input">
+      <label></label>
+
+      <label>Reutilizável:</label>
+      <select id="popupReutilizavel" class="popup-input">
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+
+      <label>Quantidade:</label>
+      <input type="number" id="popupQuantidade" class="popup-input" min="1" value="1">
+
+      <!-- <label>Unidade:</label>
+      <select id="popupUnidade" class="popup-input">
+        <option value="ml">ml</option>
+        <option value="g">g</option>
+      </select> -->
+
+      <div class="popup-actions">
+        <!-- <button class="popup-btn cancelar-btn" id="popupCancelar">CANCELAR</button> -->
+        <button class="popup-btn adicionar-btn" id="popupAdicionar">ADICIONAR</button>
+      </div>
+    </div>
   </div>
 
   <script src="../scripts/edit_material.js"></script>
