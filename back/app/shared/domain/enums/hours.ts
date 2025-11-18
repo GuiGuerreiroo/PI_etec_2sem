@@ -12,6 +12,8 @@ export enum HOUR {
     "15:50"= "15:50",
     "16:40"= "16:40",
     "17:30"= "17:30",
+    "18:50"= "18:50",
+    "20:58"= "20:58"
 }
 
 export function toEnum(value: string): HOUR{
