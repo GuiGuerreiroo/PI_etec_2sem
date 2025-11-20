@@ -41,11 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadMaterials() {
   const materials = await getAllMaterials();
-  console.log(materials.material);
+  console.log(materials.materials);
 
   const materialContainer = document.getElementById('materials-container');
 
-  materials.material.forEach((material) => {
+  materials.materials.forEach((material) => {
 
     const card = document.createElement('div');
     card.className = 'col-12 col-sm-6 col-lg-4';
