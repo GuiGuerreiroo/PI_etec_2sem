@@ -14,6 +14,8 @@ import GetAllReservationsPresenter from "../modules/reservation/get_all_reservat
 import UpdateReservationPresenter from "../modules/reservation/update_reservation/update_reservation_presenter";
 import GetAllKitsPresenter from "../modules/kit/get_all_kits/get_all_kits_presenter";
 import GetAllMaterialsPresenter from "../modules/material/get_all_materials/get_all_materials_presenter";
+import DeleteUserPresenter from "../modules/user/delete_user/delete_user_presenter";
+import UpdateUserPresenter from "../modules/user/update_user/update_user_presenter";
 
 export const routes = (app: Express) => {
   app
@@ -29,6 +31,8 @@ export const routes = (app: Express) => {
   app.use("/api", CreateUserPresenter);
   app.use("/api", GetUserPresenter);
   app.use("/api", GetAllUsersPresenter);
+  app.use("/api", DeleteUserPresenter);
+  app.use("/api", UpdateUserPresenter);
 
   // laboratory routes
   app.use("/api", GetLaboratoriesStatus);
