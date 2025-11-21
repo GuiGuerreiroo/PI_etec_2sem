@@ -421,12 +421,101 @@ document.addEventListener('DOMContentLoaded', function () {
             fetchLaboratories(); 
         }
     });
+    function showSuccessPopup(reservationDetails) {
+  
+    let popup = document.getElementById('success-popup');
+    
+    if (!popup) {
+        popup = document.createElement('div');
+        popup.id = 'success-popup';
+        popup.className = 'success-popup';
+        popup.innerHTML = `
+            <div class="success-popup-content">
+                <div class="success-icon">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+                <div class="success-text">
+                    <h4>Reserva Confirmada!</h4>
+                    <p>Sua reserva foi realizada com sucesso.</p>
+                </div>
+            </div>
+            <div class="success-progress-bar">
+                <div class="success-progress-fill"></div>
+            </div>
+        `;
+        document.body.appendChild(popup);
+    }
+
+   
+    if (reservationDetails) {
+        const successText = popup.querySelector('.success-text p');
+        successText.innerHTML = `
+            <strong>Laboratório:</strong> ${reservationDetails.lab || state.selectedLab}<br>
+            <strong>Data:</strong> ${reservationDetails.date || state.selectedDate.toLocaleDateString('pt-BR')}<br>
+            <strong>Horário:</strong> ${reservationDetails.time || state.selectedTime}
+        `;
+    }
+
+
+    setTimeout(() => {
+        popup.classList.add('show');
+        
+       
+        createConfettiEffect();
+        
+       
+        setTimeout(() => {
+            popup.classList.remove('show');
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.parentNode.removeChild(popup);
+                }
+            }, 500);
+        }, 5000);
+    }, 100);
+}
+
+
+function createConfettiEffect() {
+        const colors = ['#005b5f', '#800000', '#ffd700', '#ffffff', '#008086'];
+        const confettiCount = 30;
+        
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-10px';
+            document.body.appendChild(confetti);
+            
+          
+            const animation = confetti.animate([
+                { 
+                    transform: 'translateY(0) rotate(0deg)',
+                    opacity: 1
+                },
+                { 
+                    transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: 1000 + Math.random() * 2000,
+                easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+            });
+            
+            animation.onfinish = () => {
+                if (confetti.parentNode) {
+                    confetti.parentNode.removeChild(confetti);
+                }
+            };
+        }
+    }
+
 
   
     async function saveReservation() {
         console.log('=== INICIANDO saveReservation ===');
         
-      
         if (!state.selectedDate || !state.selectedTime || !state.selectedLabId || !state.selectedKit) {
             alert('Por favor, preencha todas as informações da reserva.');
             return;
@@ -442,7 +531,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             console.log('Dados da reserva a serem enviados:', reservationData);
 
-           
             let token = localStorage.getItem('token') || 
                     localStorage.getItem('authToken') ||
                     sessionStorage.getItem('token') ||
@@ -456,11 +544,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-           
             token = token.trim().replace(/\s+/g, '').replace(/"/g, '');
             console.log('Token limpo:', token);
 
-            
             if (!token || token.split('.').length !== 3) {
                 console.error('Token mal formatado:', token);
                 alert('Token de autenticação inválido. Faça login novamente.');
@@ -482,7 +568,13 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Resposta da API:', response);
 
             if (response.status === 200 || response.status === 201) {
-                alert('Reserva realizada com sucesso!');
+               
+                showSuccessPopup({
+                    lab: state.selectedLab,
+                    date: state.selectedDate.toLocaleDateString('pt-BR'),
+                    time: state.selectedTime
+                });
+                
                 resetSelections();
                 renderCalendar();
             } else {
@@ -498,7 +590,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 if (error.response.status === 401) {
                     alert('Token inválido ou expirado. Faça login novamente.');
-                
                     localStorage.removeItem('token');
                     localStorage.removeItem('authToken');
                     window.location.href = '../index.html';
@@ -518,6 +609,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
+
    
     document.querySelector('.concluir-btn').addEventListener('click', saveReservation);
     updateProfessorInfo();
