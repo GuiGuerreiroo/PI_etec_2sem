@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IUserRepository } from "../../../../shared/domain/interface/IUserRepository";
+import { IUserRepository, UserUpdateOptions } from "../../../../shared/domain/interface/IUserRepository";
 import { User } from "../../../../shared/domain/entities/user";
 import { toEnum } from "../../../../shared/domain/enums/role";
 
@@ -99,4 +99,27 @@ export class UserRepoMongoDB implements IUserRepository {
         });
     }
 
+    async updateUser(userId: string, updateOptions: UserUpdateOptions): Promise<User | null> {
+        const updatedUserData = await UserMongo.findByIdAndUpdate(
+            userId,
+            {
+                ...updateOptions.name && { name: updateOptions.name },
+                ...updateOptions.email && { email: updateOptions.email },
+                ...updateOptions.role && { role: updateOptions.role },
+            },
+            { new: true }
+        ).exec();
+
+        if (!updatedUserData) {
+            return null;
+        }
+
+        return User.fromJson({
+            userId: updatedUserData._id.toString(),
+            name: updatedUserData.name,
+            email: updatedUserData.email,
+            role: toEnum(updatedUserData.role),
+            password: updatedUserData.password
+        });
+    }
 }
