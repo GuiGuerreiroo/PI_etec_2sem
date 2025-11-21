@@ -89,8 +89,6 @@ class ReservationsManager {
                     this.filteredReservations = [...this.reservations];
                     this.populateTable();
                     console.log('Reservas carregadas com sucesso:', this.reservations.length);
-                    
-                  
                     this.updateLabFilters();
                 } else {
                     console.error('Formato de dados inválido:', data);
@@ -110,7 +108,7 @@ class ReservationsManager {
                 this.showErrorMessage('Erro ao carregar reservas: ' + errorText);
             }
         } catch (error) {
-            console.error('🌐 Erro de conexão:', error);
+            console.error('Erro de conexão:', error);
             this.reservations = [];
             this.filteredReservations = [];
             this.showErrorMessage('Erro de conexão ao carregar reservas');
@@ -120,14 +118,10 @@ class ReservationsManager {
     }
 
     updateLabFilters() {
-
         const labNames = [...new Set(this.reservations.map(reservation => reservation.labName).filter(Boolean))];
         
         const labDropdown = document.querySelector('.dropdown:nth-child(2) .dropdown-menu');
         if (!labDropdown) return;
-
-        const todosCheckbox = labDropdown.querySelector('input[type="checkbox"]:first-child');
-        const todosLabel = labDropdown.querySelector('label:first-child');
 
         const otherCheckboxes = labDropdown.querySelectorAll('input[type="checkbox"]:not(:first-child)');
         const otherLabels = labDropdown.querySelectorAll('label:not(:first-child)');
@@ -146,7 +140,6 @@ class ReservationsManager {
             labDropdown.appendChild(listItem);
         });
         
-      
         labDropdown.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
             checkbox.addEventListener('change', (e) => {
                 e.stopPropagation();
@@ -156,9 +149,11 @@ class ReservationsManager {
     }
 
     populateTable() {
+        const tableContainer = document.querySelector('.table-container');
         const tbody = document.querySelector('.table-custom tbody');
-        if (!tbody) {
-            console.error('Elemento tbody não encontrado');
+        
+        if (!tbody || !tableContainer) {
+            console.error('Elementos da tabela não encontrados');
             return;
         }
         
@@ -198,8 +193,8 @@ class ReservationsManager {
                 });
             }
             
-            const tdData1 = tr.insertCell();
-            tdData1.textContent = this.formatDate(reservation.date);
+            const tdDataReserva = tr.insertCell();
+            tdDataReserva.textContent = this.formatDate(reservation.date);
             
             const tdHorario = tr.insertCell();
             tdHorario.textContent = reservation.hour || 'N/A';
@@ -207,8 +202,8 @@ class ReservationsManager {
             const tdLaboratorio = tr.insertCell();
             tdLaboratorio.textContent = reservation.labName || 'N/A';
             
-            const tdData2 = tr.insertCell();
-            tdData2.textContent = this.formatDate(reservation.date);
+            const tdDataCriacao = tr.insertCell();
+            tdDataCriacao.textContent = this.formatDate(reservation.createdAt || reservation.date);
         });
     }
 
@@ -379,7 +374,7 @@ class ReservationsManager {
                 this.showErrorToast(errorMessage);
             }
         } catch (error) {
-            console.error('🌐 Erro de conexão:', error);
+            console.error('Erro de conexão:', error);
             this.showErrorToast('Erro de conexão ao atualizar status. Verifique se o servidor está rodando.');
         }
     }
@@ -468,9 +463,7 @@ class ReservationsManager {
                         <div class="modal-body">
                             ${materialsHTML}
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -556,27 +549,17 @@ class ReservationsManager {
         const labFilters = this.getActiveLabFilters();
         const dateFilters = this.getActiveDateFilters();
 
-        console.log('🔍 Aplicando filtros:', { statusFilters, labFilters, dateFilters });
+        console.log(' Aplicando filtros:', { statusFilters, labFilters, dateFilters });
 
         this.filteredReservations = this.reservations.filter(reservation => {
             const matchesStatus = this.matchesStatusFilter(reservation, statusFilters);
             const matchesLab = this.matchesLabFilter(reservation, labFilters);
             const matchesDate = this.matchesDateFilter(reservation, dateFilters);
             
-            console.log(`Reserva ${reservation.id}:`, {
-                labName: reservation.labName,
-                status: reservation.status,
-                date: reservation.date,
-                matchesStatus,
-                matchesLab,
-                matchesDate,
-                matchesAll: matchesStatus && matchesLab && matchesDate
-            });
-            
             return matchesStatus && matchesLab && matchesDate;
         });
 
-        console.log(`📊 Resultado: ${this.filteredReservations.length} de ${this.reservations.length} reservas`);
+        console.log(` Resultado: ${this.filteredReservations.length} de ${this.reservations.length} reservas`);
         this.populateTable();
     }
 
@@ -697,7 +680,6 @@ class ReservationsManager {
         this.loadReservations();
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');

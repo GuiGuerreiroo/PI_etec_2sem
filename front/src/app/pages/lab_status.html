@@ -10,112 +10,78 @@
   <script src="https://kit.fontawesome.com/a2e0e6ad4a.js" crossorigin="anonymous"></script>
   
   <link rel="stylesheet" href="../style/lab.css"> 
-  
-  <style>
-    .status-badge, .kit-badge {
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    .status-badge:hover, .kit-badge:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
-    }
-    
-    .kit-materials-list {
-      max-height: 400px;
-      overflow-y: auto;
-    }
-    
-    .material-item {
-      border-left: 4px solid #4D8D99;
-    }
-    
-    .reusable-badge {
-      background-color: #198754;
-    }
-    
-    .disposable-badge {
-      background-color: #ffc107;
-      color: #000;
-    }
-  </style>
 </head>
 <body>
 
   <div class="container-list"> 
-
     <div class="top-bar p-2 shadow-sm d-flex justify-content-center">
-        
-        <div class="filters-container justify-content-center"> 
-            
-            <div class="dropdown">
-                <button class="filter-btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Status <i class="fas fa-chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu p-2">
-                    <li><label class="dropdown-item"><input type="checkbox" checked class="form-check-input me-2"> Todos</label></li>
-                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Concluído</label></li>
-                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Pendente</label></li>
-                </ul>
-            </div>
-
-            <div class="dropdown">
-                <button class="filter-btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Laboratório <i class="fas fa-chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu p-2">
-                    <li><label class="dropdown-item"><input type="checkbox" checked class="form-check-input me-2"> Todos</label></li>
-      
-                </ul>
-            </div>
-
-            <div class="dropdown">
-                <button class="filter-btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Data <i class="fas fa-chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu p-2">
-                    <li><label class="dropdown-item"><input type="checkbox" checked class="form-check-input me-2"> Todos</label></li>
-                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Últimos 7 dias</label></li>
-                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Últimos 30 dias</label></li>
-                    <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Últimos 90 dias</label></li>
-                </ul>
-            </div>
+      <div class="filters-container justify-content-center"> 
+        <div class="dropdown">
+          <button class="filter-btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Status <i class="fas fa-chevron-down"></i>
+          </button>
+          <ul class="dropdown-menu p-2">
+            <li><label class="dropdown-item"><input type="checkbox" checked class="form-check-input me-2"> Todos</label></li>
+            <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Concluído</label></li>
+            <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Pendente</label></li>
+          </ul>
         </div>
+
+        <div class="dropdown">
+          <button class="filter-btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Laboratório <i class="fas fa-chevron-down"></i>
+          </button>
+          <ul class="dropdown-menu p-2">
+            <li><label class="dropdown-item"><input type="checkbox" checked class="form-check-input me-2"> Todos</label></li>
+          </ul>
+        </div>
+
+        <div class="dropdown">
+          <button class="filter-btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Data <i class="fas fa-chevron-down"></i>
+          </button>
+          <ul class="dropdown-menu p-2">
+            <li><label class="dropdown-item"><input type="checkbox" checked class="form-check-input me-2"> Todos</label></li>
+            <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Últimos 7 dias</label></li>
+            <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Últimos 30 dias</label></li>
+            <li><label class="dropdown-item"><input type="checkbox" class="form-check-input me-2"> Últimos 90 dias</label></li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <div class="card shadow-lg p-3">
+      <div class="table-container">
         <div class="table-responsive">
-            <table class="table table-custom table-hover">
-                <thead>
-                    <tr>
-                        <th>Professor</th>
-                        <th>Status</th>
-                        <th>Kit</th>
-                        <th>Data</th>
-                        <th>Horário</th>
-                        <th>Laboratório</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- As reservas serão carregadas dinamicamente pelo JavaScript -->
-                    <tr>
-                        <td colspan="7" class="text-center text-muted py-4">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Carregando...</span>
-                            </div>
-                            <div class="mt-2">Carregando reservas...</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+          <table class="table table-custom table-hover">
+            <thead>
+              <tr>
+                <th>Professor</th>
+                <th>Status</th>
+                <th>Kit</th>
+                <th>Data da Reserva</th>
+                <th>Horário</th>
+                <th>Laboratório</th>
+                <th>Data de Criação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="7" class="text-center text-muted py-4">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                  </div>
+                  <div class="mt-2">Carregando reservas...</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
-    
   </div> 
 
-  <!-- Modal para detalhes do Kit -->
+
   <div class="modal fade" id="kitMaterialsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -146,7 +112,6 @@
           </h6>
           
           <div class="kit-materials-list" id="kitMaterialsList">
-            
             <div class="text-center text-muted py-3">
               Nenhum material encontrado
             </div>
