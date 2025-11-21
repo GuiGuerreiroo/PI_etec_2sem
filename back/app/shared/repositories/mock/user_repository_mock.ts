@@ -1,6 +1,6 @@
 import { ROLE } from "../../../shared/domain/enums/role";
 import { User } from "../../domain/entities/user";
-import { IUserRepository } from "../../domain/interface/IUserRepository";
+import { IUserRepository, UserUpdateOptions } from "../../domain/interface/IUserRepository";
 
 export class UserRepoMock implements IUserRepository {
   private users: User[] = [
@@ -67,5 +67,25 @@ export class UserRepoMock implements IUserRepository {
     }
     
     return this.users.splice(index, 1)[0];
+  }
+
+  async updateUser(userId: string, updateOptions: UserUpdateOptions): Promise<User | null> {
+    const user = this.users.find((user) => user.userId === userId);
+
+    if (!user) {
+      return null;
+    }
+
+    if (updateOptions.name !== undefined) {
+      user.name = updateOptions.name;
+    }
+    if (updateOptions.email !== undefined) {
+      user.email = updateOptions.email;
+    }
+    if (updateOptions.role !== undefined) {
+      user.role = updateOptions.role;
+    }
+
+    return user;
   }
 }
