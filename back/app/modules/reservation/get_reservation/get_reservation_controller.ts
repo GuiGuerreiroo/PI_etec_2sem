@@ -23,10 +23,19 @@ export class GetReservationController {
             }
         });
 
+        if (reservations.length === 0) {
+            const response= {
+                message: "Nenhuma reserva encontrada",
+                reservations: []
+            }
+            res.status(200).json(response); 
+        }
 
-        const response= await getReservationResponse(reservations);
-
-        res.status(200).json(response);
+        else{
+            const response= await getReservationResponse(reservations);
+    
+            res.status(200).json(response);
+        }
     }
 
 }

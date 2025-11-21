@@ -24,8 +24,6 @@ export interface IReservationRepository {
 
     getReservationsByFilter(filter: ReservationFilterOptions): Promise<ReservationMongoDTO[] | null>;
 
-    // getAvailableHour(date: string, labId: string): Promise<HOUR[]>;
-
     deleteReservationById(reservationId: string): Promise<ReservationMongoDTO | null>;
 
     updateReservationStatus(reservationId: string, reservationUpdateOptions: ReservationUpdateOptions): Promise<ReservationMongoDTO | null>;

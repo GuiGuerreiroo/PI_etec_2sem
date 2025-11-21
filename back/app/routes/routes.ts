@@ -10,6 +10,10 @@ import CreateReservationPresenter from "../modules/reservation/create_reservatio
 import GetKitsStatusPresenter from "../modules/kit/get_kits_status/get_kits_status_presenter";
 import GetReservationPresenter from "../modules/reservation/get_reservation/get_reservation_presenter";
 import GetAllUsersPresenter from "../modules/user/get_all_users/get_all_users_presenter";
+import GetAllReservationsPresenter from "../modules/reservation/get_all_reservations/get_all_reservations_presenter";
+import UpdateReservationPresenter from "../modules/reservation/update_reservation/update_reservation_presenter";
+import GetAllKitsPresenter from "../modules/kit/get_all_kits/get_all_kits_presenter";
+import GetAllMaterialsPresenter from "../modules/material/get_all_materials/get_all_materials_presenter";
 
 export const routes = (app: Express) => {
   app
@@ -30,11 +34,23 @@ export const routes = (app: Express) => {
   app.use("/api", GetLaboratoriesStatus);
 
   // material routes
+
+  // create material
   app.use("/api", CreateMaterialPresenter);
 
+  // get all materials
+  app.use("/api", GetAllMaterialsPresenter);
+
   // kit routes
+
+  // create kit
   app.use("/api", CreateKitPresenter)
+
+  // get kits status
   app.use("/api", GetKitsStatusPresenter)
+
+  // get all kits
+  app.use("/api", GetAllKitsPresenter)
 
   // reservation routes
 
@@ -46,4 +62,10 @@ export const routes = (app: Express) => {
 
   // get reservation
   app.use("/api", GetReservationPresenter);
+
+  // get all get all reservations
+  app.use("/api", GetAllReservationsPresenter);
+
+  // update reservation
+  app.use("/api", UpdateReservationPresenter);
 }

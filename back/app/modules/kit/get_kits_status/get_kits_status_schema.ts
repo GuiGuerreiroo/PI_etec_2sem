@@ -2,11 +2,11 @@ import { HOUR, isHour, toEnum } from "../../../shared/domain/enums/hours";
 import { BadRequestException } from "../../../shared/helpers/exceptions";
 import { GetKitsStatusResponseInterface } from "./get_kits_status_usecase";
 
-export async function getKitsStatusValidate(query: unknown): Promise<{date: string; hour: HOUR}> {
+export async function getKitsStatusValidate(query: unknown): Promise<{ date: string; hour: HOUR }> {
     if (!query || typeof query !== 'object')
         throw new BadRequestException('query inválida');
 
-    let {date, hour}= query as {
+    let { date, hour } = query as {
         date?: unknown;
         hour?: unknown;
     }
@@ -38,21 +38,21 @@ export async function getKitsStatusValidate(query: unknown): Promise<{date: stri
         throw new BadRequestException('a data não pode ser superior a 30 dias a partir de hoje');
 
     // // todas as validacoes de labId
-    // if (!labId || typeof labId !== 'string' || labId.length > 24)
+    // if (!labId || typeof labId !== 'string' || labId.length !== 24)
     //     throw new BadRequestException('Id do laboratório inválido');
 
     if (!hour || typeof hour !== 'string' || !isHour(hour))
         throw new BadRequestException('hora inválida');
 
-    const hourEnum= toEnum(hour);
+    const hourEnum = toEnum(hour);
 
-    return {date, hour: hourEnum };
+    return { date, hour: hourEnum };
 }
 
 export async function getKitsStatusResponse(kitsStatus: GetKitsStatusResponseInterface[]) {
     return {
         message: "Status dos kits retornado com sucesso",
-        kits: kitsStatus.map((kitsStatus) =>({
+        kits: kitsStatus.map((kitsStatus) => ({
             kit: kitsStatus.kit,
             available: kitsStatus.available
         }))
