@@ -26,6 +26,9 @@ export async function updateUserRequestValidate(body: any): Promise<{
     if (typeof id !== 'string' || id.length !== 24)
         throw new BadRequestException('formato do id inválido');
 
+    if (!name && !email && !role)
+        throw new BadRequestException('forneça ao menos um dos campos para atualizar: name, email, role');
+    
     if (name){
         if (typeof name !== 'string' || name.length < 3)
             throw new BadRequestException('formato de nome inválido');

@@ -1,5 +1,5 @@
 import { Material } from "../../../../shared/domain/entities/material";
-import { IMaterialRepository } from "../../../../shared/domain/interface/IMaterialRepository";
+import { IMaterialRepository, MaterialUpdateOptions } from "../../../../shared/domain/interface/IMaterialRepository";
 import { model, Schema, Types } from "mongoose"
 
 export interface MaterialMongoDbInterface {
@@ -79,12 +79,17 @@ export class MaterialRepoMongoDB implements IMaterialRepository{
         });
     }
 
-    async updateMaterialQuantity(materialId: string, totalQuantity: number): Promise<Material | null> {
+    async updateMaterialQuantity(materialId: string, updateOptions: MaterialUpdateOptions): Promise<Material | null> {
         console.log(materialId)
+
         const materialData= await MaterialMongo.findByIdAndUpdate(
-            new Types.ObjectId(materialId),
-            {totalQuantity: totalQuantity},
-        ).exec()
+            materialId,
+            {
+                ...updateOptions.totalQuantity && { totalQuantity: updateOptions.totalQuantity },
+                ...updateOptions.reusable && { reusable: updateOptions.reusable },
+            },
+            { new: true }
+        ).exec();
 
         console.log(materialData);
 
