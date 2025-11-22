@@ -468,3 +468,70 @@ padding: 20px;
   color: white;
   border-radius: 20px;
 }
+
+
+
+.badge-professor,
+.badge-moderator,
+.badge-admin {
+    color: white !important;
+}
+
+
+.btn.badge-professor.dropdown-toggle,
+.btn.badge-moderator.dropdown-toggle,
+.btn.badge-admin.dropdown-toggle {
+    border: none;
+    font-weight: 600;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+
+.btn.badge-professor.dropdown-toggle:hover,
+.btn.badge-moderator.dropdown-toggle:hover,
+.btn.badge-admin.dropdown-toggle:hover {
+    background-color: #1A6C7C !important;
+    border-color: #1A6C7C !important;
+    color: white !important;
+}
+
+
+.btn.badge-professor.dropdown-toggle:focus,
+.btn.badge-moderator.dropdown-toggle:focus,
+.btn.badge-admin.dropdown-toggle:focus {
+    background-color: #1A6C7C !important;
+    border-color: #1A6C7C !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.25rem rgba(26, 108, 124, 0.25) !important;
+}
+
+/* ACTIVE com a cor 1A6C7C */
+.btn.badge-professor.dropdown-toggle:active,
+.btn.badge-moderator.dropdown-toggle:active,
+.btn.badge-admin.dropdown-toggle:active,
+.btn.badge-professor.dropdown-toggle.show,
+.btn.badge-moderator.dropdown-toggle.show,
+.btn.badge-admin.dropdown-toggle.show {
+    background-color: #1A6C7C !important;
+    border-color: #1A6C7C !important;
+    color: white !important;
+}
+
+
+.dropdown-menu {
+    min-width: 150px;
+}
+
+
+.dropdown-item.active {
+    background-color: #1A6C7C;
+    color: white;
+}
+
+
+.dropdown-item:hover {
+    background-color: #1A6C7C;
+    color: white;
+}
+

@@ -134,6 +134,41 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal para Editar Cargo -->
+    <div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="editRoleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRoleModalLabel">Editar Cargo do Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editUserId">
+                    <div class="mb-3">
+                        <label class="form-label">Nome:</label>
+                        <p id="editUserName" class="form-control-plaintext fw-bold"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email:</label>
+                        <p id="editUserEmail" class="form-control-plaintext"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUserRole" class="form-label">Cargo:</label>
+                        <select class="form-select" id="editUserRole">
+                            <option value="PROFESSOR">Professor</option>
+                            <option value="MODERATOR">Técnico</option>
+                            <option value="ADMIN">Administrador</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveRoleBtn">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/front/src/app/api/user/users.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
