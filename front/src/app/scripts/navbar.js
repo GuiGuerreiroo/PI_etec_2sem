@@ -27,7 +27,7 @@ navItems.forEach(item => {
     });
 });
 
-// Fecha menu ao redimensionar para desktop
+
 window.addEventListener('resize', () => {
     if (window.innerWidth > 768) {
         menuToggle.classList.remove('active');
