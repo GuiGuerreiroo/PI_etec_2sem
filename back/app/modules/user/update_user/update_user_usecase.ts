@@ -7,6 +7,7 @@ interface UpdateUserInputInterface {
     updateOptions: UserUpdateOptions;
     isAdmin: boolean;
 }
+
 export class UpdateUserUseCase {
     constructor(private readonly userRepository: IUserRepository) {}
 
@@ -15,6 +16,10 @@ export class UpdateUserUseCase {
 
         if (!existingUser)
             throw new NotFoundException("Usuário não encontrado");
+
+        if (existingUser.isDeleted) {
+            throw new ForbiddenException("Usuário está inativo. Reative o usuário antes de atualizá-lo.");
+        }
 
         if (updateOptions.role) {
             if (!isAdmin) {
