@@ -17,7 +17,7 @@ export class DeleteUserUseCase {
             throw new NotFoundException("Usuário não encontrado");
 
         if (existingUser.role === 'ADMIN' && !isAdmin || existingUser.role === 'MODERATOR' && !isAdmin)
-            throw new ForbiddenException("Você não tem permissão para deletar um admin");
+            throw new ForbiddenException("Você não tem permissão para deletar um admin ou um técnico");
 
         const deletedUser= await this.userRepository.deleteUserById(id);
 

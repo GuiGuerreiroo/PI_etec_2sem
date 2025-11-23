@@ -17,9 +17,8 @@ export interface IKitRepository {
 
     getKitsByOrigin(origin: string): Promise<KitMongoDTO[] | null>;
 
-    // getAvailableKits(date: string, labId: string, hour: HOUR): Promise<Kit[]>;
-
-    deleteKitById(kitId: string): Promise<KitMongoDTO | null>;
+    // por enquanto nao sera usado
+    // deleteKitById(kitId: string): Promise<KitMongoDTO | null>;
 
     updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<KitMongoDTO | null>;
 }

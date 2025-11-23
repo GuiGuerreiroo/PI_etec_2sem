@@ -16,6 +16,8 @@ import GetAllKitsPresenter from "../modules/kit/get_all_kits/get_all_kits_presen
 import GetAllMaterialsPresenter from "../modules/material/get_all_materials/get_all_materials_presenter";
 import DeleteUserPresenter from "../modules/user/delete_user/delete_user_presenter";
 import UpdateUserPresenter from "../modules/user/update_user/update_user_presenter";
+import UpdateMaterialPresenter from "../modules/material/update_material/update_material_presenter";
+import UpdateKitPresenter from "../modules/kit/update_kit/update_kit_presenter";
 
 export const routes = (app: Express) => {
   app
@@ -45,6 +47,9 @@ export const routes = (app: Express) => {
   // get all materials
   app.use("/api", GetAllMaterialsPresenter);
 
+  // update material
+  app.use("/api", UpdateMaterialPresenter);
+
   // kit routes
 
   // create kit
@@ -55,6 +60,9 @@ export const routes = (app: Express) => {
 
   // get all kits
   app.use("/api", GetAllKitsPresenter)
+
+  // update kit
+  app.use("/api", UpdateKitPresenter)
 
   // reservation routes
 

@@ -8,6 +8,7 @@ export async function getAllUsersResponse(users: User[]) {
                 name: user.name,
                 role: user.role,
                 email: user.email,
+                isDeleted: user.isDeleted,
         }))
     }
 }

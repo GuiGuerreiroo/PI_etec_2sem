@@ -63,16 +63,16 @@ export class KitRepoMock implements IKitRepository {
         // return this.kits.filter((kit) => kit.origin === origin) || null;
     }
 
-    async deleteKitById(kitId: string): Promise<KitMongoDTO | null> {
-        throw BadRequestException;
-        // const index = this.kits.findIndex((kit) => kit.kitId === kitId);
+    // async deleteKitById(kitId: string): Promise<KitMongoDTO | null> {
+    //     throw BadRequestException;
+    //     // const index = this.kits.findIndex((kit) => kit.kitId === kitId);
 
-        // if (index === -1) {
-        //     return null;
-        // }
+    //     // if (index === -1) {
+    //     //     return null;
+    //     // }
 
-        // return this.kits.splice(index, 1)[0];
-    }
+    //     // return this.kits.splice(index, 1)[0];
+    // }
 
     async updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<KitMongoDTO | null> {
         throw BadRequestException;

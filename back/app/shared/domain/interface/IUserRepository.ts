@@ -5,6 +5,7 @@ export type UserUpdateOptions = {
   name?: string,
   email?: string,
   role?: ROLE,
+  isDeleted?: boolean,
 }
 
 export interface IUserRepository {
@@ -15,6 +16,8 @@ export interface IUserRepository {
     getUserById(userId: string): Promise<User | null>;
 
     getUserByEmail(email: string): Promise<User | null>;
+
+    getAllProfessors(): Promise<User[]>;
 
     deleteUserById(userId: string): Promise<User | null>;
 

@@ -14,6 +14,6 @@ export async function deleteUserRequestValidate(body: unknown): Promise<{id: str
 
 export async function deleteUserResponse() {
     return {
-        message: "Usuário deletado com sucesso",
+        message: "Usuário desativado com sucesso",
     }
 }

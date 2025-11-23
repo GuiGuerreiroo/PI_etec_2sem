@@ -16,8 +16,8 @@ export class CreateUserUseCase {
     constructor(private readonly userRepository: IUserRepository) {}
 
     async execute({name, email, roleEnum, password, isAdmin}: CreateUserDTO): Promise<User> {
-        if (roleEnum === ROLE.ADMIN && !isAdmin) {
-            throw new ForbiddenException("Apenas administradores podem criar usuários com ROLE de ADMIN");
+        if (roleEnum === ROLE.ADMIN && !isAdmin || roleEnum === ROLE.MODERATOR && !isAdmin) {
+            throw new ForbiddenException("Apenas administradores podem criar usuários com ROLE de ADMIN ou MODERATOR");
         }
 
         const existingUser = await this.userRepository.getUserByEmail(email);
