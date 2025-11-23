@@ -17,7 +17,7 @@ export class UpdateUserUseCase {
         if (!existingUser)
             throw new NotFoundException("Usuário não encontrado");
 
-        if (existingUser.isDeleted && !updateOptions.isDeleted) {
+        if (existingUser.isDeleted && updateOptions.isDeleted === undefined) {
             throw new ForbiddenException("Usuário está inativo. Reative o usuário antes de atualizá-lo.");
         }
 
