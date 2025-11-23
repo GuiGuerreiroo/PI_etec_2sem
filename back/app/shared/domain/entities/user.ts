@@ -7,6 +7,7 @@ export class User {
     public email: string,
     public role: ROLE,
     public password: string,
+    public isDeleted: boolean = false,
     public userId?: string,
   ) {}
 
@@ -15,6 +16,7 @@ export class User {
     email: string;
     role: ROLE;
     password: string;
+    isDeleted: boolean;
     userId?: string;
   } {
     return {
@@ -22,6 +24,7 @@ export class User {
       email: this.email,
       role: this.role,
       password: this.password,
+      isDeleted: this.isDeleted,
       userId: this.userId,
     };
   }
@@ -31,8 +34,9 @@ export class User {
     email: string;
     role: ROLE;
     password: string;
+    isDeleted: boolean;
     userId?: string;
   }): User {
-    return new User(json.name, json.email, json.role, json.password, json.userId);
+    return new User(json.name, json.email, json.role, json.password, json.isDeleted, json.userId);
   }
 }

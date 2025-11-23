@@ -1,11 +1,12 @@
 import { User } from "../entities/user";
+import { ROLE } from "../enums/role";
 
-// export type UserUpdateOptions = {
-//   name?: string,
-//   email?: string,
-//   role?: ROLE,
-//   password?: string 
-// }
+export type UserUpdateOptions = {
+  name?: string,
+  email?: string,
+  role?: ROLE,
+  isDeleted?: boolean,
+}
 
 export interface IUserRepository {
     createUser(user: User): Promise<User>;
@@ -16,9 +17,9 @@ export interface IUserRepository {
 
     getUserByEmail(email: string): Promise<User | null>;
 
+    getAllProfessors(): Promise<User[]>;
+
     deleteUserById(userId: string): Promise<User | null>;
 
-    // ver se vamos usar
-
-    // updateUser(userId: string, updateOptions: UserUpdateOptions): Promise<User | null>;
+    updateUser(userId: string, updateOptions: UserUpdateOptions): Promise<User | null>;
 }

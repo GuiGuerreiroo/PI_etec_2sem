@@ -42,6 +42,7 @@ export async function getUserResponse(selectedUser: User) {
             name: selectedUser.name,
             role: selectedUser.role,
             email: selectedUser.email,
+            isDeleted: selectedUser.isDeleted,
         }
     };
 }

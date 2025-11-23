@@ -7,7 +7,7 @@ import { UpdateReservationUseCase } from "./update_reservation_usecase";
 export class UpdateReservationController {
     constructor(private readonly usecase: UpdateReservationUseCase) {}
 
-    async handler(req: Request, res: Response): Promise<void> {
+    async handler(req: Request, res: Response) {
         const userFromToken= req.user as UserFromToken;
 
         const allowedRoles = ["ADMIN", "MODERATOR"];

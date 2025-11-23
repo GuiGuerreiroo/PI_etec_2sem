@@ -42,6 +42,7 @@ export async function createUserResponse(newUser: User) {
             name: newUser.name,
             email: newUser.email,
             role: newUser.role,
+            isDeleted: newUser.isDeleted,
         }
     }
 }
