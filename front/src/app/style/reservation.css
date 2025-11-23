@@ -123,6 +123,20 @@ h2 {
   border-color: rgba(0, 91, 95, 0.3);
 }
 
+.calendar .selected:hover {
+  background: linear-gradient(135deg, #800000 0%, #b30000 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+  transform: none !important;
+  box-shadow: 0 4px 8px rgba(128, 0, 0, 0.3) !important;
+  cursor: default !important;
+}
+
+.calendar div:not(.weekday):not(.disabled):not(.selected):hover {
+  background: rgba(0, 91, 95, 0.1);
+  border-color: rgba(0, 91, 95, 0.3);
+}
+
 .calendar .weekday {
   font-weight: 600;
   color: #005b5f;
@@ -311,7 +325,7 @@ hr {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: linear-gradient(135deg, #005b5f 0%, #008086 100%);
+    background: linear-gradient(135deg, #15a066 0%, #4edf96 100%);
     color: white;
     padding: 20px 25px;
     border-radius: 16px;
