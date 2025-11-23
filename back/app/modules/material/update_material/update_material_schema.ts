@@ -22,7 +22,7 @@ export async function updateMaterialRequestValidate(body: unknown): Promise<{ id
         throw new BadRequestException("forneça ao menos um dos campos para atualizar: totalQuantity, reusable");
 
     if (totalQuantity) {
-        if (typeof totalQuantity !== 'number' || totalQuantity < 1) {
+        if (typeof totalQuantity !== 'number' || totalQuantity < 0) {
             throw new BadRequestException("quantidade total inválida");
         }
     }

@@ -46,15 +46,15 @@ export class MaterialRepoMock implements IMaterialRepository {
         return this.materials.find((material) => material.materialId === materialId) || null;
     }
 
-    async deleteMaterialById(materialId: string): Promise<Material | null> {
-        const index= this.materials.findIndex((material) => material.materialId === materialId)
+    // async deleteMaterialById(materialId: string): Promise<Material | null> {
+    //     const index= this.materials.findIndex((material) => material.materialId === materialId)
 
-        if (index === -1){
-            return null
-        }
+    //     if (index === -1){
+    //         return null
+    //     }
         
-        return this.materials.splice(index, 1)[0]
-    }
+    //     return this.materials.splice(index, 1)[0]
+    // }
 
     async updateMaterialQuantity(materialId: string, updateOptions: MaterialUpdateOptions): Promise<Material | null> {
         const material= this.materials.find((material) => material.materialId === materialId)|| null;

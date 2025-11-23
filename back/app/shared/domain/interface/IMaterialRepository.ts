@@ -12,7 +12,8 @@ export interface IMaterialRepository {
 
     getMaterialById(materialId: string): Promise<Material | null>;
 
-    deleteMaterialById(materialId: string): Promise<Material | null>;
+    //por enquanto nao sera usado
+    // deleteMaterialById(materialId: string): Promise<Material | null>;
 
     updateMaterialQuantity(materialId: string, updateOptions: MaterialUpdateOptions): Promise<Material | null>;
 
