@@ -67,6 +67,9 @@ export class CreateReservationUseCase {
                 const material = selectedMaterial.material;
 
                 if (material.reusable === false) {
+                    if (material.totalQuantity < selectedMaterial.selectedQuantity) {
+                        throw new DatabaseException("Erro ao atualizar a quantidade do material, reserva não foi criada");
+                    }
                     const response = await this.materialRepository.adjustMaterialQuantity(material.materialId!, (-selectedMaterial.selectedQuantity));
 
                     if (response === null)

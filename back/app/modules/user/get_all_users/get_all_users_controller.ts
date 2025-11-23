@@ -3,6 +3,7 @@ import { UserFromToken } from "../../../shared/middleware/jwt_middleware";
 import { Request, Response } from "express";
 import { getAllUsersResponse } from "./get_all_users_schema";
 import { GetAllUsersUseCase } from "./get_all_users_usecase";
+import { toEnum } from "../../../shared/domain/enums/role";
 
 export class GetAllUsersController {
     constructor(private readonly usecase: GetAllUsersUseCase) { }
@@ -17,8 +18,11 @@ export class GetAllUsersController {
                 "Você não tem permissão para acessar este recurso"
             );
         }
-
-        const users = await this.usecase.execute();
+    
+        const users = await this.usecase.execute({
+            userFromTokenRole: toEnum(userFromToken.role)
+        }
+    );
 
         const response = await getAllUsersResponse(users);
 

@@ -10,20 +10,30 @@ export class UpdateUserController {
     async handler(req: Request, res: Response) {
         const userFromToken= req.user as UserFromToken;
 
-        const allowedRoles = ["ADMIN"];
+        const allowedRoles = ["ADMIN", "MODERATOR"];
 
-        if (!allowedRoles.includes(userFromToken.role)) 
-            throw new ForbiddenException("Você não tem permissão para acessar este recurso");
+        if (!allowedRoles.includes(userFromToken.role)) {
+            throw new ForbiddenException(
+                "Você não tem permissão para acessar este recurso"
+            );
+        }
 
-        const { id, name, email, role }= await updateUserRequestValidate(req.body);
+        let isAdmin= false;
+
+        if (userFromToken.role === "ADMIN")
+            isAdmin= true;
+
+        const { id, name, email, role, isDeleted }= await updateUserRequestValidate(req.body);
 
         const updatedUser= await this.usecase.execute({
             id,
             updateOptions: {
                 name,
                 email,
-                role
-            }
+                role,
+                isDeleted
+            },
+            isAdmin
         })
 
         const response= await updateUserResponse(updatedUser);

@@ -31,6 +31,10 @@ export class AuthUseCase {
         if (!user)
             throw new NotFoundException("Usuário não está no banco");
 
+        if (user.isDeleted){
+            throw new ForbiddenException("Usuário desativado. Entre em contato com o administrador para reativá-lo.");
+        }
+
         const validPassword = await Encrypt.verifyPassword(password, user.password);
 
         if (!validPassword)

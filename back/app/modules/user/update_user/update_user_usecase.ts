@@ -5,15 +5,31 @@ import { ForbiddenException, NotFoundException } from "../../../shared/helpers/e
 interface UpdateUserInputInterface {
     id: string;
     updateOptions: UserUpdateOptions;
+    isAdmin: boolean;
 }
 export class UpdateUserUseCase {
     constructor(private readonly userRepository: IUserRepository) {}
 
-    async execute({id, updateOptions}: UpdateUserInputInterface): Promise<User> {
+    async execute({id, updateOptions, isAdmin}: UpdateUserInputInterface): Promise<User> {
         const existingUser= await this.userRepository.getUserById(id);
 
         if (!existingUser)
             throw new NotFoundException("Usuário não encontrado");
+
+        if (updateOptions.role) {
+            if (!isAdmin) {
+                throw new ForbiddenException("Apenas administradores podem alterar o ROLE do usuário");
+            }
+        }
+
+        // aqui garanto que os tecnicos só podem reativar professores
+        if (updateOptions.isDeleted){
+            if (!isAdmin) {
+                if (existingUser.role !== "PROFESSOR"){
+                    throw new ForbiddenException("Apenas administradores podem reativar usuários que não sejam PROFESSOR");
+                }
+            }
+        }
 
 
         const updatedUser= await this.userRepository.updateUser(id, updateOptions);

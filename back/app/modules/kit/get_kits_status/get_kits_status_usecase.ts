@@ -39,10 +39,24 @@ export class GetKitsStatusUseCase {
 
             const allKitsAvailable = kitsForEveryOne.concat(kitsForSpecificUser);
 
-            return allKitsAvailable.map((kit) => ({
-                kit: kit,
-                available: true
-            }));
+            return allKitsAvailable.map((kit) => {
+                
+                const isKitAvailable = kit.materials.every((selectedMaterial) => {
+                    const quantitySelected = selectedMaterial.selectedQuantity;
+                    const totalQuantity = selectedMaterial.material.totalQuantity;
+
+                    if (totalQuantity <= 0 || quantitySelected > totalQuantity) {
+                        return false;
+                    }
+                    
+                    return true;
+                });
+
+                return {
+                    kit: kit,
+                    available: isKitAvailable
+                };
+            }); 
         }
 
         else {
@@ -93,7 +107,7 @@ export class GetKitsStatusUseCase {
                     const materialInfo = selectedMaterial.material;
 
                     const quantitySelected = selectedMaterial.selectedQuantity;
-                    
+
                     const totalQuantity = selectedMaterial.material.totalQuantity;
 
                     const key = `${materialInfo.name}-${materialInfo.size}`
@@ -101,7 +115,7 @@ export class GetKitsStatusUseCase {
                     const existingMaterialdata = reservedMaterialsMap.get(key)
 
                     if (existingMaterialdata) {
-                        if (existingMaterialdata.selectedQuantity >= existingMaterialdata.totalQuantity || existingMaterialdata.totalQuantity === 0 || ((existingMaterialdata.selectedQuantity + quantitySelected) > existingMaterialdata.totalQuantity)) {
+                        if (existingMaterialdata.selectedQuantity >= totalQuantity || totalQuantity <= 0 || ((existingMaterialdata.selectedQuantity + quantitySelected) > totalQuantity)) {
                             return false
                         }
                         else {
@@ -109,7 +123,7 @@ export class GetKitsStatusUseCase {
                         }
                     }
                     else {
-                        if (quantitySelected > totalQuantity) {
+                        if (quantitySelected > totalQuantity || totalQuantity <= 0) {
                             return false
                         }
                         else {
