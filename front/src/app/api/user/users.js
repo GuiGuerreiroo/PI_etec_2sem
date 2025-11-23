@@ -269,6 +269,7 @@ class User {
                 
                 this.clearForm();
                 this.showToast('Usuário criado com sucesso!', 'success');
+               
                 
             } catch (error) {
                 console.error(' ERRO NO SAVE:', error);
@@ -357,6 +358,24 @@ class User {
         this.id++;
     }
 
+   
+    shouldDisplayUser(user) {
+        const currentUser = this.currentUser;
+        
+    
+        if (currentUser.role === 'ADMIN') {
+            return true;
+        }
+        
+      
+        if (currentUser.role === 'MODERATOR') {
+            return user.role === 'PROFESSOR';
+        }
+        
+       
+        return false;
+    }
+
     tableList() {
         let tbody = document.getElementById('tbody');
         if (!tbody) {
@@ -369,20 +388,47 @@ class User {
         for (let i = 0; i < this.arrayUsuarios.length; i++) {
             let user = this.arrayUsuarios[i];
 
+            
+            if (!this.shouldDisplayUser(user)) {
+                continue;
+            }
+
             let tr = tbody.insertRow();
+            
+         
+            if (user.isDeleted) {
+                tr.classList.add('user-deleted');
+            }
             
             let roleValue = user.role === 'PROFESSOR' ? 'prof' : 
                           user.role === 'MODERATOR' ? 'mod' : 'adm';
             tr.setAttribute('data-role', roleValue);
             tr.setAttribute('data-user-id', user.id);
+            tr.setAttribute('data-is-deleted', user.isDeleted);
 
             let td_nome = tr.insertCell();
             let td_email = tr.insertCell();
             let td_cargo = tr.insertCell();
+            let td_status = tr.insertCell(); 
             let td_acoes = tr.insertCell();
 
             td_nome.innerText = user.name;
             td_email.innerText = user.email;
+            
+  
+            if (user.isDeleted) {
+                td_nome.style.textDecoration = 'line-through';
+                td_email.style.textDecoration = 'line-through';
+                td_nome.style.opacity = '0.6';
+                td_email.style.opacity = '0.6';
+            }
+            
+         
+            if (user.isDeleted) {
+                td_status.innerHTML = '<span class="badgeDesativado">Desativado</span>';
+            } else {
+                td_status.innerHTML = '<span class="badgeAtivo">Ativo</span>';
+            }
             
             if (this.currentUser.role === 'ADMIN') {
                 td_cargo.innerHTML = this.generateRoleDropdown(user);
@@ -442,6 +488,12 @@ class User {
         const user = this.arrayUsuarios.find(u => u.id === userId);
         if (!user) {
             this.showToast('Usuário não encontrado!', 'error');
+            return;
+        }
+
+       
+        if (this.currentUser.role !== 'ADMIN') {
+            this.showToast('Você não tem permissão para alterar cargos!', 'warning');
             return;
         }
 
@@ -517,10 +569,31 @@ class User {
             return '<span class="text-muted">-</span>';
         }
         
+       
+        if (user.isDeleted) {
+            if (currentUser.role === 'MODERATOR' && user.role === 'PROFESSOR') {
+               
+                return `
+                    <button class="btn btn-outline-success btn-sm" data-action="reactivate" data-user-id="${user.id}" title="Reativar usuário">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                `;
+            } else if (currentUser.role === 'ADMIN') {
+           
+                return `
+                    <button class="btn btn-outline-success btn-sm" data-action="reactivate" data-user-id="${user.id}" title="Reativar usuário">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                `;
+            }
+            return '<span class="text-muted">-</span>';
+        }
+        
+
         if (currentUser.role === 'MODERATOR') {
             if (user.role === 'PROFESSOR') {
                 return `
-                    <button class="btn btn-outline-danger btn-sm" data-action="delete" data-user-id="${user.id}" title="Deletar usuário">
+                    <button class="btn btn-outline-danger btn-sm" data-action="delete" data-user-id="${user.id}" title="Desativar usuário">
                         <i class="fas fa-trash"></i>
                     </button>
                 `;
@@ -531,7 +604,7 @@ class User {
         if (currentUser.role === 'ADMIN') {
             if (user.id !== currentUser.id) {
                 return `
-                    <button class="btn btn-outline-danger btn-sm" data-action="delete" data-user-id="${user.id}" title="Deletar usuário">
+                    <button class="btn btn-outline-danger btn-sm" data-action="delete" data-user-id="${user.id}" title="Desativar usuário">
                         <i class="fas fa-trash"></i>
                     </button>
                 `;
@@ -544,28 +617,39 @@ class User {
     }
 
     setupActionButtons() {
+
         document.querySelectorAll('[data-action="delete"]').forEach(button => {
             button.addEventListener('click', (e) => {
                 const userId = e.target.closest('button').getAttribute('data-user-id');
                 this.confirmDeleteUser(userId);
             });
         });
+        
+    
+        document.querySelectorAll('[data-action="reactivate"]').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const userId = e.target.closest('button').getAttribute('data-user-id');
+                this.confirmReactivateUser(userId);
+            });
+        });
     }
+
 
     async confirmDeleteUser(userId) {
         const user = this.arrayUsuarios.find(u => u.id === userId);
         if (!user) return;
 
         const confirmDelete = await this.showConfirmation(
-            `Tem certeza que deseja deletar o usuário "<strong>${user.name}</strong>" (${user.email})?`
+            `Tem certeza que deseja desativar o usuário "<strong>${user.name}</strong>" (${user.email})?`
         );
         
         if (confirmDelete) {
-            await this.deleteUser(userId);
+            await this.softDeleteUser(userId);
         }
     }
 
-    async deleteUser(userId) {
+
+    async softDeleteUser(userId) {
         if (this.isLoading) return;
         this.isLoading = true;
 
@@ -584,18 +668,70 @@ class User {
 
             if (!response.ok) {
                 const errorText = await response.text();
-                throw new Error(errorText || 'Erro ao deletar usuário');
+                throw new Error(errorText || 'Erro ao desativar usuário');
             }
 
             const result = await response.json();
-            console.log('Usuário deletado:', result);
+            console.log('Usuário desativado:', result);
 
             await this.loadUsersFromAPI();
-            this.showToast('Usuário deletado com sucesso!', 'success');
+            this.showToast('Usuário desativado com sucesso!', 'success');
 
         } catch (error) {
-            console.error('Erro ao deletar usuário:', error);
-            this.showToast('Erro ao deletar usuário: ' + error.message, 'error');
+            console.error('Erro ao desativar usuário:', error);
+            this.showToast('Erro ao desativar usuário: ' + error.message, 'error');
+        } finally {
+            this.isLoading = false;
+        }
+    }
+
+
+    async confirmReactivateUser(userId) {
+        const user = this.arrayUsuarios.find(u => u.id === userId);
+        if (!user) return;
+
+        const confirmReactivate = await this.showConfirmation(
+            `Tem certeza que deseja reativar o usuário "<strong>${user.name}</strong>" (${user.email})?`
+        );
+        
+        if (confirmReactivate) {
+            await this.reactivateUser(userId);
+        }
+    }
+
+ 
+    async reactivateUser(userId) {
+        if (this.isLoading) return;
+        this.isLoading = true;
+
+        try {
+            const token = this.getToken();
+            const response = await fetch('http://localhost:3000/api/user', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    id: userId,
+                    isDeleted: false
+                })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || 'Erro ao reativar usuário');
+            }
+
+            const result = await response.json();
+            console.log('Usuário reativado:', result);
+
+            await this.loadUsersFromAPI();
+            this.showToast('Usuário reativado com sucesso!', 'success');
+
+        } catch (error) {
+            console.error('Erro ao reativar usuário:', error);
+            this.showToast('Erro ao reativar usuário: ' + error.message, 'error');
         } finally {
             this.isLoading = false;
         }
@@ -733,62 +869,77 @@ class User {
        
     }
 
-    async loadUsersFromAPI() {
-        if (this.isLoading) {
-            console.log(' Carregamento já em andamento...');
-            return;
+ensureIsDeletedField() {
+    this.arrayUsuarios = this.arrayUsuarios.map(user => {
+       
+        if (user.isDeleted === undefined) {
+            user.isDeleted = false;
         }
+        return user;
+    });
+}
 
-        const token = this.getToken();
-        if (!token) {
-            console.error('Token não disponível para carregar usuários');
-            return;
-        }
 
-        this.isLoading = true;
+async loadUsersFromAPI() {
+    if (this.isLoading) {
+        console.log(' Carregamento já em andamento...');
+        return;
+    }
 
-        try {
-            const url = 'http://localhost:3000/api/users';
-            console.log(' Carregando usuários de:', url);
+    const token = this.getToken();
+    if (!token) {
+        console.error('Token não disponível para carregar usuários');
+        return;
+    }
+
+    this.isLoading = true;
+
+    try {
+        const url = 'http://localhost:3000/api/users';
+        console.log(' Carregando usuários de:', url);
+        
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        console.log(' Status da resposta:', response.status);
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(' Dados recebidos:', data);
             
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            console.log(' Status da resposta:', response.status);
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log(' Dados recebidos:', data);
+            if (data.users && Array.isArray(data.users)) {
+                this.arrayUsuarios = data.users;
                 
-                if (data.users && Array.isArray(data.users)) {
-                    this.arrayUsuarios = data.users;
-                    this.tableList();
-                    console.log(' Usuários carregados com sucesso:', this.arrayUsuarios.length);
-                } else {
-                    console.error(' Formato de dados inválido:', data);
-                    this.arrayUsuarios = [];
-                }
+               
+                this.ensureIsDeletedField();
                 
-            } else if (response.status === 401) {
-                console.log(' Não autorizado - redirecionando para login');
-                this.handleUnauthorized();
+                this.tableList();
+                console.log(' Usuários carregados com sucesso:', this.arrayUsuarios.length);
             } else {
-                const errorText = await response.text();
-                console.error(' Erro ao carregar usuários:', response.status, errorText);
+                console.error(' Formato de dados inválido:', data);
                 this.arrayUsuarios = [];
             }
-        } catch (error) {
-            console.error(' Erro ao carregar usuários:', error);
+            
+        } else if (response.status === 401) {
+            console.log(' Não autorizado - redirecionando para login');
+            this.handleUnauthorized();
+        } else {
+            const errorText = await response.text();
+            console.error(' Erro ao carregar usuários:', response.status, errorText);
             this.arrayUsuarios = [];
-        } finally {
-            this.isLoading = false;
         }
+    } catch (error) {
+        console.error(' Erro ao carregar usuários:', error);
+        this.arrayUsuarios = [];
+    } finally {
+        this.isLoading = false;
     }
+}
 
     logout() {
         localStorage.removeItem('token');

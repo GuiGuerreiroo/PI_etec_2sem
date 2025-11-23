@@ -535,3 +535,35 @@ padding: 20px;
     color: white;
 }
 
+
+
+.user-deleted {
+    background-color: #f8f9fa !important;
+}
+
+.user-deleted td {
+    color: #6c757d !important;
+}
+
+.badgeAtivo {
+    background-color: #417b85 !important;
+    color: white !important;
+    border-radius: 12px !important;
+    padding: 6px 12px !important;
+    font-weight: 500 !important;
+    font-size: 0.8rem !important;
+    border: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.badgeDesativado {
+    background-color: #6c757d !important;
+    color: white !important;
+    border-radius: 12px !important;
+    padding: 6px 12px !important;
+    font-weight: 500 !important;
+    font-size: 0.8rem !important;
+    border: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+

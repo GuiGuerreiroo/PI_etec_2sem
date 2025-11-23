@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hub de Usuários</title> 
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <link rel="stylesheet" href="../style/user.css"> 
 </head>
@@ -24,21 +25,21 @@
                     </button>
 
                     <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1" onclick="event.stopPropagation()">
-                     
+
                         <li>
                             <label class="dropdown-item mb-1">
                                 <input type="checkbox" id="filter-all" checked class="form-check-input me-2"> 
                                 Todos
                             </label>
                         </li>
-                        
+
                         <li>
                             <label class="dropdown-item mb-1">
                                 <input type="checkbox" id="filter-prof" value="prof" class="form-check-input me-2"> 
                                 Professores
                             </label>
                         </li>
-                        
+
                         <li>
                             <label class="dropdown-item">
                                 <input type="checkbox" id="filter-adm" value="adm" class="form-check-input me-2"> 
@@ -56,17 +57,18 @@
         
         <div class="card p-3 shadow-lg">
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover align-middle">
                     <thead>
                         <tr>
                             <th>Nome</th>
                             <th>Email</th>
                             <th>Cargo</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody">
-                        
-                        </tbody>
+
+                    <tbody id="tbody"></tbody>
+
                 </table>
             </div>
             
@@ -79,45 +81,43 @@
             </div>
         </div>
     </div>
-    
+
+ 
     <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title" id="createUserModalLabel">Criar Novo Usuário</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 
                 <div class="modal-body pt-0">
                     <div class="text-center mb-3 logo-container">
-                        <img src="/images/logo.svg" width="48" height="48" fill="#a00000" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <img src="/images/logo.svg" width="48" height="48" class="bi bi-person-circle">
                     </div>
 
-                    <form id="userForm" action="#" method="post" class="form">
+                    <form id="userForm" class="form">
                         
                         <div class="mb-3">
                             <label for="name" class="form-label">Nome</label>
                             <input type="text" id="name" name="name" class="form-control" required>
                         </div>
 
-                      
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" id="email" name="email" class="form-control" required>
                         </div>
 
-                        
                         <div class="mb-3">
                             <label for="password" class="form-label">Senha</label>
                             <input type="password" id="password" name="password" class="form-control" required>
                         </div>
 
-                        <!-- Campo ROLE -->
                         <div class="mb-4">
                             <label for="role" class="form-label">Cargo</label>
                             <select id="role" name="role" class="form-select" required>
-                                <option value="">Selecione</option>
+                               
                                 <option value="PROFESSOR">Professor</option>
                                 <option value="ADMINISTRATOR">Administrador</option>
                                 <option value="MODERATOR">Técnico</option>
@@ -135,24 +135,29 @@
         </div>
     </div>
 
-    <!-- Modal para Editar Cargo -->
+
     <div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="editRoleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
+                
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editRoleModalLabel">Editar Cargo do Usuário</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Editar Cargo do Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+
                 <div class="modal-body">
                     <input type="hidden" id="editUserId">
+
                     <div class="mb-3">
                         <label class="form-label">Nome:</label>
                         <p id="editUserName" class="form-control-plaintext fw-bold"></p>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Email:</label>
                         <p id="editUserEmail" class="form-control-plaintext"></p>
                     </div>
+
                     <div class="mb-3">
                         <label for="editUserRole" class="form-label">Cargo:</label>
                         <select class="form-select" id="editUserRole">
@@ -162,15 +167,18 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="saveRoleBtn">Salvar Alterações</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" id="saveRoleBtn">Salvar Alterações</button>
                 </div>
+
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/front/src/app/api/user/users.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
