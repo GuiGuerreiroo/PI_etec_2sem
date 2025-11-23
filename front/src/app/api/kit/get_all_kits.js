@@ -4,7 +4,7 @@ async function getAllKits() {
             `http://localhost:3000/api/kits`,
             {
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmU3MGRhNjc0YzM0NGQwZjE3ZDIwNiIsInJvbGUiOiJQUk9GRVNTT1IiLCJleHAiOjE3NjM1NzcyNzUsImlhdCI6MTc2MzQ5MDg3NX0.qjc0BZ2bUopqNm2qvNS_cDQrbunPeNcnD7qjIE_fe34`
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmJlZTkyNWY4ZmIxOGRiY2U4ZWNiOSIsInJvbGUiOiJBRE1JTiIsImV4cCI6MTc2Mzk5NzE1OSwiaWF0IjoxNzYzOTEwNzU5fQ.t4i511YXhiG-yS-JGNoIpTHyo7oKx9iUMJhrf0Jekls`
                 }
             } 
         );

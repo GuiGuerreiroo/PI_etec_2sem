@@ -17,7 +17,7 @@
   <div class="page-frame container py-4">
     <header class="header text-center">
       <nav class="navbar d-flex flex-wrap justify-content-center align-items-center gap-4 gap-lg-5 my-4">
-        <div class="nav-item">
+        <div class="nav-item" onclick="location.href='../pages/edit_material.html'">
           <svg viewBox="0 0 24 24">
             <path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 
             2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 
@@ -25,7 +25,7 @@
           </svg>
           <span>RESERVAS</span>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" onclick="location.href='../pages/reservation.html'">
           <svg viewBox="0 0 24 24">
             <path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 
             2 0 0 0-2 2v14a2 2 0 0 0 2 2h8v-2H5V9h14v3h2V6a2 
@@ -33,7 +33,7 @@
           </svg>
           <span>AGENDAMENTO</span>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" onclick="location.href='../pages/kits.html'">
           <svg viewBox="0 0 24 24">
             <path d="M6 2v6l5 9v5h2v-5l5-9V2H6zm2 
             2h8v3.586l-4 7.2-4-7.2z" />
@@ -88,9 +88,15 @@
       </div>
     </div>
   </div>
-
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app')
+  </script>
   <script src="../scripts/edit_material.js"></script>
   <script src="../api/material/get_all_materials.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://app.embed.im/accessibility.js" defer></script>
+
 </body>
+
 </html>

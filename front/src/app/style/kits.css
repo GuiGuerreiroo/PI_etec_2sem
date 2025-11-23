@@ -200,3 +200,79 @@ body {
   display: block;
   opacity: 1;
 }
+
+.kit-card {
+  background: #fff;
+  /* border: 2px solid #15747B; */
+  border-radius: 12px;
+  padding: 20px;
+  height: 190px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.materials-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding-right: 5px;
+  padding-top: 2px;
+}
+
+.materials-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.materials-list::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.kit-card:hover {
+  transform: translateY(-4px);
+}
+
+.kit-card.selected {
+  background: #cddfe0;
+  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.kit-card h3 {
+  color: #15747B;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #9e1b1b;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.kit-card p {
+  color: #333;
+  font-size: 0.9rem;
+  margin: 0;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.kit-card .editar {
+  background: #15747B;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.kit-card .editar:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
