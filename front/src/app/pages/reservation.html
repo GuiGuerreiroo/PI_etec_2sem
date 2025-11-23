@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -5,10 +6,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reservas Lab</title>
-  <!-- Bootstrap (apenas para o sistema de grid responsivo) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-grid.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- Link para folha de estilo externa -->
   <link rel="stylesheet" href="../style/reservation.css">
 </head>
 
@@ -21,7 +20,7 @@
 
     <div class="row">
       <div class="">
-        <!-- Calendário -->
+
         <div class="section">
           <div class="calendar-header">
             <button id="prev-month" class="nav-btn"><i class="bi bi-chevron-left"></i></button>
@@ -31,19 +30,8 @@
           <div class="calendar" id="calendar-days">
           </div>
         </div>
-        <!-- <div class="section">
-           
-          <div class="label">Professores:</div>
-          <div class="buttons" id="teacher-buttons">
-            <button class="btn outline" data-value="Professor 1">Professor 1</button>
-            <button class="btn outline" data-value="Professor 2">Professor 2</button>
-            <button class="btn outline" data-value="Professor 3">Professor 3</button>
-            <button class="btn outline" data-value="Professor"></button>
-          </div>
-        </div> -->
 
-        <!-- Laboratórios -->
-        <div class="section">
+        <div class="section" id="lab-buttons">
           <div class="label">Laboratórios:</div>
           <div class="buttons" id="lab-buttons">
             <button class="btn outline" data-value="Lab 01">Lab 01</button>
@@ -54,7 +42,7 @@
 
         <hr>
 
-        <!-- Horários -->
+        
         <div class="section" id="time-slots">
           <div class="label">Manhã:</div>
           <div class="buttons">
@@ -84,8 +72,8 @@
 
         <hr>
 
-        <!-- Kits -->
-        <div class="section">
+       
+        <div class="section" id="kit-buttons">
           <div class="label">Kits:</div>
           <div class="buttons" id="kit-buttons">
             <button class="btn outline" data-value="Kit 01">Kit 01</button>
@@ -97,10 +85,10 @@
       </div>
 
       <div class="">
-        <!-- Informações -->
-        <div class="info-box">
+      
+        <div class="info-box hidden" id="info-box-container">
           <div class="label title">INFORMAÇÕES</div>
-          <div class="info-item"><strong>Professor:</strong><span id="info-professor">Joao Carlos</span></div>
+          <div class="info-item"><strong>Professor:</strong><span id="info-professor">--</span></div>
           <div class="info-item"><strong>Data:</strong><span id="info-data">--</span></div>
           <div class="info-item"><strong>Laboratório:</strong><span id="info-lab">--</span></div>
           <div class="info-item"><strong>Horário:</strong><span id="info-horario">--</span></div>
@@ -127,6 +115,9 @@
   <script src="../api/reservation/get_laboratory_status.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </script>
+ 
 </body>
 
 </html>
+
+
