@@ -1,5 +1,5 @@
 import { Material } from "../../domain/entities/material";
-import { IMaterialRepository } from "../../domain/interface/IMaterialRepository";
+import { IMaterialRepository, MaterialUpdateOptions } from "../../domain/interface/IMaterialRepository";
 
 export class MaterialRepoMock implements IMaterialRepository {
     private materials: Material[] = [
@@ -46,24 +46,29 @@ export class MaterialRepoMock implements IMaterialRepository {
         return this.materials.find((material) => material.materialId === materialId) || null;
     }
 
-    async deleteMaterialById(materialId: string): Promise<Material | null> {
-        const index= this.materials.findIndex((material) => material.materialId === materialId)
+    // async deleteMaterialById(materialId: string): Promise<Material | null> {
+    //     const index= this.materials.findIndex((material) => material.materialId === materialId)
 
-        if (index === -1){
-            return null
-        }
+    //     if (index === -1){
+    //         return null
+    //     }
         
-        return this.materials.splice(index, 1)[0]
-    }
-    // testar o update
-    async updateMaterialQuantity(materialId: string, selectedQuantity: number): Promise<Material | null> {
+    //     return this.materials.splice(index, 1)[0]
+    // }
+
+    async updateMaterialQuantity(materialId: string, updateOptions: MaterialUpdateOptions): Promise<Material | null> {
         const material= this.materials.find((material) => material.materialId === materialId)|| null;
 
         if (material === null){
             return null
         }
 
-        Object.assign(material, {selectedQuantity})
+        if (updateOptions.totalQuantity !== undefined) {
+            material.totalQuantity = updateOptions.totalQuantity;
+        }
+        if (updateOptions.reusable !== undefined) {
+            material.reusable = updateOptions.reusable;
+        }
 
         return material
     }

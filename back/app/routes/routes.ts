@@ -9,6 +9,15 @@ import CreateKitPresenter from "../modules/kit/create_kit/create_kit_presenter";
 import CreateReservationPresenter from "../modules/reservation/create_reservation/create_reservation_presenter";
 import GetKitsStatusPresenter from "../modules/kit/get_kits_status/get_kits_status_presenter";
 import GetReservationPresenter from "../modules/reservation/get_reservation/get_reservation_presenter";
+import GetAllUsersPresenter from "../modules/user/get_all_users/get_all_users_presenter";
+import GetAllReservationsPresenter from "../modules/reservation/get_all_reservations/get_all_reservations_presenter";
+import UpdateReservationPresenter from "../modules/reservation/update_reservation/update_reservation_presenter";
+import GetAllKitsPresenter from "../modules/kit/get_all_kits/get_all_kits_presenter";
+import GetAllMaterialsPresenter from "../modules/material/get_all_materials/get_all_materials_presenter";
+import DeleteUserPresenter from "../modules/user/delete_user/delete_user_presenter";
+import UpdateUserPresenter from "../modules/user/update_user/update_user_presenter";
+import UpdateMaterialPresenter from "../modules/material/update_material/update_material_presenter";
+import UpdateKitPresenter from "../modules/kit/update_kit/update_kit_presenter";
 
 export const routes = (app: Express) => {
   app
@@ -23,16 +32,37 @@ export const routes = (app: Express) => {
   app.use("/api", AuthPresenter);
   app.use("/api", CreateUserPresenter);
   app.use("/api", GetUserPresenter);
+  app.use("/api", GetAllUsersPresenter);
+  app.use("/api", DeleteUserPresenter);
+  app.use("/api", UpdateUserPresenter);
 
   // laboratory routes
   app.use("/api", GetLaboratoriesStatus);
 
   // material routes
+
+  // create material
   app.use("/api", CreateMaterialPresenter);
 
+  // get all materials
+  app.use("/api", GetAllMaterialsPresenter);
+
+  // update material
+  app.use("/api", UpdateMaterialPresenter);
+
   // kit routes
+
+  // create kit
   app.use("/api", CreateKitPresenter)
+
+  // get kits status
   app.use("/api", GetKitsStatusPresenter)
+
+  // get all kits
+  app.use("/api", GetAllKitsPresenter)
+
+  // update kit
+  app.use("/api", UpdateKitPresenter)
 
   // reservation routes
 
@@ -44,4 +74,10 @@ export const routes = (app: Express) => {
 
   // get reservation
   app.use("/api", GetReservationPresenter);
+
+  // get all get all reservations
+  app.use("/api", GetAllReservationsPresenter);
+
+  // update reservation
+  app.use("/api", UpdateReservationPresenter);
 }

@@ -193,15 +193,16 @@ export class KitRepoMongoDB implements IKitRepository {
         }));
     }
 
-    async deleteKitById(kitId: string): Promise<KitMongoDTO | null> {
-        const kitData= await KitMongo.findByIdAndDelete(kitId).exec();
+    // por enquanto nao sera usado
+    // async deleteKitById(kitId: string): Promise<KitMongoDTO | null> {
+    //     const kitData= await KitMongo.findByIdAndDelete(kitId).exec();
 
-        if (!kitData) {
-            return null;
-        }
+    //     if (!kitData) {
+    //         return null;
+    //     }
 
-        return await KitMongoDTOFunction(kitData._id);
-    }
+    //     return await KitMongoDTOFunction(kitData._id);
+    // }
 
     async updateKit(kitId: string, kitUpdateOptions: KitUpdateOptions): Promise<KitMongoDTO | null> {
         const kitData= await KitMongo.findByIdAndUpdate(

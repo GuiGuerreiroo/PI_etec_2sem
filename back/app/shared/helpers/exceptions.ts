@@ -1,4 +1,3 @@
-// Base exception class
 export class BaseApplicationException extends Error {
   public statusCode: number;
   public details?: any;
@@ -40,7 +39,7 @@ export class UnprocessableEntityException extends BaseApplicationException {
   }
 }
 
-// Bad request (400) — agora herdando corretamente
+// Bad request (400)
 export class BadRequestException extends BaseApplicationException {
   constructor(details: any) {
     super("Bad Request", 400, details);
