@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const state = {
         selectedDate: new Date(),
         selectedLab: null,
+        selectedLabId: null,
         selectedTime: null,
         selectedKit: null,
         selectedKitName: null,
@@ -59,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const kitButtonsInner = kitSection.querySelector('.buttons');
     
     const progressBar = document.getElementById('progress-bar');
+    const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
     function toggleVisibility(container, show) {
         if (!container) return;
@@ -69,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-   
     function formatDate(date) {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -101,38 +102,25 @@ document.addEventListener('DOMContentLoaded', function () {
             button.dataset.value = lab.laboratory;
             button.dataset.labId = lab.laboratoryId;
             button.dataset.available = lab.available;
-            
-            
+
             if (!lab.available) {
                 button.disabled = true;
                 button.style.cursor = 'not-allowed';
                 button.style.opacity = '0.6';
             }
-            
-            labButtonsContainer.appendChild(button);
+            labButtonsInner.appendChild(button);
         });
-        
-        
-        setupLabButtonListeners();
     }
 
-    
     function setupLabButtonListeners() {
         labButtonsInner.addEventListener('click', e => { 
             const button = e.target.closest('button');
-            if (!button) return;
-            
-            
-            if (button.dataset.available === 'false') {
-                return; 
-            }
-            
-            
-            labButtonsContainer.querySelectorAll('button').forEach(btn => {
+            if (!button || button.dataset.available === 'false') return;
+
+            labButtonsInner.querySelectorAll('button').forEach(btn => {
                 btn.classList.add('outline');
             });
-            
-           
+
             button.classList.remove('outline');
             state.selectedLab = button.dataset.value;
             state.selectedLabId = button.dataset.labId;
@@ -144,10 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleVisibility(infoBoxContainer, false);
 
             updateInfo();
+            fetchHorarios();
         });
     }
-
-
 
     async function fetchLaboratories() {
         toggleVisibility(timeSlotsContainer, false); 
@@ -157,15 +144,14 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const date = formatDate(state.selectedDate);
             const labData = await getLaboratoryStatus(date);
-            
+
             console.log('Dados dos laboratórios:', labData);
-            
             if (labData && labData.laboratories) {
                 updateLabButtons(labData.laboratories);
                 toggleVisibility(labSection, true); 
             }
         }
-        catch(error) {
+        catch (error) {
             console.error('Erro ao buscar laboratórios:', error);
             labButtonsInner.innerHTML = 'Erro ao carregar laboratórios.';
             toggleVisibility(labSection, true); 
@@ -316,6 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderCalendar() {
         calendarDaysEl.innerHTML = '';
         const date = new Date(state.selectedDate);
+        
         const month = date.getMonth();
         const year = date.getFullYear();
 
@@ -324,7 +311,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const firstDayOfMonth = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-        // Adiciona os dias da semana
         weekdays.forEach(day => {
             const dayEl = document.createElement('div');
             dayEl.classList.add('weekday');
@@ -333,7 +319,6 @@ document.addEventListener('DOMContentLoaded', function () {
             calendarDaysEl.appendChild(dayEl);
         });
 
-        // Adiciona células vazias
         for (let i = 0; i < firstDayOfMonth; i++) {
             const emptyCell = document.createElement('div');
             emptyCell.style.cursor = 'default';
@@ -350,7 +335,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const dayEl = document.createElement('div');
             dayEl.textContent = i;
             dayEl.dataset.day = i;
-
             const currentDate = new Date(year, month, i);
 
             if (currentDate < normalizedToday || currentDate > maxDate) {
@@ -363,9 +347,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             calendarDaysEl.appendChild(dayEl);
         }
-
-        // Busca os laboratórios sempre que o calendário é renderizado
-        fetchLaboratories();
+        
         updateInfo();
     }
 
@@ -406,20 +388,24 @@ document.addEventListener('DOMContentLoaded', function () {
         if (state.selectedTime) finalSteps++;
         if (state.selectedKit) finalSteps++;
 
-        const progressPercentage = (completedSteps / 4) * 100;
+        const progressPercentage = (finalSteps / totalSteps) * 100;
         progressBar.style.width = `${progressPercentage}%`;
     }
 
     prevMonthBtn.addEventListener('click', () => {
         state.selectedDate.setDate(1);
         state.selectedDate.setMonth(state.selectedDate.getMonth() - 1);
+        resetSelections();
         renderCalendar();
+        fetchLaboratories(); 
     });
 
     nextMonthBtn.addEventListener('click', () => {
         state.selectedDate.setDate(1);
         state.selectedDate.setMonth(state.selectedDate.getMonth() + 1);
+        resetSelections();
         renderCalendar();
+        fetchLaboratories(); 
     });
 
     calendarDaysEl.addEventListener('click', (e) => {
@@ -432,7 +418,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             state.selectedDate.setDate(day);
+            resetSelections();
             renderCalendar();
+            fetchLaboratories(); 
         }
     });
     function showSuccessPopup(reservationDetails) {
@@ -636,6 +624,5 @@ function createConfettiEffect() {
     toggleVisibility(kitSection, false);
     toggleVisibility(infoBoxContainer, false);
 
-    // Inicialização
     renderCalendar();
 });
