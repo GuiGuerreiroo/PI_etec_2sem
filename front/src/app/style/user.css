@@ -506,7 +506,7 @@ padding: 20px;
     box-shadow: 0 0 0 0.25rem rgba(26, 108, 124, 0.25) !important;
 }
 
-/* ACTIVE com a cor 1A6C7C */
+
 .btn.badge-professor.dropdown-toggle:active,
 .btn.badge-moderator.dropdown-toggle:active,
 .btn.badge-admin.dropdown-toggle:active,
@@ -550,7 +550,7 @@ padding: 20px;
     color: white !important;
     border-radius: 12px !important;
     padding: 6px 12px !important;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
     font-size: 0.8rem !important;
     border: none !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
@@ -561,9 +561,27 @@ padding: 20px;
     color: white !important;
     border-radius: 12px !important;
     padding: 6px 12px !important;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
     font-size: 0.8rem !important;
     border: none !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
 }
 
+
+.badge.role-disabled {
+    background-color: #6c757d !important;
+    opacity: 0.6;
+    filter: grayscale(100%);
+}
+
+.btn.role-disabled {
+    pointer-events: none;
+    background-color: #6c757d !important;
+    border-color: #6C757D !important;
+    opacity: 0.6;
+    filter: grayscale(100%);
+}
+
+.user-deleted {
+    background-color: #f8f9fa;
+}

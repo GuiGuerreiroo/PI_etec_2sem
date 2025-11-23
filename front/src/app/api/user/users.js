@@ -437,7 +437,11 @@ class User {
                                  user.role === 'MODERATOR' ? 'Técnico' : 'Administrador';
                 let badgeClass = user.role === 'PROFESSOR' ? 'badge-professor' : 
                                user.role === 'MODERATOR' ? 'badge-moderator' : 'badge-admin';
-                td_cargo.innerHTML = `<span class="badge ${badgeClass}">${cargoDisplay}</span>`;
+                
+                // Adiciona classe para usuários desativados
+                const disabledClass = user.isDeleted ? 'role-disabled' : '';
+                
+                td_cargo.innerHTML = `<span class="badge ${badgeClass} ${disabledClass}">${cargoDisplay}</span>`;
             }
             
             td_acoes.innerHTML = this.generateActionButtons(user);
@@ -453,11 +457,15 @@ class User {
                            user.role === 'MODERATOR' ? 'Técnico' : 'Administrador';
         const badgeClass = user.role === 'PROFESSOR' ? 'badge-professor' : 
                          user.role === 'MODERATOR' ? 'badge-moderator' : 'badge-admin';
+        
+        // Adiciona classe para usuários desativados
+        const disabledClass = user.isDeleted ? 'role-disabled' : '';
 
         return `
             <div class="dropdown">
-                <button class="btn btn-sm ${badgeClass} dropdown-toggle" type="button" 
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-sm ${badgeClass} ${disabledClass} dropdown-toggle" type="button" 
+                        data-bs-toggle="dropdown" aria-expanded="false"
+                        ${user.isDeleted ? 'disabled' : ''}>
                     ${cargoDisplay}
                 </button>
                 <ul class="dropdown-menu">
@@ -499,6 +507,11 @@ class User {
 
         if (userId === this.currentUser.id) {
             this.showToast('Você não pode alterar seu próprio cargo!', 'warning');
+            return;
+        }
+
+        if (user.isDeleted) {
+            this.showToast('Não é possível alterar cargo de usuário desativado!', 'warning');
             return;
         }
 
@@ -548,9 +561,9 @@ class User {
         if (!row) return;
 
         const cargoCell = row.cells[2];
+        const user = this.arrayUsuarios.find(u => u.id === userId);
         
         if (this.currentUser.role === 'ADMIN') {
-            const user = this.arrayUsuarios.find(u => u.id === userId);
             cargoCell.innerHTML = this.generateRoleDropdown(user);
             this.setupRoleDropdowns();
         } else {
@@ -558,7 +571,8 @@ class User {
                                newRole === 'MODERATOR' ? 'Técnico' : 'Administrador';
             const badgeClass = newRole === 'PROFESSOR' ? 'badge-professor' : 
                              newRole === 'MODERATOR' ? 'badge-moderator' : 'badge-admin';
-            cargoCell.innerHTML = `<span class="badge ${badgeClass}">${cargoDisplay}</span>`;
+            const disabledClass = user.isDeleted ? 'role-disabled' : '';
+            cargoCell.innerHTML = `<span class="badge ${badgeClass} ${disabledClass}">${cargoDisplay}</span>`;
         }
     }
 
@@ -869,77 +883,76 @@ class User {
        
     }
 
-ensureIsDeletedField() {
-    this.arrayUsuarios = this.arrayUsuarios.map(user => {
+    ensureIsDeletedField() {
+        this.arrayUsuarios = this.arrayUsuarios.map(user => {
        
-        if (user.isDeleted === undefined) {
-            user.isDeleted = false;
-        }
-        return user;
-    });
-}
-
-
-async loadUsersFromAPI() {
-    if (this.isLoading) {
-        console.log(' Carregamento já em andamento...');
-        return;
-    }
-
-    const token = this.getToken();
-    if (!token) {
-        console.error('Token não disponível para carregar usuários');
-        return;
-    }
-
-    this.isLoading = true;
-
-    try {
-        const url = 'http://localhost:3000/api/users';
-        console.log(' Carregando usuários de:', url);
-        
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+            if (user.isDeleted === undefined) {
+                user.isDeleted = false;
             }
+            return user;
         });
+    }
 
-        console.log(' Status da resposta:', response.status);
+    async loadUsersFromAPI() {
+        if (this.isLoading) {
+            console.log(' Carregamento já em andamento...');
+            return;
+        }
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log(' Dados recebidos:', data);
+        const token = this.getToken();
+        if (!token) {
+            console.error('Token não disponível para carregar usuários');
+            return;
+        }
+
+        this.isLoading = true;
+
+        try {
+            const url = 'http://localhost:3000/api/users';
+            console.log(' Carregando usuários de:', url);
             
-            if (data.users && Array.isArray(data.users)) {
-                this.arrayUsuarios = data.users;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log(' Status da resposta:', response.status);
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(' Dados recebidos:', data);
                 
+                if (data.users && Array.isArray(data.users)) {
+                    this.arrayUsuarios = data.users;
+                    
                
-                this.ensureIsDeletedField();
+                    this.ensureIsDeletedField();
+                    
+                    this.tableList();
+                    console.log(' Usuários carregados com sucesso:', this.arrayUsuarios.length);
+                } else {
+                    console.error(' Formato de dados inválido:', data);
+                    this.arrayUsuarios = [];
+                }
                 
-                this.tableList();
-                console.log(' Usuários carregados com sucesso:', this.arrayUsuarios.length);
+            } else if (response.status === 401) {
+                console.log(' Não autorizado - redirecionando para login');
+                this.handleUnauthorized();
             } else {
-                console.error(' Formato de dados inválido:', data);
+                const errorText = await response.text();
+                console.error(' Erro ao carregar usuários:', response.status, errorText);
                 this.arrayUsuarios = [];
             }
-            
-        } else if (response.status === 401) {
-            console.log(' Não autorizado - redirecionando para login');
-            this.handleUnauthorized();
-        } else {
-            const errorText = await response.text();
-            console.error(' Erro ao carregar usuários:', response.status, errorText);
+        } catch (error) {
+            console.error(' Erro ao carregar usuários:', error);
             this.arrayUsuarios = [];
+        } finally {
+            this.isLoading = false;
         }
-    } catch (error) {
-        console.error(' Erro ao carregar usuários:', error);
-        this.arrayUsuarios = [];
-    } finally {
-        this.isLoading = false;
     }
-}
 
     logout() {
         localStorage.removeItem('token');
