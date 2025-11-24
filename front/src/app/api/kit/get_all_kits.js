@@ -4,12 +4,12 @@ async function getAllKits() {
             `http://localhost:3000/api/kits`,
             {
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmJlZTkyNWY4ZmIxOGRiY2U4ZWNiOSIsInJvbGUiOiJBRE1JTiIsImV4cCI6MTc2Mzk5NzE1OSwiaWF0IjoxNzYzOTEwNzU5fQ.t4i511YXhiG-yS-JGNoIpTHyo7oKx9iUMJhrf0Jekls`
+                    Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             } 
         );
         console.log("Resposta da API:");
-        console.log(response.data.material);
+        console.log(response.data.kits);
         return response.data;
     }
     catch (error) {

@@ -1,25 +1,16 @@
 // Inicializa o modal e elementos estáticos fora da função loadKits
+setupToastContainer();
+
 const modalElement = document.getElementById('novoKitModal');
 const modal = new bootstrap.Modal(modalElement);
 
 const editModalElement = document.getElementById('editKitModal');
 const editModal = new bootstrap.Modal(editModalElement);
 
-const closeModal = document.getElementById('closeModal');
-closeModal.addEventListener('click', () => {
-  modal.hide();
-});
-
-const closeEditModal = document.getElementById('closeEditModal');
-closeEditModal.addEventListener('click', () => {
-  editModal.hide();
-});
-
 const form = document.getElementById("itemForm");
 const successMessage = document.getElementById("successMessage");
 
 const editForm = document.getElementById("editItemForm");
-const editSuccessMessage = document.getElementById("editSuccessMessage");
 
 let currentEditingKit = null; // Store the kit being edited
 
@@ -75,8 +66,8 @@ editForm.addEventListener("submit", async (e) => {
       
       inputs.forEach(input => {
           const qty = parseInt(input.value);
-          // Include material if quantity is valid (assuming 0 is allowed or means remove, but let's keep it simple)
-          if (!isNaN(qty) && qty >= 0) {
+          // Only include material if quantity is greater than 0
+          if (!isNaN(qty) && qty > 0) {
                materials.push({
                    materialId: input.dataset.id,
                    selectedQuantity: qty
@@ -84,25 +75,29 @@ editForm.addEventListener("submit", async (e) => {
           }
       });
 
+      if (materials.length === 0) {
+        alert("Selecione pelo menos um material com quantidade maior que 0.");
+        return;
+      }
+
       // Prepare data for update
       const updateData = {
         name: nome,
         materials: materials
       };
-
+      console.log(updateData)
       await updateKit(id, updateData);
 
-      editSuccessMessage.classList.add("show");
+      showToast('Kit atualizado com sucesso!', 'success');
 
       setTimeout(() => {
-        editSuccessMessage.classList.remove("show");
         editModal.hide();
         editForm.reset();
         currentEditingKit = null;
         loadKits(); // Reload list
-      }, 2000);
+      }, 1000);
     } catch (error) {
-      alert("Erro ao atualizar o kit. Tente novamente.");
+      showToast('Erro ao atualizar o kit. Tente novamente.', 'error');
       console.error(error);
     }
   } else {
@@ -133,6 +128,12 @@ async function loadKits() {
         h3.innerText = kit.name;
         
         kitCard.appendChild(h3);
+
+        const originP = document.createElement('p');
+        // Format origin for display (e.g. "INDIVIDUAL" -> "Individual")
+        const formattedOrigin = kit.origin ? kit.origin.charAt(0).toUpperCase() + kit.origin.slice(1).toLowerCase() : 'Desconhecida';
+        originP.innerHTML = `<b>Origem:</b> ${formattedOrigin}`;
+        kitCard.appendChild(originP);
         
         const materialsList = document.createElement('div');
         materialsList.className = 'materials-list';
@@ -173,41 +174,147 @@ async function loadKits() {
           editButton.innerText = 'Editar';
           editButton.dataset.id = kit.id;
 
-          editButton.addEventListener('click', (e) => {
+          editButton.addEventListener('click', async (e) => {
             e.stopPropagation();
             
             // Populate modal
             document.getElementById("editKitId").value = kit.id;
             document.getElementById("editNome").value = kit.name;
             
-            // Populate materials list
             const list = document.getElementById("editMaterialsList");
-            list.innerHTML = "";
+            const select = document.getElementById("newMaterialSelect");
+            const addBtn = document.getElementById("addMaterialBtn");
             
-            if (kit.materials && kit.materials.length > 0) {
-                kit.materials.forEach(m => {
-                    const row = document.createElement("div");
-                    row.className = "d-flex justify-content-between align-items-center mb-2";
+            list.innerHTML = "<p class='text-center'>Carregando materiais...</p>";
+            
+            try {
+                // Only fetch materials, we don't need other kits anymore
+                const allMaterialsResponse = await getAllMaterials();
+                const allMaterials = allMaterialsResponse.materials || [];
+
+                // Initialize active materials from kit
+                let activeMaterials = [];
+                if (kit.materials) {
+                    activeMaterials = kit.materials.map(km => {
+                        if (!km.material) return null;
+
+                        const kitMatId = String(km.material.id || km.material._id);
+                        let fullMat = allMaterials.find(m => String(m.id) === kitMatId);
+                        
+                        if (!fullMat) {
+                            console.warn("Material ID match failed, trying name match for:", km.material.name);
+                            fullMat = allMaterials.find(m => m.name === km.material.name);
+                        }
+
+                        // Simple total quantity from the material definition
+                        const totalQty = fullMat ? fullMat.totalQuantity : 999;
+                        
+                        return {
+                            id: fullMat ? fullMat.id : kitMatId,
+                            name: fullMat ? fullMat.name : km.material.name,
+                            size: fullMat ? fullMat.size : km.material.size,
+                            totalQuantity: totalQty,
+                            selectedQuantity: km.selectedQuantity
+                        };
+                    }).filter(item => item !== null);
+                }
+
+                // Function to render the UI
+                function renderEditUI() {
+                    list.innerHTML = "";
+                    select.innerHTML = '<option selected disabled value="">Escolha um material...</option>';
                     
-                    const label = document.createElement("span");
-                    label.innerText = `${m.material.name} ${m.material.size ? m.material.size : ''}`;
-                    label.style.color = "#004e56";
-                    label.style.fontWeight = "500";
+                    // 1. Render Active List
+                    if (activeMaterials.length > 0) {
+                        activeMaterials.forEach((mat, index) => {
+                            const row = document.createElement("div");
+                            row.className = "d-flex justify-content-between align-items-center mb-2 p-2 border-bottom";
+                            
+                            const label = document.createElement("span");
+                            // Display Total Quantity (Max)
+                            label.innerText = `${mat.name} ${mat.size ? mat.size : ''} (Max: ${mat.totalQuantity})`;
+                            label.style.fontWeight = "500";
+                            
+                            const controlsDiv = document.createElement("div");
+                            controlsDiv.className = "d-flex align-items-center gap-2";
+
+                            const input = document.createElement("input");
+                            input.type = "number";
+                            input.className = "form-control form-control-sm";
+                            input.style.width = "80px";
+                            input.value = mat.selectedQuantity;
+                            input.min = 1;
+                            input.max = mat.totalQuantity;
+                            input.dataset.id = mat.id;
+                            
+                            input.addEventListener('change', (e) => {
+                                let val = parseInt(e.target.value);
+                                if (val > mat.totalQuantity) {
+                                    val = mat.totalQuantity;
+                                    alert(`Quantidade máxima disponível é ${mat.totalQuantity}`);
+                                } else if (val < 1) {
+                                    val = 1;
+                                }
+                                e.target.value = val;
+                                activeMaterials[index].selectedQuantity = val;
+                            });
+
+                            const removeBtn = document.createElement("button");
+                            removeBtn.className = "btn btn-sm btn-danger";
+                            removeBtn.innerHTML = "&times;";
+                            removeBtn.title = "Remover material";
+                            removeBtn.onclick = () => {
+                                activeMaterials.splice(index, 1);
+                                renderEditUI();
+                            };
+
+                            controlsDiv.appendChild(input);
+                            controlsDiv.appendChild(removeBtn);
+                            
+                            row.appendChild(label);
+                            row.appendChild(controlsDiv);
+                            list.appendChild(row);
+                        });
+                    } else {
+                        list.innerHTML = "<p class='text-center text-muted'>Nenhum material no kit.</p>";
+                    }
+
+                    // 2. Render Available Dropdown
+                    const activeIds = new Set(activeMaterials.map(m => m.id));
+                    const available = allMaterials.filter(m => !activeIds.has(m.id));
                     
-                    const input = document.createElement("input");
-                    input.type = "number";
-                    input.className = "form-control form-control-sm";
-                    input.style.width = "80px";
-                    input.value = m.selectedQuantity;
-                    input.min = 0;
-                    input.dataset.id = m.material.id; // Catch by ID
-                    
-                    row.appendChild(label);
-                    row.appendChild(input);
-                    list.appendChild(row);
-                });
-            } else {
-                list.innerHTML = "<p class='text-center text-muted'>Nenhum material neste kit.</p>";
+                    available.forEach(mat => {
+                        const option = document.createElement("option");
+                        option.value = mat.id;
+                        option.innerText = `${mat.name} ${mat.size ? mat.size : ''} (Max: ${mat.totalQuantity})`;
+                        select.appendChild(option);
+                    });
+                }
+
+                // Initial Render
+                renderEditUI();
+
+                // Add Button Handler
+                addBtn.onclick = () => {
+                    const selectedId = select.value;
+                    if (!selectedId) return;
+
+                    const matToAdd = allMaterials.find(m => String(m.id) === selectedId);
+                    if (matToAdd) {
+                        activeMaterials.push({
+                            id: matToAdd.id,
+                            name: matToAdd.name,
+                            size: matToAdd.size,
+                            totalQuantity: matToAdd.totalQuantity,
+                            selectedQuantity: 1
+                        });
+                        renderEditUI();
+                    }
+                };
+
+            } catch (err) {
+                console.error("Erro ao carregar materiais para edição:", err);
+                list.innerHTML = "<p class='text-center text-danger'>Erro ao carregar materiais.</p>";
             }
 
             currentEditingKit = kit;
@@ -242,4 +349,52 @@ async function loadKits() {
 
   plusCard.appendChild(addCard);
   kitContainer.appendChild(plusCard);
+}
+
+function setupToastContainer() {
+    if (!document.getElementById('toastContainer')) {
+        const toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        toastContainer.style.zIndex = '9999';
+        document.body.appendChild(toastContainer);
+    }
+}
+
+function showToast(message, type = 'success') {
+    const toastId = 'toast-' + Date.now();
+    const bgColor = type === 'success' ? 'bg-success' : 
+                   type === 'error' ? 'bg-danger' : 
+                   type === 'warning' ? 'bg-warning' : 'bg-info';
+    
+    const icon = type === 'success' ? 'fa-check-circle' : 
+                type === 'error' ? 'fa-exclamation-circle' : 
+                type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle';
+
+    const toastHTML = `
+        <div id="${toastId}" class="toast align-items-center text-white ${bgColor} border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas ${icon} me-2"></i>
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+
+    const container = document.getElementById('toastContainer');
+    container.insertAdjacentHTML('beforeend', toastHTML);
+
+    const toastElement = document.getElementById(toastId);
+    const toast = new bootstrap.Toast(toastElement, {
+        autohide: true,
+        delay: 4000
+    });
+    
+    toast.show();
+
+    toastElement.addEventListener('hidden.bs.toast', () => {
+        toastElement.remove();
+    });
 }
