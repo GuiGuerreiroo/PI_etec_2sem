@@ -10,41 +10,10 @@
   <script src="https://kit.fontawesome.com/a2e0e6ad4a.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../style/navbar.css">
   <link rel="stylesheet" href="../style/lab.css"> 
+  <link rel="stylesheet" href="../style/navbar.css">
 </head>
-<body bg-light>
-
-    <div class="menu-container">
-          <div class="menu-toggle" id="menuToggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>    
-    <div class="menu-overlay" id="menuOverlay"></div>
-    <div class="nav-container">
-        <nav class="navbar" id="navbar">
-            <a href="home.html"class="nav-item">
-                <i class="fas fa-calendar-check"></i>
-                <span>RESERVAS</span>
-            </a>
-            <a href="kits.html"class="nav-item">
-                <i class="fas fa-briefcase"></i>
-                <span>KITS</span>
-            </a>
-            <a href="user.html" class="nav-item">
-                <i class="fas fa-users"></i>
-                <span>USUÁRIOS</span>
-            </a>
-            <a href="lab_status.html" class="nav-item">
-                <i class="fas fa-clipboard-list"></i>
-                <span>STATUS RESERVAS</span>
-            </a>
-            <a href="edit_material.html"class="nav-item">
-                <i class="fas fa-boxes"></i>
-                <span>MATERIAIS</span>
-            </a>
-        </nav>
-    </div>
+<body bg-light onload="getNavBar()">
+  <header></header>
 
   <div class="container-list"> 
     <div class="top-bar p-2 shadow-sm d-flex justify-content-center">

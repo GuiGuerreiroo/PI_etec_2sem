@@ -44,7 +44,7 @@ h1.logo {
   letter-spacing: 0.3px;
   padding-left: 25px;
   margin-bottom: 0;
-  margin-top: 25px;
+  /* margin-top: 25px; */
   position: relative;
 }
 
@@ -88,23 +88,26 @@ h1.logo {
 }
 
 nav.navbar {
-  position: a;
+  position: relative;
   top: 25px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 180px;
+  gap: 20px;
   z-index: 120;
+  flex-wrap: wrap;
+  max-width: 100%;
+  padding: 0 20px;
 }
 
 .nav-item {
-  width: 170px;
-  height: 120px;
+  width: 150px;
+  height: 110px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.08);
-  padding: 25px 25px;
+  padding: 20px 15px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -112,6 +115,7 @@ nav.navbar {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .nav-item:hover {
@@ -129,9 +133,11 @@ nav.navbar {
 }
 
 .nav-item span {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: #0d7377;
+  line-height: 1.2;
+  word-break: break-word;
 }
 
 main {
@@ -389,10 +395,14 @@ button {
 }
 
 .agenda-body .col-md-3 {
-  flex: 1;              /* Divide o espaço igualmente */
-  min-width: 0;         /* Permite que a coluna encolha abaixo do conteúdo se necessário */
-  padding: 0 4px;       /* Espaçamento lateral pequeno */
-  overflow: hidden;     /* CORTA qualquer coisa que tente sair do retângulo */
+  flex: 1;
+  /* Divide o espaço igualmente */
+  min-width: 0;
+  /* Permite que a coluna encolha abaixo do conteúdo se necessário */
+  padding: 0 4px;
+  /* Espaçamento lateral pequeno */
+  overflow: hidden;
+  /* CORTA qualquer coisa que tente sair do retângulo */
   display: flex;
   justify-content: flex-start;
 }
@@ -421,8 +431,8 @@ button {
   border-bottom: 1px solid #d7e2e2;
   color: #0d4043;
   font-size: 20px;
-  flex: 1 ;
-  justify-content: flex-start ;
+  flex: 1;
+  justify-content: flex-start;
   min-height: 60px;
 }
 
@@ -569,25 +579,25 @@ button {
 }
 
 .reserva-btn {
-    cursor: pointer;
-    width: 100%;
-    padding: 14px 10px;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    margin: 3px 0;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white !important;
+  cursor: pointer;
+  width: 100%;
+  padding: 14px 10px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white !important;
 }
 
 .reserva-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
 }
 
 

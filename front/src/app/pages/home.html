@@ -9,85 +9,14 @@
   <!-- <script src="../scripts/navbar.js"></script> -->
   <link rel="stylesheet" href="../style/home.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 
 <body onload="getReservationByDay(), getNavBar()">
   <header>
-
-    <div class="menu-toggle"
-      onclick="this.classList.toggle('active'); document.querySelector('nav.navbar').classList.toggle('active')">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <div class="menu-container">
-      <div class="menu-toggle" id="menuToggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-    <!-- administrador -->
-    <!-- <div class="menu-overlay" id="menuOverlay"></div>
-    <div class="nav-container">
-      <nav class="navbar" id="navbar">
-        <a href="home.html" class="nav-item">
-          <i class="fas fa-calendar-check"></i>
-          <span>RESERVAS</span>
-        </a>
-        <a href="kits.html" class="nav-item">
-          <i class="fas fa-briefcase"></i>
-          <span>KITS</span>
-        </a>
-        <a href="user.html" class="nav-item">
-          <i class="fas fa-users"></i>
-          <span>USUÁRIOS</span>
-        </a>
-        <a href="lab_status.html" class="nav-item">
-          <i class="fas fa-clipboard-list"></i>
-          <span>STATUS RESERVAS</span>
-        </a>
-        <a href="edit_material.html" class="nav-item">
-          <i class="fas fa-boxes"></i>
-          <span>MATERIAIS</span>
-        </a>
-      </nav>
-    </div> -->
-    <!-- Professor -->
-    <!-- <nav class="navbar">
-      <div class="nav-item">
-        <svg viewBox="0 0 24 24">
-          <path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 
-        2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 
-        16H5V9h14z" />
-        </svg>
-        <span>RESERVAS</span>
-      </div>
-      <div class="nav-item">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm1-14h-2v6l5.25 3.15.75-1.23-4-2.42V6z" />
-        </svg>
-        <span>AGENDAR</span>
-      </div>
-      <div class="nav-item">
-        <svg viewBox="0 0 24 24">
-          <path d="M6 2v6l5 9v5h2v-5l5-9V2H6zm2 
-        2h8v3.586l-4 7.2-4-7.2z" />
-        </svg>
-        <span>KITS</span>
-      </div>
-    </nav> -->
-    </div>
-    </div>
-    <div class="title-wrap">
-      <h1 class="logo">Minhas Reservas</h1>
-      <div class="decor" aria-hidden="true">
-        <div class="line" role="presentation"></div>
-        <div class="pill" role="presentation"></div>
+    <!-- O navbar e o header serão construídos dinamicamente pelo getNavBar() -->
   </header>
-
   <main>
     <aside>
       <div class="card">
@@ -269,6 +198,7 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="../scripts/home.js"></script>
+  <script src="/front/src/app/scripts/navbar.js"></script>
   <script src="../api/reservation/get_reservation_by_filter.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
