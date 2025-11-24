@@ -1,19 +1,175 @@
-body {
-  font-family: 'Inter', sans-serif;
-  background: #f7f8f9;
-  margin: 0;
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+.nav-item {
+  width: 170px;
+  height: 120px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.08);
+  padding: 25px 25px;
+  flex: 1 1 160px;
+  max-width: 200px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item svg {
+  width: 26px;
+  height: 26px;
+  fill: #0d7377;
+  margin-bottom: 4px;
+  margin-top: 10px;
+}
+
+.nav-item span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0d7377;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.page-frame {
+  margin-top: 15px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 56px;
+  letter-spacing: 2px;
+  color: #0b6970;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.title-bar {
+  width: 100%;
+}
+
+.title-bar-line {
+  height: 2px;
+  flex-grow: 1;
+  max-width: 550px;
+  background: #8c1b1b;
+}
+
+.title-bar-knob {
+  width: 180px;
+  flex-shrink: 0;
+  height: 20px;
+  background: #8c1b1b;
+  border-radius: 8px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.panel {
+  background: #f5f2f2;
+  border-top: 0px solid transparent;
+  padding: 24px 0;
+}
+
+.cards-grid {
+  background: rgba(0, 0, 0, 0.03);
+  padding: 28px;
+  border-radius: 10px;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.04);
+  min-height: 520px;
+}
+
+.add-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.06);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 190px;
+  cursor: pointer;
+  font-size: 56px;
+  color: #0b6970;
+  transition: transform .12s ease;
+}
+
+.add-card span {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  color: #0b6970;
+  font-weight: 700;
+  font-size: 56px;
+}
+
+.add-card:hover {
+  transform: translateY(-6px);
+}
+
+.add-card:active {
+  transform: translateY(-2px) translateX(0);
+}
+
+.item-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 18px;
+  min-height: 150px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+}
+
+.form-modal-content {
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
 
 .overlay {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 100;
+  z-index: 9999;
 }
 
 .overlay.ativo {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .popup {
@@ -22,6 +178,7 @@ body {
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
   animation: fadeIn 0.25s ease;
+  padding: 22px;
 }
 
 @keyframes fadeIn {
@@ -43,21 +200,6 @@ body {
 
 .close:hover {
   color: #ff0000 !important;
-}
-
-.popup-content {
-  max-height: 500px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-}
-
-.popup-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.popup-content::-webkit-scrollbar-thumb {
-  background: #15747B;
-  border-radius: 4px;
 }
 
 .card {
@@ -111,12 +253,11 @@ body {
   outline: none;
 }
 
-button.cancelar,
 button.concluir {
   border: none;
   border-radius: 30px;
   font-weight: bold;
-  color: #fff;
+  color: #ffffff;
   cursor: pointer;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
@@ -130,7 +271,34 @@ button.concluir {
   background: #15747B;
 }
 
+.concluir:hover {
+  background: #125e63 !important;
+}
+
+.concluir,
+.concluir:hover {
+  color: #fff !important;
+}
+
 button:hover {
   transform: translateY(-2px);
-  opacity: 0.9;
+  opacity: 1;
+}
+
+.material-card {
+  background: #fff;
+  border: 2px solid #15747B;
+  border-radius: 12px;
+  width: 180px;
+  padding: 15px;
+  transition: 0.2s;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+}
+
+.material-card:hover {
+  transform: translateY(-3px);
+}
+
+.material-card input {
+  border-radius: 6px;
 }
