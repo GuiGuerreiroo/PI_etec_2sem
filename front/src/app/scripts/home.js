@@ -1,4 +1,4 @@
-
+//CAMADA DE DADOS (DATA LAYER)
 class ReservationRepository {
     constructor(storageKey = 'lab_reservations') {
         this.storageKey = storageKey;
@@ -452,17 +452,17 @@ function getLabColor(labName) {
     
     const nomeLower = labName.toLowerCase();
     if (nomeLower.includes('1') || nomeLower.includes('química 1')) {
-        return "#134b15";
+        return "#187830";
     } else if (nomeLower.includes('2') || nomeLower.includes('química 2')) {
-        return "#406BD6";
+        return "#007AA8";
     } else if (nomeLower.includes('3') || nomeLower.includes('química 3')) {
-        return "#D14636";
+        return "#CC473D";
     } else {
         return "#95A5A6";
     }
 }
 
-// Função para mostrar o modal
+
 function mostrarReserva(professor, horario, laboratorio, kitString) {
     try {
         const kit = JSON.parse(kitString.replace(/&quot;/g, '"'));
