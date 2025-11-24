@@ -1,0 +1,378 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-item {
+  width: 170px;
+  height: 120px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.08);
+  padding: 25px 25px;
+  flex: 1 1 160px;
+  max-width: 200px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item svg {
+  width: 26px;
+  height: 26px;
+  fill: #0d7377;
+  margin-bottom: 4px;
+  margin-top: 10px;
+}
+
+.nav-item span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0d7377;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  height: 100%;
+}
+
+.page-frame {
+  margin-top: 15px;
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 56px;
+  letter-spacing: 2px;
+  color: #0b6970;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.title-bar {
+  width: 100%;
+}
+
+.title-bar-line {
+  height: 2px;
+  flex-grow: 1;
+  max-width: 550px;
+  background: #8c1b1b;
+}
+
+.title-bar-knob {
+  width: 180px;
+  flex-shrink: 0;
+  height: 20px;
+  background: #8c1b1b;
+  border-radius: 8px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.panel {
+  background: #f5f2f2;
+  border-top: 0px solid transparent;
+  padding: 24px 0;
+}
+
+.cards-grid {
+  background: rgba(0, 0, 0, 0.03);
+  padding: 28px;
+  border-radius: 10px;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.04);
+  min-height: 520px;
+}
+
+.add-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.06);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 190px;
+  cursor: pointer;
+  font-size: 56px;
+  color: #0b6970;
+  transition: transform .12s ease;
+}
+
+.add-card:hover {
+  transform: translateY(-6px);
+}
+
+.add-card:active {
+  transform: translateY(-2px) translateX(0);
+}
+
+.form-modal-content {
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 840px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.form-modal-content .modal-header {
+  position: relative;
+  justify-content: center;
+  /* border-bottom: none; */
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.form-modal-content .modal-title {
+  text-align: center;
+  color: #004e56;
+  /* margin-bottom: 1.5rem; */
+  margin-top: 0%;
+  margin: 0 auto 0.58rem;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+  font-weight: 700;
+}
+
+.form-modal-content .btn-close {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.form-modal-content label {
+  display: block;
+  color: #004e56;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  margin-top: 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.form-modal-content input,
+.form-modal-content textarea {
+  width: 100%;
+  border: 1px solid #777;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.form-modal-content select {
+  width: 100%;
+  border: 1px solid #777;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  background-color: #fff;
+}
+
+.form-modal-content select:focus {
+  border-color: #004e56;
+  box-shadow: 0 0 0 0.2rem rgba(0, 78, 86, 0.25);
+}
+
+#editMaterialsList, #addKitMaterialsList {
+  background-color: #fff;
+  border: 1px solid #777 !important; /* Override inline style if needed, but inline has priority usually. We should remove inline style in HTML or use !important */
+}
+
+#editMaterialsList .border-bottom, #addKitMaterialsList .border-bottom {
+  border-bottom: 1px solid #eee !important;
+}
+
+#editMaterialsList span, #addKitMaterialsList span {
+  color: #004e56;
+  font-family: 'Inter', sans-serif;
+}
+
+#editMaterialsList input[type="number"], #addKitMaterialsList input[type="number"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: #333;
+}
+
+#editMaterialsList input[type="number"]:focus, #addKitMaterialsList input[type="number"]:focus {
+  border-color: #004e56;
+  outline: none;
+}
+
+#editMaterialsList .btn-danger, #addKitMaterialsList .btn-danger {
+  background-color: #dc3545;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  transition: background-color 0.2s;
+}
+
+#editMaterialsList .btn-danger:hover, #addKitMaterialsList .btn-danger:hover {
+  background-color: #bb2d3b;
+}
+
+/* Adjust the input group for adding materials */
+.input-group .form-select {
+  border-radius: 6px 0 0 6px !important;
+  border: 1px solid #777;
+}
+
+.input-group .form-select:focus {
+  border-color: #004e56;
+  box-shadow: none; /* Remove default bootstrap shadow to match custom style */
+  z-index: 1;
+}
+
+/* Ensure the add button matches the theme */
+#addMaterialBtn {
+  background-color: #004e56;
+  color: white;
+  border: 1px solid #004e56;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+#addMaterialBtn:hover {
+  background-color: #006670;
+  border-color: #006670;
+}
+
+.form-btn {
+  display: block;
+  margin: 1.5rem auto 0;
+  background-color: #004e56;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: 'Inter', sans-serif;
+}
+
+.form-btn:hover {
+  background-color: #006670;
+  color: white;
+}
+
+.success-message {
+  display: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.success-message.show {
+  display: block;
+  opacity: 1;
+}
+
+.kit-card {
+  background: #fff;
+  /* border: 2px solid #15747B; */
+  border-radius: 12px;
+  padding: 20px;
+  height: 190px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.materials-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding-right: 5px;
+  padding-top: 2px;
+}
+
+.materials-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.materials-list::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.kit-card:hover {
+  transform: translateY(-4px);
+}
+
+.kit-card.selected {
+  background: #cddfe0;
+  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.kit-card h3 {
+  color: #15747B;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #9e1b1b;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.kit-card p {
+  color: #333;
+  font-size: 0.9rem;
+  margin: 0;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.kit-card .editar {
+  background: #15747B;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.kit-card .editar:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
