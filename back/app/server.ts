@@ -1,15 +1,6 @@
 import { routes } from "./routes/routes";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { errorHandlerMiddleware } from "./shared/middleware/";
-=======
 import { errorHandlerMiddleware } from "./shared/middleware/error_middleware";
 import { MongoDBResources } from "./shared/repositories/database/mongo/mongo_datasource";
->>>>>>> 3b2390dc59576ade74e9fe9a9483bdc2e89318e8
-=======
-import { errorHandlerMiddleware } from "./shared/middleware/error_middleware";
-import { MongoDBResources } from "./shared/repositories/database/mongo/mongo_datasource";
->>>>>>> 6610a0ee5aa9de74bbcafee85ab6648e7a723a3a
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
