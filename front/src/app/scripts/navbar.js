@@ -1,44 +1,3 @@
-const menuToggle = document.getElementById('menuToggle');
-const navbar = document.getElementById('navbar');
-const menuOverlay = document.getElementById('menuOverlay');
-
-function toggleMenu() {
-    menuToggle.classList.toggle('active');
-    navbar.classList.toggle('active');
-    menuOverlay.classList.toggle('active');
-    
-    
-    document.body.style.overflow = navbar.classList.contains('active') ? 'hidden' : '';
-}
-
-menuToggle.addEventListener('click', function(e) {
-    e.stopPropagation(); 
-    toggleMenu();
-});
-
-menuOverlay.addEventListener('click', toggleMenu);
-
-const navItems = document.querySelectorAll('.nav-item');
-navItems.forEach(item => {
-    item.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
-            toggleMenu();
-        }
-    });
-});
-
-
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) {
-        menuToggle.classList.remove('active');
-        navbar.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-});
-
-
-
 // Função para construir o header da página home
 function buildHomeHeader() {
     const header = document.querySelector('header');
@@ -132,15 +91,17 @@ function getNavBar() {
                     const menuOverlay = document.getElementById('menuOverlay');
 
                     function toggleMenu() {
-                        const icon = menuToggleBtn.querySelector('i');
-                        if (navbar.classList.contains('active')) {
-                            icon.className = 'fas fa-bars';
-                        } else {
-                            icon.className = 'fas fa-times';
-                        }
                         menuToggleBtn.classList.toggle('active');
                         navbar.classList.toggle('active');
                         menuOverlay.classList.toggle('active');
+
+                        const icon = menuToggleBtn.querySelector('i');
+                        if (navbar.classList.contains('active')) {
+                            icon.className = 'fas fa-times';
+                        } else {
+                            icon.className = 'fas fa-bars';
+                        }
+
                         document.body.style.overflow = navbar.classList.contains('active') ? 'hidden' : '';
                     }
 
@@ -251,6 +212,14 @@ function getNavBar() {
                             menuToggleBtn.classList.toggle('active');
                             navbar.classList.toggle('active');
                             menuOverlay.classList.toggle('active');
+
+                            const icon = menuToggleBtn.querySelector('i');
+                            if (navbar.classList.contains('active')) {
+                                icon.className = 'fas fa-times';
+                            } else {
+                                icon.className = 'fas fa-bars';
+                            }
+
                             document.body.style.overflow = navbar.classList.contains('active') ? 'hidden' : '';
                         }
 
@@ -272,6 +241,8 @@ function getNavBar() {
 
                         window.addEventListener('resize', () => {
                             if (window.innerWidth > 768) {
+                                const icon = menuToggleBtn.querySelector('i');
+                                icon.className = 'fas fa-bars';
                                 menuToggleBtn.classList.remove('active');
                                 navbar.classList.remove('active');
                                 menuOverlay.classList.remove('active');
