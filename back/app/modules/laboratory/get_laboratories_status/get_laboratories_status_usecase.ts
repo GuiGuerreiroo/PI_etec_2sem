@@ -58,7 +58,7 @@ export class GetLaboratoriesStatusUseCase {
                 const existingLab = reservedLabsMap.get(lab.name);
 
                 if (existingLab) {
-                    const full= (existingLab.count === 13);
+                    const full= (existingLab.count === 14);
                     return {
                         laboratoryId: lab.labId!,
                         laboratoryName: lab.name,

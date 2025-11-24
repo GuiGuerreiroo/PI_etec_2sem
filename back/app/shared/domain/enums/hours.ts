@@ -5,7 +5,6 @@ export enum HOUR {
     "10:00"= "10:00",
     "10:50"= "10:50",
     "11:40"= "11:40",
-    "12:30"= "12:30",
     "13:00"= "13:00",
     "13:50"= "13:50",
     "14:40"= "14:40",
@@ -35,9 +34,6 @@ export function toEnum(value: string): HOUR{
 
         case "11:40":
             return HOUR["11:40"]
-
-        case "12:30":
-            return HOUR["12:30"]
 
         case "13:00":
             return HOUR["13:00"]

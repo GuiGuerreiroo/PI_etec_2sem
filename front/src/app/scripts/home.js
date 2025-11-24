@@ -1,0 +1,505 @@
+//CAMADA DE DADOS (DATA LAYER)
+class ReservationRepository {
+    constructor(storageKey = 'lab_reservations') {
+        this.storageKey = storageKey;
+        this.userKey = 'current_user';
+    }
+
+    getCurrentUser() {
+        try {
+            const userData = localStorage.getItem(this.userKey) || sessionStorage.getItem(this.userKey);
+            return userData ? JSON.parse(userData) : null;
+        } catch (error) {
+            console.error('Erro ao recuperar usuário:', error);
+            return null;
+        }
+    }
+
+    isDatePast(date) {
+        const checkDate = new Date(date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        checkDate.setHours(0, 0, 0, 0);
+        return checkDate < today;
+    }
+
+    getAll() {
+        try {
+            const data = localStorage.getItem(this.storageKey);
+            return data ? JSON.parse(data) : this.getDefaultReservations();
+        } catch (error) {
+            console.error('Erro ao recuperar reservas:', error);
+            return this.getDefaultReservations();
+        }
+    }
+
+    getByUser(userId) {
+        const allReservations = this.getAll();
+        return allReservations.filter(r => r.userId === userId);
+    }
+}
+
+
+class ReservationService {
+    constructor(repository) {
+        this.repository = repository;
+        this.currentUser = this.repository.getCurrentUser();
+        this.reservations = this.currentUser ? this.repository.getByUser(this.currentUser.id) : [];
+    }
+
+    getByDateAndLabs(date, labs = ['lab1', 'lab2', 'lab3']) {
+        const dateStr = new Date(date).toISOString().split('T')[0];
+        return this.reservations.filter(r => {
+            const resDateStr = new Date(r.date).toISOString().split('T')[0];
+            return resDateStr === dateStr && labs.includes(r.lab);
+        });
+    }
+
+    hasReservationsOnDate(date, labs = ['lab1', 'lab2', 'lab3']) {
+        return this.getByDateAndLabs(date, labs).length > 0;
+    }
+
+    getTimeSlots() {
+        return [
+            '07:10', '08:00', '08:50', '09:40', '10:30', '11:20',
+            '12:10', '13:00', '13:50', '14:40', '15:30', '16:20',
+            '17:10', '18:00', '18:50'
+        ];
+    }
+}
+
+
+class UIController {
+    constructor() {
+        const today = new Date();
+        this.currentDate = new Date(today);
+        this.selectedDate = new Date(today);
+        this.selectedLabs = ['lab1', 'lab2', 'lab3'];
+
+        this.monthNames = [
+            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        ];
+        this.dayNames = ['Dom.', 'Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sáb.'];
+        this.labNames = {
+            'lab1': 'Laboratório de Química 01',
+            'lab2': 'Laboratório de Química 02',
+            'lab3': 'Laboratório de Química 03'
+        };
+    }
+
+    getLabName(labCode) {
+        return this.labNames[labCode] || 'Laboratório Desconhecido';
+    }
+
+    getMonthYearString(date) {
+        return `${this.monthNames[date.getMonth()]} de ${date.getFullYear()}`;
+    }
+
+    getDayName(date) {
+        return this.dayNames[date.getDay()];
+    }
+
+    isDateInPast(date) {
+        const checkDate = new Date(date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        checkDate.setHours(0, 0, 0, 0);
+        return checkDate < today;
+    }
+}
+
+
+class ReservationController {
+    constructor() {
+        this.repository = new ReservationRepository();
+        this.service = new ReservationService(this.repository);
+        this.ui = new UIController();
+        this.init();
+    }
+
+    init() {
+        this.setupEventListeners();
+        this.render();
+    }
+
+    render() {
+        this.renderCalendar();
+        this.renderAgenda();
+        this.renderFilters();
+        this.displayReservationInfo();
+    }
+
+    renderCalendar() {
+        const calendarGrid = document.getElementById('calendar');
+        const monthYearSpan = document.querySelector('.calendar-header span:nth-child(2)');
+        if (!calendarGrid || !monthYearSpan) return;
+
+        monthYearSpan.textContent = this.ui.getMonthYearString(this.ui.currentDate);
+
+        while (calendarGrid.children.length > 7) {
+            calendarGrid.removeChild(calendarGrid.lastChild);
+        }
+
+        const firstDay = new Date(
+            this.ui.currentDate.getFullYear(),
+            this.ui.currentDate.getMonth(),
+            1
+        ).getDay();
+
+        const daysInMonth = new Date(
+            this.ui.currentDate.getFullYear(),
+            this.ui.currentDate.getMonth() + 1,
+            0
+        ).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.style.backgroundColor = 'transparent';
+            emptyDiv.style.cursor = 'default';
+            calendarGrid.appendChild(emptyDiv);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.textContent = day;
+            const dayDate = new Date(
+                this.ui.currentDate.getFullYear(),
+                this.ui.currentDate.getMonth(),
+                day
+            );
+
+            if (this.ui.isDateInPast(dayDate) || dayDate.getDay() === 0) {
+                dayDiv.style.opacity = '0.5';
+                dayDiv.style.color = '#999';
+                dayDiv.style.cursor = 'not-allowed';
+                dayDiv.style.pointerEvents = 'none';
+            }
+
+            const hasReservations = this.service.hasReservationsOnDate(dayDate, this.ui.selectedLabs);
+            if (hasReservations) {
+                dayDiv.classList.add('has-reservations');
+            }
+
+            if (day === this.ui.selectedDate.getDate() &&
+                this.ui.currentDate.getMonth() === this.ui.selectedDate.getMonth() &&
+                this.ui.currentDate.getFullYear() === this.ui.selectedDate.getFullYear()) {
+                dayDiv.classList.add('selected');
+            }
+
+            calendarGrid.appendChild(dayDiv);
+        }
+    }
+
+    renderAgenda() {
+        const agendaDay = document.querySelector('.agenda-header h4');
+        const agendaDate = document.querySelector('.agenda-date');
+
+        if (!agendaDay || !agendaDate) return;
+
+        agendaDay.textContent = this.ui.getDayName(this.ui.selectedDate);
+        agendaDate.textContent = `${this.ui.selectedDate.getDate()} de ${this.ui.getMonthYearString(this.ui.selectedDate).split(' de ')[0]}`;
+
+       
+        document.querySelectorAll('.agenda-body .col-md-3').forEach((cell, index) => {
+            if (index > 0 && index % 4 !== 0) {
+                cell.innerHTML = '';
+                cell.classList = 'col-md-3 mx-1';
+            }
+        });
+    }
+
+    createEventElement(reservation) {
+        const element = document.createElement('div');
+        element.className = `event ${reservation.lab}`;
+        element.style.height = `${reservation.duration * 50}px`;
+        element.innerHTML = `
+            <strong>${reservation.professor}</strong>
+            <span>${this.ui.getLabName(reservation.lab)}</span>
+        `;
+
+        element.style.cursor = 'pointer';
+        element.addEventListener('click', () => {
+            this.displayReservationInfo(reservation);
+        });
+
+        return element;
+    }
+
+    displayReservationInfo(reservation = null) {
+        const form = document.querySelector('.info');
+        if (!form) return;
+
+        if (reservation) {
+            form.querySelector('p:nth-child(2) span').textContent = reservation.professor;
+            form.querySelector('p:nth-child(3) span').textContent = `${reservation.time} (${reservation.duration} aula${reservation.duration > 1 ? 's' : ''})`;
+            form.querySelector('p:nth-child(4) span').textContent = this.ui.getLabName(reservation.lab);
+            form.querySelector('p:nth-child(5) span').textContent = reservation.kits;
+            form.querySelector('textarea').value = reservation.observacoes || '';
+        }
+
+        const button = form.querySelector('button');
+        if (button) button.style.display = 'none';
+    }
+
+    renderFilters() {
+        const checkboxes = document.querySelectorAll('.filters input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            const labClass = Array.from(checkbox.nextElementSibling.classList).find(cls => cls.startsWith('lab'));
+            checkbox.checked = this.ui.selectedLabs.includes(labClass);
+        });
+    }
+
+    setupEventListeners() {
+        const calendarHeader = document.querySelector('.calendar-header');
+        if (calendarHeader) {
+            const prevBtn = calendarHeader.querySelector('span:first-child');
+            const nextBtn = calendarHeader.querySelector('span:last-child');
+
+            if (prevBtn) {
+                prevBtn.style.cursor = 'pointer';
+                prevBtn.addEventListener('click', () => {
+                    this.ui.currentDate.setMonth(this.ui.currentDate.getMonth() - 1);
+                    this.renderCalendar();
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.style.cursor = 'pointer';
+                nextBtn.addEventListener('click', () => {
+                    this.ui.currentDate.setMonth(this.ui.currentDate.getMonth() + 1);
+                    this.renderCalendar();
+                });
+            }
+        }
+
+        const calendarGrid = document.getElementById('calendar');
+        if (calendarGrid) {
+            calendarGrid.addEventListener('click', (e) => {
+                const dayNumber = parseInt(e.target.textContent);
+                if (!dayNumber) return;
+
+                const clickedDate = new Date(
+                    this.ui.currentDate.getFullYear(),
+                    this.ui.currentDate.getMonth(),
+                    dayNumber
+                );
+
+                if (this.repository.isDatePast(clickedDate) || clickedDate.getDay() === 0) {
+                    return;
+                }
+
+                this.ui.selectedDate = clickedDate;
+                this.renderCalendar();
+                this.renderAgenda();
+                this.displayReservationInfo();
+                getReservationByDay();
+            });
+        }
+
+        const prevDayBtn = document.querySelector('.prev');
+        const nextDayBtn = document.querySelector('.next');
+
+        if (prevDayBtn) {
+            prevDayBtn.addEventListener('click', () => {
+                let prevDate = new Date(this.ui.selectedDate.getTime() - 86400000);
+
+                if (prevDate.getDay() === 0) {
+                    prevDate = new Date(prevDate.getTime() - 86400000);
+                }
+
+                if (!this.repository.isDatePast(prevDate)) {
+                    this.ui.selectedDate = prevDate;
+                    this.ui.currentDate = new Date(prevDate);
+                    this.render();
+                    getReservationByDay();
+                }
+            });
+        }
+
+        if (nextDayBtn) {
+            nextDayBtn.addEventListener('click', () => {
+                const nextDate = new Date(this.ui.selectedDate.getTime() + 86400000);
+                this.ui.selectedDate = nextDate;
+                this.ui.currentDate = new Date(nextDate);
+                this.render();
+                getReservationByDay();
+            });
+        }
+
+        const filters = document.querySelectorAll('.filters input[type="checkbox"]');
+        filters.forEach(filter => {
+            filter.addEventListener('change', (e) => {
+                const labClass = Array.from(e.target.nextElementSibling.classList).find(cls => cls.startsWith('lab'));
+
+                if (e.target.checked) {
+                    if (!this.ui.selectedLabs.includes(labClass)) {
+                        this.ui.selectedLabs.push(labClass);
+                    }
+                } else {
+                    this.ui.selectedLabs = this.ui.selectedLabs.filter(lab => lab !== labClass);
+                }
+
+                this.renderCalendar();
+                this.renderAgenda();
+                getReservationByDay();
+            });
+        });
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        window.reservationController = new ReservationController();
+
+        const dateInput = document.querySelector('input[type="date"]');
+        if (dateInput) {
+            dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+        }
+    } catch (error) {
+        console.error('Erro ao inicializar sistema:', error);
+    }
+});
+
+async function getReservationByDay() {
+    const selectedDate = window.reservationController.ui.selectedDate;
+    const selectedDateStr = selectedDate.toISOString().slice(0, 10);
+    const labsSelecionados = window.reservationController.ui.selectedLabs;
+
+    try {
+        const response = await getReservationByFilter(selectedDateStr);
+        
+        if (!response || !response.reservations) {
+            console.log('Nenhuma reserva encontrada para esta data');
+            return;
+        }
+
+     
+        response.reservations.sort((a, b) => {
+            const timeToMinutes = (time) => {
+                const [hours, minutes] = time.split(':').map(Number);
+                return hours * 60 + minutes;
+            };
+            return timeToMinutes(a.hour) - timeToMinutes(b.hour);
+        });
+
+   
+        document.querySelectorAll('.agenda-body .col-md-3').forEach((cell, index) => {
+            if (index > 0 && index % 4 !== 0) {
+                cell.innerHTML = '';
+                cell.classList = 'col-md-3 mx-1';
+            }
+        });
+
+       
+        const labColumns = {
+            'lab1': 1,
+            'lab2': 2, 
+            'lab3': 3
+        };
+
+       
+        response.reservations.forEach(reserva => {
+            
+            let codigoLab = reserva.lab;
+            
+            if (!codigoLab || !codigoLab.startsWith('lab')) {
+                const nome = (reserva.labName || '').toLowerCase();
+                if (nome.includes('1') || nome.includes('química 1')) codigoLab = 'lab1';
+                else if (nome.includes('2') || nome.includes('química 2')) codigoLab = 'lab2';
+                else if (nome.includes('3') || nome.includes('química 3')) codigoLab = 'lab3';
+            }
+
+          
+            if (!labsSelecionados.includes(codigoLab)) {
+                return;
+            }
+
+          
+            const row = document.getElementById(reserva.hour);
+            if (!row) {
+                console.log('Linha não encontrada para horário:', reserva.hour);
+                return;
+            }
+
+            const cols = row.querySelectorAll(".col-md-3");
+            const colIndex = labColumns[codigoLab];
+
+            if (cols && cols[colIndex]) {
+                const kitString = JSON.stringify(reserva.kit || {}).replace(/"/g, '&quot;');
+                const labColor = getLabColor(reserva.labName);
+
+                cols[colIndex].innerHTML = `
+                    <button 
+                        class="reserva-btn" 
+                        style="background-color: ${labColor}; color: ${labColor === '#CCC31A' ? 'black' : 'white'}; border: none; padding: 14px 10px; border-radius: 12px; font-size: 14px; font-weight: 600; text-align: center; margin: 3px 0; width: 100%; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+                        onclick="mostrarReserva('${reserva.userName}', '${reserva.hour}', '${reserva.labName || ''}', '${kitString}')"
+                    >
+                        ${reserva.userName}
+                    </button>
+                `;
+            }
+        });
+
+    } catch (error) {
+        console.error('Erro ao carregar reservas:', error);
+    }
+}
+
+function getLabColor(labName) {
+    if (!labName) return "#95A5A6";
+    
+    const nomeLower = labName.toLowerCase();
+    if (nomeLower.includes('1') || nomeLower.includes('química 1')) {
+        return "#187830";
+    } else if (nomeLower.includes('2') || nomeLower.includes('química 2')) {
+        return "#007AA8";
+    } else if (nomeLower.includes('3') || nomeLower.includes('química 3')) {
+        return "#CC473D";
+    } else {
+        return "#95A5A6";
+    }
+}
+
+
+function mostrarReserva(professor, horario, laboratorio, kitString) {
+    try {
+        const kit = JSON.parse(kitString.replace(/&quot;/g, '"'));
+        
+        document.getElementById('modal-professor').textContent = professor || 'N/A';
+        document.getElementById('modal-horario').textContent = horario || 'N/A';
+        document.getElementById('modal-laboratorio').textContent = laboratorio || 'N/A';
+        document.getElementById('modal-kits').textContent = kit.name || 'N/A';
+        
+        const materiaisContainer = document.getElementById('modal-materiais');
+        materiaisContainer.innerHTML = '';
+        
+        if (kit.materials && Array.isArray(kit.materials)) {
+            kit.materials.forEach(material => {
+                const p = document.createElement('p');
+                p.innerText = `${material.material.name} ${material.material.size || ''} : ${material.selectedQuantity}`;
+                materiaisContainer.appendChild(p);
+            });
+        }
+
+        const reservationModal = new bootstrap.Modal(document.getElementById('reservation-modal'));
+        reservationModal.show();
+    } catch (error) {
+        console.error('Erro ao mostrar reserva:', error);
+    }
+}
+
+
+function fecharModal() {
+    document.getElementById('reservation-modal').style.display = 'none';
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('.close-button').onclick = fecharModal;
+
+    document.getElementById('reservation-modal').onclick = function (e) {
+        if (e.target === this) fecharModal();
+    };
+});

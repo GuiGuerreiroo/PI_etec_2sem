@@ -1,11 +1,11 @@
 async function createKit(materialBody, name) {
     try {
         const response = await axios.post(
-            `http://localhost:3000/api/create-kit`,
+            `http://localhost:3000/api/kit`,
 
             {
                 "name": name,
-                "material": materialBody,
+                "materials": materialBody,
             },
             {
                 headers: {
@@ -17,6 +17,7 @@ async function createKit(materialBody, name) {
         console.log(response.data);
         localStorage.setItem("kit", JSON.stringify(response.data));
         localStorage.setItem("kitId", JSON.stringify(response.data.kitId));
+        return response.data;
     }
     catch (error) {
         console.error("Erro ao criar kit: ", error);

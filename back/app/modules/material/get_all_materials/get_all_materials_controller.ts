@@ -10,7 +10,7 @@ export class GetAllMaterialsController {
     async handler(req: Request, res: Response) {
         const userFromToken = req.user as UserFromToken;
 
-        const allowedRoles = ["ADMIN", "MODERATOR"];
+        const allowedRoles = ["ADMIN", "MODERATOR", "PROFESSOR"];
 
         if (!allowedRoles.includes(userFromToken.role))
             throw new ForbiddenException("Você não tem permissão para acessar este recurso");
