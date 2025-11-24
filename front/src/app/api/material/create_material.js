@@ -1,7 +1,7 @@
 async function createMaterial(name, reusable, totalQuantity) {
     try {
         const response = await axios.post(
-            `http://localhost:3000/api/create-material`,
+            `http://localhost:3000/api/material`,
 
             {
                 "name": name,

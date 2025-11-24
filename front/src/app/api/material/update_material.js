@@ -1,12 +1,10 @@
 async function updateMaterial(materialId, materialData) {
 
     try {
-        const body = {
-            id: materialId
-        };
+        const body = { id: materialId };
 
-        if (materialData.reusable) body.reusable = materialData.reusable;
-        if (materialData.totalQuantity) body.totalQuantity = materialData.totalQuantity;
+        if ('reusable' in materialData) body.reusable = materialData.reusable;
+        if ('totalQuantity' in materialData) body.totalQuantity = materialData.totalQuantity;
 
         const response = await axios.put(
             `http://localhost:3000/api/material`,
