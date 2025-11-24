@@ -103,5 +103,8 @@ async function userDirection(event) {
             // Something else happened
             showToast('Erro inesperado. Tente novamente', 'error');
         }
+        if(user.role === 'ADMIN' ){
+            window.location.href = '../pages/kits.html';
+        }
     }
 }
