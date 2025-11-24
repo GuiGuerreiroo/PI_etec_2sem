@@ -10,7 +10,13 @@ async function authUser(event) {
     console.log('Resposta da API:')
     console.log(response.data)
 
-    localStorage.setItem('token', JSON.stringify(response.data.token))
+  const response = await axios.post(
+    `http://localhost:3000/api/login`,
+    {
+      "email": document.querySelector('#emailInput').value,
+      "password": document.querySelector('#passwordInput').value
+    }
+  );
 
     localStorage.setItem('user', JSON.stringify(response.data.user))
   }

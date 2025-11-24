@@ -87,7 +87,7 @@ export class MaterialRepoMongoDB implements IMaterialRepository{
             materialId,
             {
                 ...updateOptions.totalQuantity && { totalQuantity: updateOptions.totalQuantity },
-                ...updateOptions.reusable && { reusable: updateOptions.reusable },
+                ...updateOptions.reusable !== undefined && { reusable: updateOptions.reusable },
             },
             { new: true }
         ).exec();
