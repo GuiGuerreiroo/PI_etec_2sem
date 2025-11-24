@@ -1,42 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Reservas</title>
-<link rel="stylesheet" href="../style/home.css">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reservas</title>
+  <link rel="stylesheet" href="../style/home.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+
+<body onload="getReservationByDay()">
   <header>
+
+    <div class="menu-toggle"
+      onclick="this.classList.toggle('active'); document.querySelector('nav.navbar').classList.toggle('active')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="navbar">
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 
+        2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 
+        16H5V9h14z" />
+        </svg>
+        <span>RESERVAS</span>
+      </div>
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm1-14h-2v6l5.25 3.15.75-1.23-4-2.42V6z" />
+        </svg>
+        <span>AGENDAR</span>
+      </div>
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 2v6l5 9v5h2v-5l5-9V2H6zm2 
+        2h8v3.586l-4 7.2-4-7.2z" />
+        </svg>
+        <span>KITS</span>
+      </div>
+    </nav>
+    </div>
+    </div>
     <div class="title-wrap">
       <h1 class="logo">Minhas Reservas</h1>
       <div class="decor" aria-hidden="true">
         <div class="line" role="presentation"></div>
         <div class="pill" role="presentation"></div>
-      </div>
-    </div>
   </header>
-<body onload="getReservationByDay()">
-  <div class="menu-toggle" onclick="this.classList.toggle('active'); document.querySelector('nav.navbar').classList.toggle('active')">
-    <span></span>
-    <span></span>
-    <span></span>
-</div>
-  </div>
-  <nav class="navbar">
-      <div class="nav-item">
-        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 
-        2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 
-        16H5V9h14z"/></svg>
-        <span>RESERVAS</span>
-      </div>
-      <div class="nav-item">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm1-14h-2v6l5.25 3.15.75-1.23-4-2.42V6z"/></svg>
-        <span>AGENDAR</span>
-      </div>
-      <div class="nav-item">
-        <svg viewBox="0 0 24 24"><path d="M6 2v6l5 9v5h2v-5l5-9V2H6zm2 
-        2h8v3.586l-4 7.2-4-7.2z"/></svg>
-        <span>KITS</span>
-      </div>
-    </nav>
+
   <main>
     <aside>
       <div class="card">
@@ -46,36 +61,67 @@
           <span>&gt;</span>
         </div>
         <div class="calendar-grid" id="calendar">
-        <div>D</div>
-        <div>S</div>
-        <div>T</div>
-        <div>Q</div>
-        <div>Q</div>
-        <div>S</div>
-        <div>S</div>
+          <div>D</div>
+          <div>S</div>
+          <div>T</div>
+          <div>Q</div>
+          <div>Q</div>
+          <div>S</div>
+          <div>S</div>
         </div>
       </div>
 
       <div class="card filters">
         <h3>Filtros</h3>
         <div class="line"></div>
-        <label><input type="checkbox" checked id="checkboxLab1"> <span class="lab1" title="Laboratório 01">Laboratório 01</span></label>
-        <label><input type="checkbox" checked id="checkboxLab2"> <span class="lab2" title="Laboratório 02">Laboratório 02</span></label>
-        <label><input type="checkbox" checked id="checkboxLab3"> <span class="lab3" title="Laboratório 03">Laboratório 03</span></label>
+        <label><input type="checkbox" checked id="checkboxLab1"> <span class="lab1" title="Laboratório 01">Laboratório
+            01</span></label>
+        <label><input type="checkbox" checked id="checkboxLab2"> <span class="lab2" title="Laboratório 02">Laboratório
+            02</span></label>
+        <label><input type="checkbox" checked id="checkboxLab3"> <span class="lab3" title="Laboratório 03">Laboratório
+            03</span></label>
       </div>
 
-      <div class="card info">
-        <h3>Informações</h3>
-        <div class="line"></div>
-        <p><strong>Professor:</strong> <span>–</span></p>
-        <p><strong>Horário:</strong> <span>–</span></p>
-        <p><strong>Laboratório:</strong> <span>–</span></p>
-        <p><strong>Kits:</strong> <span>–</span></p>
-        <textarea placeholder="Observações..." id="observation"></textarea>
-        <button id="assignButton">Atribuir</button>
+        <div class="modal fade" id="reservation-modal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reservationModalLabel">Informações</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Grade para layout de 2 colunas -->
+            <div class="info-grid">
+              <div class="info-item">
+                <strong class="info-label">Professor</strong>
+                <span id="modal-professor" class="info-value"></span>
+              </div>
+              <div class="info-item">
+                <strong class="info-label">Horario</strong>
+                <span id="modal-horario" class="info-value"></span>
+              </div>
+              <div class="info-item">
+                <strong class="info-label">Laboratório</strong>
+                <span id="modal-laboratorio" class="info-value"></span>
+              </div>
+              <div class="info-item">
+                <strong class="info-label">Kits</strong>
+                <span id="modal-kits" class="info-value"></span>
+              </div>
+            </div>
+            <!-- Container para materiais/observações -->
+            <div class="materials-list-container" id="modal-materiais">
+              <!-- Conteúdo inserido via JS -->
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+    
     </aside>
-
+    <!-- <div class="container my-4">
+      
+    </div> -->
     <div class="agenda">
       <div class="agenda-header">
         <h4>Qui.</h4>
@@ -87,117 +133,109 @@
       </div>
 
       <div class="agenda-body" id="agendaBody">
-        <div class="row" id="7:10">
-          <div class="col-md-3" >07:10</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+         <div class="row" id="7:10">
+          <div class="col-md-3">07:10 - 08:00</div>
+          <div class="col-md-3 mx-1"></div>
+          <div class="col-md-3 mx-1"></div>
+          <div class="col-md-3 mx-1"></div>
         </div>
-        <div class="row" id="8:10">
-          <div class="col-md-3" >08:00</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+        <div class="row" id="8:00">
+          <div class="col-md-3">08:00 - 08:50</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
         <div class="row" id="8:50">
-          <div class="col-md-3" >08:50</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+          <div class="col-md-3">08:50 - 09:40</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
-        <div class="row" id="9:40">
-          <div class="col-md-3" >09:40</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+        
+        <!-- Intervalo Matutino (Pula das 9:40 para 10:00) -->
+
+        <div class="row" id="10:00">
+          <div class="col-md-3">10:00 - 10:50</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
-        <div class="row" id="10:30">
-          <div class="col-md-3" >10:30</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+        <div class="row" id="10:50">
+          <div class="col-md-3">10:50 - 11:40</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
-        <div class="row" id="11:20">
-          <div class="col-md-3" >11:20</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+        <div class="row" id="11:40">
+          <div class="col-md-3">11:40 - 12:30</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
-        <div class="row" id="12:10">
-          <div class="col-md-3" >12:10</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-        </div>
+
+        <!-- PERÍODO VESPERTINO -->
         <div class="row" id="13:00">
-          <div class="col-md-3" >13:00</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+          <div class="col-md-3">13:00 - 13:50</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
         <div class="row" id="13:50">
-          <div class="col-md-3" >13:50</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+          <div class="col-md-3">13:50 - 14:40</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
         <div class="row" id="14:40">
-          <div class="col-md-3" >14:40</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+          <div class="col-md-3">14:40 - 15:30</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
-        <div class="row" id="15:30">
-          <div class="col-md-3" >15:30</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+
+        <!-- Intervalo Vespertino (Pula das 15:30 para 15:50) -->
+
+        <div class="row" id="15:50">
+          <div class="col-md-3">15:50 - 16:40</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
-        <div class="row" id="16:20">
-          <div class="col-md-3" >16:20</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+        <div class="row" id="16:40">
+          <div class="col-md-3">16:40 - 17:30</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
-        <div class="row" id="17:10">
-          <div class="col-md-3" >17:10</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+        <div class="row" id="17:30">
+          <div class="col-md-3">17:30 - 18:20</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
-        <div class="row" id="18:00">
-          <div class="col-md-3" >18:00</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+
+        <!-- PERÍODO NOTURNO (MODULAR) -->
+        <div class="row" id="18:50">
+          <div class="col-md-3">18:50 - 20:44</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
-        <div class="row" id="18:20">
-          <div class="col-md-3" >18:20</div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
-          <div class="col-md-3" ></div>
+        <div class="row" id="20:58">
+          <div class="col-md-3">20:58 - 22:50</div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
+          <div class="col-md-3"></div>
         </div>
       </div>
-        <!-- <div class="hour" id="7:10"><span>07:10</span></div> -->
-        <!-- <div class="hour" id="8:00"><span>08:00</span></div>
-        <div class="hour" id="8:50"><span>08:50</span></div>
-        <div class="hour" id="9:40"><span>09:40</span></div>
-        <div class="hour" id="10:30"><span>10:30</span></div>
-        <div class="hour" id="11:20"><span>11:20</span></div>
-        <div class="hour" id="12:10"><span>12:10</span></div>
-        <div class="hour" id="13:00"><span>13:00</span></div>
-        <div class="hour" id="13:50"><span>13:50</span></div>
-        <div class="hour" id="14:40"><span>14:40</span></div>
-        <div class="hour" id="15:30"><span>15:30</span></div>
-        <div class="hour" id="16:20"><span>16:20</span></div>
-        <div class="hour" id="17:10"><span>17:10</span></div>
-        <div class="hour" id="18:00"><span>18:00</span></div>
-        <div class="hour" id="18:20"><span>18:20</span></div> -->
     </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-   <script src="../scripts/home.js"></script>
-   <script src="../api/reservation/get_reservation_by_filter.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="../scripts/home.js"></script>
+  <script src="../api/reservation/get_reservation_by_filter.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>

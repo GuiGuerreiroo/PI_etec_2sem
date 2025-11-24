@@ -15,10 +15,12 @@ class ReservationRepository {
         }
     }
 
+
     isDatePast(date) {
+        const checkDate = new Date(date);
+        // Exceção para permitir o dia 15 de Novembro de 2025
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const checkDate = new Date(date);
         checkDate.setHours(0, 0, 0, 0);
         return checkDate < today;
     }
@@ -82,9 +84,9 @@ class UIController {
         ];
         this.dayNames = ['Dom.', 'Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sáb.'];
         this.labNames = {
-            'lab1': 'Laboratório 01',
-            'lab2': 'Laboratório 02',
-            'lab3': 'Laboratório 03'
+            'lab1': 'Laboratório de Química 01',
+            'lab2': 'Laboratório de Química 02',
+            'lab3': 'Laboratório de Química 03'
         };
     }
 
@@ -101,9 +103,10 @@ class UIController {
     }
 
     isDateInPast(date) {
+        const checkDate = new Date(date);
+        // Exceção para permitir o dia 15 de Novembro de 2025
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const checkDate = new Date(date);
         checkDate.setHours(0, 0, 0, 0);
         return checkDate < today;
     }
@@ -128,7 +131,7 @@ class ReservationController {
         this.renderAgenda();
         this.renderFilters();
         this.displayReservationInfo();
-        
+
     }
 
     renderCalendar() {
@@ -164,13 +167,14 @@ class ReservationController {
         for (let day = 1; day <= daysInMonth; day++) {
             const dayDiv = document.createElement('div');
             dayDiv.textContent = day;
-            const dayDate = new Date(
+           const dayDate = new Date(
                 this.ui.currentDate.getFullYear(),
                 this.ui.currentDate.getMonth(),
                 day
             );
 
-            if (this.ui.isDateInPast(dayDate)) {
+            // ALTERAÇÃO AQUI: Adicione "|| dayDate.getDay() === 0"
+            if (this.ui.isDateInPast(dayDate) || dayDate.getDay() === 0) {
                 dayDiv.style.opacity = '0.5';
                 dayDiv.style.color = '#999';
                 dayDiv.style.cursor = 'not-allowed';
@@ -190,41 +194,32 @@ class ReservationController {
 
             calendarGrid.appendChild(dayDiv);
         }
+
+
     }
 
     renderAgenda() {
-        const agendaBody = document.getElementById('agendaBody');
         const agendaDay = document.querySelector('.agenda-header h4');
         const agendaDate = document.querySelector('.agenda-date');
-        if (!agendaBody || !agendaDay || !agendaDate) return;
+
+        // A função agora só atualiza o texto do dia e da data.
+        if (!agendaDay || !agendaDate) return;
 
         agendaDay.textContent = this.ui.getDayName(this.ui.selectedDate);
         agendaDate.textContent = `${this.ui.selectedDate.getDate()} de ${this.ui.getMonthYearString(this.ui.selectedDate).split(' de ')[0]}`;
 
-        agendaBody.innerHTML = '';
+        // Toda a lógica de criar e apagar elementos foi removida daqui.
 
-        const timeSlots = this.service.getTimeSlots();
-        const reservationsForDay = this.service.getByDateAndLabs(this.ui.selectedDate, this.ui.selectedLabs);
-
-        timeSlots.forEach(time => {
-            const hourElement = document.createElement('div');
-            hourElement.className = 'hour';
-            const timeSpan = document.createElement('span');
-            timeSpan.textContent = time;
-            hourElement.appendChild(timeSpan);
-
-            const reservationsAtTime = reservationsForDay.filter(r => r.time === time);
-
-            if (reservationsAtTime.length > 0) {
-                reservationsAtTime.forEach(reservation => {
-                    const eventElement = this.createEventElement(reservation);
-                    hourElement.appendChild(eventElement);
-                });
+        document.querySelectorAll('.agenda-body .col-md-3').forEach((cell, index) => {
+            if (index > 0 && index % 4 !== 0) {
+                cell.innerHTML = '';
+                cell.classList = 'col-md-3 mx-1';
             }
-
-            agendaBody.appendChild(hourElement);
         });
+
+
     }
+
 
     createEventElement(reservation) {
         const element = document.createElement('div');
@@ -253,13 +248,7 @@ class ReservationController {
             form.querySelector('p:nth-child(4) span').textContent = this.ui.getLabName(reservation.lab);
             form.querySelector('p:nth-child(5) span').textContent = reservation.kits;
             form.querySelector('textarea').value = reservation.observacoes || '';
-        } /*else {
-            form.querySelector('p:nth-child(2) span').textContent = '–';
-            form.querySelector('p:nth-child(3) span').textContent = '–';
-            form.querySelector('p:nth-child(4) span').textContent = '–';
-            form.querySelector('p:nth-child(5) span').textContent = '–';
-            form.querySelector('textarea').value = '';
-        }*/
+        }
 
         const button = form.querySelector('button');
         if (button) button.style.display = 'none';
@@ -308,7 +297,7 @@ class ReservationController {
                     dayNumber
                 );
 
-                if (this.repository.isDatePast(clickedDate)) {
+                if (this.repository.isDatePast(clickedDate) || clickedDate.getDay() === 0) {
                     return;
                 }
 
@@ -323,12 +312,16 @@ class ReservationController {
         const prevDayBtn = document.querySelector('.prev');
         const nextDayBtn = document.querySelector('.next');
 
-        if (prevDayBtn) {
+       if (prevDayBtn) {
             prevDayBtn.addEventListener('click', () => {
-                const prevDate = new Date(this.ui.selectedDate.getTime() - 86400000);
+                let prevDate = new Date(this.ui.selectedDate.getTime() - 86400000);
+
+                if (prevDate.getDay() === 0) {
+                    prevDate = new Date(prevDate.getTime() - 86400000);
+                }
 
                 if (!this.repository.isDatePast(prevDate)) {
-                    this.ui.selectedDate = prevDate;
+                    this.ui.selectedDate = nextDate;
                     this.ui.currentDate = new Date(prevDate);
                     this.render();
                     getReservationByDay();
@@ -342,7 +335,7 @@ class ReservationController {
                 this.ui.selectedDate = nextDate;
                 this.ui.currentDate = new Date(nextDate);
                 this.render();
-                getReservationByDay();  
+                getReservationByDay();
             });
         }
 
@@ -361,6 +354,9 @@ class ReservationController {
 
                 this.renderCalendar();
                 this.renderAgenda();
+
+                // ADICIONE ESTA LINHA:
+                getReservationByDay();
             });
         });
     }
@@ -379,44 +375,120 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+
 async function getReservationByDay() {
     const selectedDate = window.reservationController.ui.selectedDate;
     const selectedDateStr = selectedDate.toISOString().slice(0, 10);
 
+    // Pega a lista de laboratórios que estão marcados no checkbox (ex: ['lab1', 'lab3'])
+    const labsSelecionados = window.reservationController.ui.selectedLabs;
+
     const response = await getReservationByFilter(selectedDateStr);
 
     response.reservations.forEach(reserva => {
-      // localiza a linha pelo horário (id)
+        // 1. Identifica qual é o código do laboratório (lab1, lab2 ou lab3)
+        let codigoLab = reserva.lab;
+
+        if (!codigoLab || !codigoLab.startsWith('lab')) {
+            const nome = (reserva.labName || '').toLowerCase();
+            if (nome.includes('1')) codigoLab = 'lab1';
+            else if (nome.includes('2')) codigoLab = 'lab2';
+            else if (nome.includes('3')) codigoLab = 'lab3';
+        }
+
+        // 2. Verifica se o laboratório está entre os selecionados
+        if (!labsSelecionados.includes(codigoLab)) {
+            return;
+        }
+
         const row = document.getElementById(reserva.hour);
-
-        console.log(document.body.innerHTML);
-        console.log(row)
-
         if (row) {
-            // pega todas as colunas da linha
             const cols = row.querySelectorAll(".col-md-3");
-
-            console.log(reservation)
-
-            // ignora a primeira (é o horário)
+            console.log(reserva);
             for (let i = 1; i < cols.length; i++) {
-            if (cols[i].textContent.trim() === "") {
-                cols[i].textContent = reserva.userName;
-                break; // sai após preencher o primeiro campo vazio
-            }
+                if (cols[i].textContent.trim() === "") {
+                    const kitString = JSON.stringify(reserva.kit || {}).replace(/"/g, '&quot;');
+                    const labColor = getLabColor(reserva.labName);
+                    // REMOVA ESTA LINHA: const horarioCompleto = getHorarioCompleto(reserva.hour);
+
+                    cols[i].innerHTML = `
+                        <button 
+                            class="reserva-btn" 
+                            style="background-color: ${labColor}; color: ${labColor === '#f1c40f' ? 'black' : 'white'}; border: none; padding: 14px 10px; border-radius: 12px; font-size: 14px; font-weight: 600; text-align: center; margin: 3px 0; width: 100%; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+                            onclick="mostrarReserva('${reserva.userName}', '${reserva.hour}', '${reserva.labName || ''}', '${kitString}')"
+                        >
+                            ${reserva.userName} <!-- DEIXE SÓ O NOME DO USUÁRIO -->
+                        </button>
+                    `;
+                    break;
+                }
             }
         }
     });
+}
 
-    // const agendaBody = document.getElementById('agendaBody');
 
-    // const linha710 = agendaBody.children[0];
-    // response.reservations.forEach(reservation => {
-    //     linha710.appendChild(window.reservationController.createEventElement(reservation.userName));
-    //     console.log('Reservation:', reservation);
-    // });
+function getLabColor(labName) {
+    console.log('Analisando labName:', labName);
+    switch (labName) {
+        case "Laboratório de Química 1":
+            return "#134b15";
+        case "Laboratório de Química 2":
+            return "#406BD6";
+        case "Laboratório de Química 3":
+            return "#D14636";
+        case "química 1":
+            return "#134b15";
+        case "química 2":
+            return "#406BD6";
+        case "química 3":
+            return "#D14636";
+        default:
+            console.log('laboratório não encontrado:', labName);
+            return "#95A5A6";
+    }
 }
 
 
 
 
+// Função simples para mostrar o modal
+function mostrarReserva(professor, horario, laboratorio, kitString) {
+    const kit = JSON.parse(kitString.replace(/&quot;/g, '"')); // Converte a string JSON de volta para objeto
+    // Preenche as informações nos elementos corretos usando seus IDs
+    console.log(professor, horario, laboratorio, kit.name);
+    document.getElementById('modal-professor').textContent = professor || 'N/A';
+    document.getElementById('modal-horario').textContent = horario || 'N/A';
+    document.getElementById('modal-laboratorio').textContent = laboratorio || 'N/A';
+    // Exemplo de como preencher os kits (você precisará passar essa informação)
+    document.getElementById('modal-kits').textContent = kit.name || 'N/A'; // Substitua pelo dado real
+    document.getElementById('modal-materiais').textContent = ''; // Substitua pelo dado real
+    kit.materials.forEach(material => {
+        const p = document.createElement('p');
+        p.innerText = `${material.material.name} ${material.material.size || ''} :  ${material.selectedQuantity}`;
+        document.getElementById('modal-materiais').appendChild(p);
+
+    });
+
+    // Pega a instância do modal do Bootstrap
+    const reservationModal = new bootstrap.Modal(document.getElementById('reservation-modal'));
+
+    // Mostra o modal
+    reservationModal.show();
+}
+
+
+// Fechar modal
+function fecharModal() {
+    document.getElementById('reservation-modal').style.display = 'none';
+}
+
+// Configura o botão de fechar quando a página carregar
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('.close-button').onclick = fecharModal;
+
+    // Fecha ao clicar fora do modal
+    document.getElementById('reservation-modal').onclick = function (e) {
+        if (e.target === this) fecharModal();
+    };
+});
