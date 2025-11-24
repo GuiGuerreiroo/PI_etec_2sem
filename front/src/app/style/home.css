@@ -19,15 +19,6 @@ body {
   position: relative;
 }
 
-header {
-  position: relative;
-  padding: 36px 0 18px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  z-index: 100;
-}
 
 .title-wrap {
   display: flex;
@@ -44,7 +35,6 @@ h1.logo {
   letter-spacing: 0.3px;
   padding-left: 25px;
   margin-bottom: 0;
-  /* margin-top: 25px; */
   position: relative;
 }
 
@@ -80,64 +70,6 @@ h1.logo {
 
 .header-spacer {
   height: 6px;
-}
-
-.navbar {
-  height: 100px;
-  padding-top: 80px;
-}
-
-nav.navbar {
-  position: relative;
-  top: 25px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  z-index: 120;
-  flex-wrap: wrap;
-  max-width: 100%;
-  padding: 0 20px;
-}
-
-.nav-item {
-  width: 150px;
-  height: 110px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.08);
-  padding: 20px 15px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.nav-item:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
-}
-
-.nav-item svg {
-  width: 26px;
-  height: 26px;
-  fill: #0d7377;
-  margin-bottom: 4px;
-  margin-top: 10px;
-  transition: fill 0.3s ease-out;
-}
-
-.nav-item span {
-  font-size: 16px;
-  font-weight: 600;
-  color: #0d7377;
-  line-height: 1.2;
-  word-break: break-word;
 }
 
 main {
@@ -249,13 +181,6 @@ aside {
   cursor: pointer;
 }
 
-.filters label:hover::after {
-  visibility: visible;
-  color: gray;
-  opacity: 1;
-}
-
-
 .lab1 {
   color: #134b15;
 }
@@ -267,7 +192,6 @@ aside {
 .lab3 {
   color: #D14636;
 }
-
 
 .info p {
   font-size: 13px;
@@ -396,17 +320,12 @@ button {
 
 .agenda-body .col-md-3 {
   flex: 1;
-  /* Divide o espaço igualmente */
   min-width: 0;
-  /* Permite que a coluna encolha abaixo do conteúdo se necessário */
   padding: 0 4px;
-  /* Espaçamento lateral pequeno */
   overflow: hidden;
-  /* CORTA qualquer coisa que tente sair do retângulo */
   display: flex;
   justify-content: flex-start;
 }
-
 
 .agenda-body .reservation.lab1 {
   background-color: #134b15;
@@ -602,15 +521,6 @@ button {
 
 
 @media (max-width: 1400px) {
-  nav.navbar {
-    gap: 30px;
-  }
-
-  .nav-item {
-    width: 150px;
-    height: 110px;
-  }
-
   main {
     padding: 20px 40px;
     gap: 24px;
@@ -630,29 +540,9 @@ button {
     padding: 8px;
     font-size: 13px;
   }
-
 }
 
 @media (max-width: 1024px) {
-  nav.navbar {
-    gap: 25px;
-  }
-
-  .nav-item {
-    width: 140px;
-    height: 100px;
-    padding: 15px;
-  }
-
-  .nav-item span {
-    font-size: 16px;
-  }
-
-  .nav-item svg {
-    width: 22px;
-    height: 22px;
-  }
-
   main {
     padding: 20px 32px 40px;
   }
@@ -671,29 +561,9 @@ button {
     padding: 8px;
     font-size: 13px;
   }
-
 }
 
 @media (max-width: 900px) {
-  nav.navbar {
-    gap: 20px;
-  }
-
-  .nav-item {
-    width: 130px;
-    height: 90px;
-    padding: 12px;
-  }
-
-  .nav-item span {
-    font-size: 15px;
-  }
-
-  .nav-item svg {
-    width: 20px;
-    height: 20px;
-  }
-
   h1.logo {
     font-size: 25px;
   }
@@ -712,11 +582,6 @@ button {
 .agenda-body .col-md-3 {
   padding: 8px;
   font-size: 13px;
-}
-
-
-.menu-toggle {
-  display: none;
 }
 
 @media (max-width: 768px) {
@@ -748,68 +613,6 @@ button {
 
   aside {
     width: 100%;
-  }
-
-  .menu-toggle {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 4px;
-    padding: 10px;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1001;
-    background: white;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  .menu-toggle span {
-    width: 25px;
-    height: 3px;
-    background: #0d4043;
-    transition: 0.3s;
-  }
-
-  .menu-toggle.active span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-
-  .menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .menu-toggle.active span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  nav.navbar {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    left: auto;
-    transform: none;
-    width: 250px;
-    height: 100vh;
-    background: white;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 80px;
-    gap: 20px;
-    transition: right 0.3s;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-
-  nav.navbar.active {
-    right: 0;
-  }
-
-  .nav-item {
-    width: 80%;
-    max-width: 300px;
-    height: 80px;
   }
 
   .pill {
@@ -863,8 +666,6 @@ button {
     padding: 8px;
     font-size: 13px;
   }
-
-
 }
 
 @media (max-width: 600px) {
@@ -930,10 +731,6 @@ button {
   h1.logo {
     font-size: 24px;
   }
-
-  .navbar-mobile {
-    width: 280px;
-  }
 }
 
 @media (max-width: 400px) {
@@ -943,10 +740,6 @@ button {
 
   h1.logo {
     font-size: 22px;
-  }
-
-  .navbar-mobile {
-    width: 100%;
   }
 
   main {

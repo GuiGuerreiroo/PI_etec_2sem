@@ -1,4 +1,4 @@
-// Função para construir o header da página home
+
 function buildHomeHeader() {
     const header = document.querySelector('header');
     if (!header) return;
@@ -27,42 +27,42 @@ function getNavBar() {
                     const header = document.querySelector('header');
                     if (!header) return;
 
-                    // Cria a div menu-container
+                 
                     const menuContainer = document.createElement('div');
                     menuContainer.className = 'menu-container';
 
-                    // Cria a div menu-toggle dentro de menu-container com ícone FA
+                    
                     const menuToggle = document.createElement('div');
                     menuToggle.className = 'menu-toggle';
                     menuToggle.id = 'menuToggle';
                     menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
                     menuContainer.appendChild(menuToggle);
 
-                    // Adiciona ao header
+                  
                     header.appendChild(menuContainer);
 
-                    // Cria a div menu-overlay
+                   
                     const overlay = document.createElement('div');
                     overlay.className = 'menu-overlay';
                     overlay.id = 'menuOverlay';
 
-                    // Cria a div nav-container
+                    
                     const navContainer = document.createElement('div');
                     navContainer.className = 'nav-container';
 
-                    // Cria a nav navbar
+                   
                     const navbar = document.createElement('nav');
                     navbar.className = 'navbar';
                     navbar.id = 'navbar';
 
-                    // Array com os dados dos itens do menu
+                    
                     const menuItems = [
                         { href: 'home.html', icon: 'fa-calendar-check', text: 'RESERVAS' },
                         { href: 'kits.html', icon: 'fa-briefcase', text: 'KITS' },
                         { href: 'reservation.html', icon: 'fa-calendar-check', text: 'CRIAR RESERVA' },
                     ];
 
-                    // Loop para criar cada item do menu
+                 
                     menuItems.forEach(item => {
                         const link = document.createElement('a');
                         link.href = item.href;
@@ -79,14 +79,13 @@ function getNavBar() {
                         navbar.appendChild(link);
                     });
 
-                    // Monta a estrutura
                     navContainer.appendChild(navbar);
 
-                    // Adiciona ao header
+                  
                     header.appendChild(overlay);
                     header.appendChild(navContainer);
 
-                    // Configura os event listeners após criar os elementos
+           
                     const menuToggleBtn = document.getElementById('menuToggle');
                     const menuOverlay = document.getElementById('menuOverlay');
 
@@ -132,7 +131,7 @@ function getNavBar() {
                         }
                     });
 
-                    // Constrói o header se for a página home
+          
                     if (isHomePage) {
                         buildHomeHeader();
                     }
@@ -143,35 +142,33 @@ function getNavBar() {
                         const header = document.querySelector('header');
                         if (!header) return;
 
-                        // Cria a div menu-container
+                     
                         const menuContainer = document.createElement('div');
                         menuContainer.className = 'menu-container';
 
-                        // Cria a div menu-toggle dentro de menu-container com ícone FA
                         const menuToggle = document.createElement('div');
                         menuToggle.className = 'menu-toggle';
                         menuToggle.id = 'menuToggle';
                         menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
                         menuContainer.appendChild(menuToggle);
 
-                        // Adiciona ao header
                         header.appendChild(menuContainer);
 
-                        // Cria a div menu-overlay
+                      
                         const overlay = document.createElement('div');
                         overlay.className = 'menu-overlay';
                         overlay.id = 'menuOverlay';
 
-                        // Cria a div nav-container
+                  
                         const navContainer = document.createElement('div');
                         navContainer.className = 'nav-container';
 
-                        // Cria a nav navbar
+                  
                         const navbar = document.createElement('nav');
                         navbar.className = 'navbar';
                         navbar.id = 'navbar';
 
-                        // Array com os dados dos itens do menu
+                      
                         const menuItems = [
                             { href: 'home.html', icon: 'fa-calendar-check', text: 'RESERVAS' },
                             { href: 'kits.html', icon: 'fa-briefcase', text: 'KITS' },
@@ -180,7 +177,7 @@ function getNavBar() {
                             { href: 'edit_material.html', icon: 'fa-boxes', text: 'MATERIAIS' }
                         ];
 
-                        // Loop para criar cada item do menu
+                 
                         menuItems.forEach(item => {
                             const link = document.createElement('a');
                             link.href = item.href;
@@ -197,14 +194,13 @@ function getNavBar() {
                             navbar.appendChild(link);
                         });
 
-                        // Monta a estrutura
+              
                         navContainer.appendChild(navbar);
 
-                        // Adiciona ao header
+               
                         header.appendChild(overlay);
                         header.appendChild(navContainer);
 
-                        // Configura os event listeners após criar os elementos
                         const menuToggleBtn = document.getElementById('menuToggle');
                         const menuOverlay = document.getElementById('menuOverlay');
 
@@ -250,7 +246,6 @@ function getNavBar() {
                             }
                         });
 
-                        // Constrói o header se for a página home
                         if (isHomePage) {
                             buildHomeHeader();
                         }
@@ -261,35 +256,29 @@ function getNavBar() {
                         const header = document.querySelector('header');
                         if (!header) return;
 
-                        // Cria a div menu-container
+                    
                         const menuContainer = document.createElement('div');
                         menuContainer.className = 'menu-container';
 
-                        // Cria a div menu-toggle dentro de menu-container com ícone FA
                         const menuToggle = document.createElement('div');
                         menuToggle.className = 'menu-toggle';
                         menuToggle.id = 'menuToggle';
                         menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
                         menuContainer.appendChild(menuToggle);
 
-                        // Adiciona ao header
                         header.appendChild(menuContainer);
 
-                        // Cria a div menu-overlay
                         const overlay = document.createElement('div');
                         overlay.className = 'menu-overlay';
                         overlay.id = 'menuOverlay';
 
-                        // Cria a div nav-container
                         const navContainer = document.createElement('div');
                         navContainer.className = 'nav-container';
 
-                        // Cria a nav navbar
                         const navbar = document.createElement('nav');
                         navbar.className = 'navbar';
                         navbar.id = 'navbar';
 
-                        // Array com os dados dos itens do menu
                         const menuItems = [
                             { href: 'home.html', icon: 'fa-calendar-check', text: 'RESERVAS' },
                             { href: 'kits.html', icon: 'fa-briefcase', text: 'KITS' },
@@ -298,7 +287,6 @@ function getNavBar() {
                             { href: 'edit_material.html', icon: 'fa-boxes', text: 'MATERIAIS' }
                         ];
 
-                        // Loop para criar cada item do menu
                         menuItems.forEach(item => {
                             const link = document.createElement('a');
                             link.href = item.href;
@@ -315,14 +303,11 @@ function getNavBar() {
                             navbar.appendChild(link);
                         });
 
-                        // Monta a estrutura
                         navContainer.appendChild(navbar);
 
-                        // Adiciona ao header
                         header.appendChild(overlay);
                         header.appendChild(navContainer);
 
-                        // Configura os event listeners após criar os elementos
                         const menuToggleBtn = document.getElementById('menuToggle');
                         const menuOverlay = document.getElementById('menuOverlay');
 
@@ -360,7 +345,6 @@ function getNavBar() {
                             }
                         });
 
-                        // Constrói o header se for a página home
                         if (isHomePage) {
                             buildHomeHeader();
                         }
