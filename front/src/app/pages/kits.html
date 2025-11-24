@@ -59,20 +59,23 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content form-modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title fs-5" id="novoKitModalLabel">Cadastro de Kits</h3>
+                    <h3 class="modal-title fs-5" id="novoKitModalLabel">Cadastre seu Kit</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
                     <form id="itemForm">
                         <label for="nome">Nome :</label>
-                        <input type="text" id="nome" name="nome" placeholder="Digite o nome do KIT" required>
+                        <input type="text" id="nome" name="nome" placeholder="Digite o nome para seu Kit" required>
 
-                        <label for="descricao">Descrição :</label>
-                        <textarea id="descricao" name="descricao" placeholder="Digite a descrição do KIT" rows="3"
-                            required></textarea>
-
-                        <div id="successMessage" class="success-message">
-                            Kit criado com sucesso!
+                        <label>Materiais :</label>
+                        <div class="input-group mb-2">
+                            <select class="form-select" id="addKitMaterialSelect">
+                                <option selected disabled value="">Escolha seus materiais...</option>
+                            </select>
+                            <button class="btn form-btn" style="margin: 0; border-radius: 0 6px 6px 0;" type="button" id="addKitMaterialBtn">Adicionar</button>
+                        </div>
+                        <div id="addKitMaterialsList" class="mb-3" style="max-height: 200px; overflow-y: auto; border-radius: 6px; padding: 10px;">
+                            <!-- Lista de materiais será inserida aqui via JS -->
                         </div>
 
                         <button type="submit" class="btn form-btn mt-3">Criar</button>
@@ -93,12 +96,12 @@
                     <form id="editItemForm">
                         <input type="hidden" id="editKitId">
                         <label for="editNome">Nome :</label>
-                        <input type="text" id="editNome" name="nome" placeholder="Digite o nome do KIT" required>
+                        <input type="text" id="editNome" name="nome" placeholder="Digite o nome para seu Kit" required>
 
                         <label>Materiais :</label>
                         <div class="input-group mb-2">
                             <select class="form-select" id="newMaterialSelect">
-                                <option selected disabled value="">Escolha um material...</option>
+                                <option selected disabled value="">Escolha seus materiais...</option>
                             </select>
                             <button class="btn form-btn" style="margin: 0; border-radius: 0 6px 6px 0;" type="button" id="addMaterialBtn">Adicionar</button>
                         </div>
