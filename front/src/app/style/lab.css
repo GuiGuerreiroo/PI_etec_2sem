@@ -72,7 +72,21 @@ body {
 }
 
 .filter-btn:hover {
-  background-color: #417b85;
+  background-color: #417b85 !important;
+  color: white !important;
+}
+.filter-btn,
+.filter-btn:focus,
+.filter-btn:active,
+.filter-btn:visited,
+.filter-btn:focus-visible,
+.filter-btn.show,
+.filter-btn.dropdown-toggle:focus,
+.filter-btn.dropdown-toggle:active {
+  background-color: #4D8D99 !important;
+  color: white !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .filter-btn i {

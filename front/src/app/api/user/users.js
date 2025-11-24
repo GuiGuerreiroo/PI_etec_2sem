@@ -438,7 +438,7 @@ class User {
                 let badgeClass = user.role === 'PROFESSOR' ? 'badge-professor' : 
                                user.role === 'MODERATOR' ? 'badge-moderator' : 'badge-admin';
                 
-                // Adiciona classe para usuários desativados
+               
                 const disabledClass = user.isDeleted ? 'role-disabled' : '';
                 
                 td_cargo.innerHTML = `<span class="badge ${badgeClass} ${disabledClass}">${cargoDisplay}</span>`;
@@ -458,7 +458,6 @@ class User {
         const badgeClass = user.role === 'PROFESSOR' ? 'badge-professor' : 
                          user.role === 'MODERATOR' ? 'badge-moderator' : 'badge-admin';
         
-        // Adiciona classe para usuários desativados
         const disabledClass = user.isDeleted ? 'role-disabled' : '';
 
         return `
