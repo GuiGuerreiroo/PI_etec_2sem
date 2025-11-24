@@ -4,7 +4,7 @@ async function getAllMaterials() {
             `http://localhost:3000/api/materials`,
             {
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmJlZTkyNWY4ZmIxOGRiY2U4ZWNiOSIsInJvbGUiOiJBRE1JTiIsImV4cCI6MTc2NDAyNDI4MywiaWF0IjoxNzYzOTM3ODgzfQ.b5G58OO_Jd3eTklm-t4pB4fI6GWOWkOp99J5kB2coXc`
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmJlZTkyNWY4ZmIxOGRiY2U4ZWNiOSIsInJvbGUiOiJBRE1JTiIsImV4cCI6MTc2NDAzMTk2OSwiaWF0IjoxNzYzOTQ1NTY5fQ.RwNN8zCLe0lVTfneotEsmStHgktVK_CffYfGwQYRxrU`
                 }
             } 
         );

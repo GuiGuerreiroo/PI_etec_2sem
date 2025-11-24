@@ -1,4 +1,3 @@
-// ----- ADICIONAR CARDS DINAMICAMENTE -----
 const addBtn = document.getElementById("addBtn");
 const cardsContainer = document.getElementById("cardsContainer");
 let materialCount = 0;
