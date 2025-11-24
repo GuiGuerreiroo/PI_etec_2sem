@@ -61,12 +61,9 @@ async function userDirection(event) {
 
         const user = JSON.parse(localStorage.getItem('user'));
 
-        // Redirect after showing success toast
         setTimeout(() => {
-            if (user.role === 'ADMIN') {
-                window.location.href = '../pages/user.html';
-            } else {
-                window.location.href = '../pages/reservation.html';
+            if (user.role === 'PROFESSOR' || user.role === 'ADMIN' || user.role === 'MODERATOR'){ 
+                window.location.href = '../pages/home.html';
             }
         }, 1000);
     }
