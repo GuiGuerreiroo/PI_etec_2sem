@@ -1,4 +1,4 @@
-//CAMADA DE DADOS (DATA LAYER)
+
 class ReservationRepository {
     constructor(storageKey = 'lab_reservations') {
         this.storageKey = storageKey;
@@ -15,10 +15,8 @@ class ReservationRepository {
         }
     }
 
-
     isDatePast(date) {
         const checkDate = new Date(date);
-        // Exceção para permitir o dia 15 de Novembro de 2025
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         checkDate.setHours(0, 0, 0, 0);
@@ -41,7 +39,7 @@ class ReservationRepository {
     }
 }
 
-//CAMADA DE LÓGICA DE NEGÓCIO (BUSINESS LOGIC)
+
 class ReservationService {
     constructor(repository) {
         this.repository = repository;
@@ -70,7 +68,7 @@ class ReservationService {
     }
 }
 
-//CAMADA DE APRESENTAÇÃO (UI LAYER)
+
 class UIController {
     constructor() {
         const today = new Date();
@@ -104,7 +102,6 @@ class UIController {
 
     isDateInPast(date) {
         const checkDate = new Date(date);
-        // Exceção para permitir o dia 15 de Novembro de 2025
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         checkDate.setHours(0, 0, 0, 0);
@@ -112,7 +109,7 @@ class UIController {
     }
 }
 
-//CONTROLADOR PRINCIPAL (MAIN CONTROLLER)
+
 class ReservationController {
     constructor() {
         this.repository = new ReservationRepository();
@@ -131,7 +128,6 @@ class ReservationController {
         this.renderAgenda();
         this.renderFilters();
         this.displayReservationInfo();
-
     }
 
     renderCalendar() {
@@ -173,7 +169,6 @@ class ReservationController {
                 day
             );
 
-            // ALTERAÇÃO AQUI: Adicione "|| dayDate.getDay() === 0"
             if (this.ui.isDateInPast(dayDate) || dayDate.getDay() === 0) {
                 dayDiv.style.opacity = '0.5';
                 dayDiv.style.color = '#999';
@@ -194,32 +189,25 @@ class ReservationController {
 
             calendarGrid.appendChild(dayDiv);
         }
-
-
     }
 
     renderAgenda() {
         const agendaDay = document.querySelector('.agenda-header h4');
         const agendaDate = document.querySelector('.agenda-date');
 
-        // A função agora só atualiza o texto do dia e da data.
         if (!agendaDay || !agendaDate) return;
 
         agendaDay.textContent = this.ui.getDayName(this.ui.selectedDate);
         agendaDate.textContent = `${this.ui.selectedDate.getDate()} de ${this.ui.getMonthYearString(this.ui.selectedDate).split(' de ')[0]}`;
 
-        // Toda a lógica de criar e apagar elementos foi removida daqui.
-
+       
         document.querySelectorAll('.agenda-body .col-md-3').forEach((cell, index) => {
             if (index > 0 && index % 4 !== 0) {
                 cell.innerHTML = '';
                 cell.classList = 'col-md-3 mx-1';
             }
         });
-
-
     }
-
 
     createEventElement(reservation) {
         const element = document.createElement('div');
@@ -321,7 +309,7 @@ class ReservationController {
                 }
 
                 if (!this.repository.isDatePast(prevDate)) {
-                    this.ui.selectedDate = nextDate;
+                    this.ui.selectedDate = prevDate;
                     this.ui.currentDate = new Date(prevDate);
                     this.render();
                     getReservationByDay();
@@ -354,14 +342,13 @@ class ReservationController {
 
                 this.renderCalendar();
                 this.renderAgenda();
-
-                // ADICIONE ESTA LINHA:
                 getReservationByDay();
             });
         });
     }
 }
-//INICIALIZAÇÃO
+
+
 document.addEventListener('DOMContentLoaded', () => {
     try {
         window.reservationController = new ReservationController();
@@ -375,119 +362,143 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
 async function getReservationByDay() {
     const selectedDate = window.reservationController.ui.selectedDate;
     const selectedDateStr = selectedDate.toISOString().slice(0, 10);
-
-    // Pega a lista de laboratórios que estão marcados no checkbox (ex: ['lab1', 'lab3'])
     const labsSelecionados = window.reservationController.ui.selectedLabs;
 
-    const response = await getReservationByFilter(selectedDateStr);
-
-    response.reservations.forEach(reserva => {
-        // 1. Identifica qual é o código do laboratório (lab1, lab2 ou lab3)
-        let codigoLab = reserva.lab;
-
-        if (!codigoLab || !codigoLab.startsWith('lab')) {
-            const nome = (reserva.labName || '').toLowerCase();
-            if (nome.includes('1')) codigoLab = 'lab1';
-            else if (nome.includes('2')) codigoLab = 'lab2';
-            else if (nome.includes('3')) codigoLab = 'lab3';
-        }
-
-        // 2. Verifica se o laboratório está entre os selecionados
-        if (!labsSelecionados.includes(codigoLab)) {
+    try {
+        const response = await getReservationByFilter(selectedDateStr);
+        
+        if (!response || !response.reservations) {
+            console.log('Nenhuma reserva encontrada para esta data');
             return;
         }
 
-        const row = document.getElementById(reserva.hour);
-        if (row) {
-            const cols = row.querySelectorAll(".col-md-3");
-            console.log(reserva);
-            for (let i = 1; i < cols.length; i++) {
-                if (cols[i].textContent.trim() === "") {
-                    const kitString = JSON.stringify(reserva.kit || {}).replace(/"/g, '&quot;');
-                    const labColor = getLabColor(reserva.labName);
-                    // REMOVA ESTA LINHA: const horarioCompleto = getHorarioCompleto(reserva.hour);
+     
+        response.reservations.sort((a, b) => {
+            const timeToMinutes = (time) => {
+                const [hours, minutes] = time.split(':').map(Number);
+                return hours * 60 + minutes;
+            };
+            return timeToMinutes(a.hour) - timeToMinutes(b.hour);
+        });
 
-                    cols[i].innerHTML = `
-                        <button 
-                            class="reserva-btn" 
-                            style="background-color: ${labColor}; color: ${labColor === '#f1c40f' ? 'black' : 'white'}; border: none; padding: 14px 10px; border-radius: 12px; font-size: 14px; font-weight: 600; text-align: center; margin: 3px 0; width: 100%; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-                            onclick="mostrarReserva('${reserva.userName}', '${reserva.hour}', '${reserva.labName || ''}', '${kitString}')"
-                        >
-                            ${reserva.userName} <!-- DEIXE SÓ O NOME DO USUÁRIO -->
-                        </button>
-                    `;
-                    break;
-                }
+   
+        document.querySelectorAll('.agenda-body .col-md-3').forEach((cell, index) => {
+            if (index > 0 && index % 4 !== 0) {
+                cell.innerHTML = '';
+                cell.classList = 'col-md-3 mx-1';
             }
-        }
-    });
+        });
+
+       
+        const labColumns = {
+            'lab1': 1,
+            'lab2': 2, 
+            'lab3': 3
+        };
+
+       
+        response.reservations.forEach(reserva => {
+            
+            let codigoLab = reserva.lab;
+            
+            if (!codigoLab || !codigoLab.startsWith('lab')) {
+                const nome = (reserva.labName || '').toLowerCase();
+                if (nome.includes('1') || nome.includes('química 1')) codigoLab = 'lab1';
+                else if (nome.includes('2') || nome.includes('química 2')) codigoLab = 'lab2';
+                else if (nome.includes('3') || nome.includes('química 3')) codigoLab = 'lab3';
+            }
+
+          
+            if (!labsSelecionados.includes(codigoLab)) {
+                return;
+            }
+
+          
+            const row = document.getElementById(reserva.hour);
+            if (!row) {
+                console.log('Linha não encontrada para horário:', reserva.hour);
+                return;
+            }
+
+            const cols = row.querySelectorAll(".col-md-3");
+            const colIndex = labColumns[codigoLab];
+
+            if (cols && cols[colIndex]) {
+                const kitString = JSON.stringify(reserva.kit || {}).replace(/"/g, '&quot;');
+                const labColor = getLabColor(reserva.labName);
+
+                cols[colIndex].innerHTML = `
+                    <button 
+                        class="reserva-btn" 
+                        style="background-color: ${labColor}; color: ${labColor === '#CCC31A' ? 'black' : 'white'}; border: none; padding: 14px 10px; border-radius: 12px; font-size: 14px; font-weight: 600; text-align: center; margin: 3px 0; width: 100%; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+                        onclick="mostrarReserva('${reserva.userName}', '${reserva.hour}', '${reserva.labName || ''}', '${kitString}')"
+                    >
+                        ${reserva.userName}
+                    </button>
+                `;
+            }
+        });
+
+    } catch (error) {
+        console.error('Erro ao carregar reservas:', error);
+    }
 }
 
-
 function getLabColor(labName) {
-    console.log('Analisando labName:', labName);
-    switch (labName) {
-        case "Laboratório de Química 1":
-            return "#134b15";
-        case "Laboratório de Química 2":
-            return "#406BD6";
-        case "Laboratório de Química 3":
-            return "#D14636";
-        case "química 1":
-            return "#134b15";
-        case "química 2":
-            return "#406BD6";
-        case "química 3":
-            return "#D14636";
-        default:
-            console.log('laboratório não encontrado:', labName);
-            return "#95A5A6";
+    if (!labName) return "#95A5A6";
+    
+    const nomeLower = labName.toLowerCase();
+    if (nomeLower.includes('1') || nomeLower.includes('química 1')) {
+        return "#134b15";
+    } else if (nomeLower.includes('2') || nomeLower.includes('química 2')) {
+        return "#406BD6";
+    } else if (nomeLower.includes('3') || nomeLower.includes('química 3')) {
+        return "#D14636";
+    } else {
+        return "#95A5A6";
+    }
+}
+
+// Função para mostrar o modal
+function mostrarReserva(professor, horario, laboratorio, kitString) {
+    try {
+        const kit = JSON.parse(kitString.replace(/&quot;/g, '"'));
+        
+        document.getElementById('modal-professor').textContent = professor || 'N/A';
+        document.getElementById('modal-horario').textContent = horario || 'N/A';
+        document.getElementById('modal-laboratorio').textContent = laboratorio || 'N/A';
+        document.getElementById('modal-kits').textContent = kit.name || 'N/A';
+        
+        const materiaisContainer = document.getElementById('modal-materiais');
+        materiaisContainer.innerHTML = '';
+        
+        if (kit.materials && Array.isArray(kit.materials)) {
+            kit.materials.forEach(material => {
+                const p = document.createElement('p');
+                p.innerText = `${material.material.name} ${material.material.size || ''} : ${material.selectedQuantity}`;
+                materiaisContainer.appendChild(p);
+            });
+        }
+
+        const reservationModal = new bootstrap.Modal(document.getElementById('reservation-modal'));
+        reservationModal.show();
+    } catch (error) {
+        console.error('Erro ao mostrar reserva:', error);
     }
 }
 
 
-
-
-// Função simples para mostrar o modal
-function mostrarReserva(professor, horario, laboratorio, kitString) {
-    const kit = JSON.parse(kitString.replace(/&quot;/g, '"')); // Converte a string JSON de volta para objeto
-    // Preenche as informações nos elementos corretos usando seus IDs
-    console.log(professor, horario, laboratorio, kit.name);
-    document.getElementById('modal-professor').textContent = professor || 'N/A';
-    document.getElementById('modal-horario').textContent = horario || 'N/A';
-    document.getElementById('modal-laboratorio').textContent = laboratorio || 'N/A';
-    // Exemplo de como preencher os kits (você precisará passar essa informação)
-    document.getElementById('modal-kits').textContent = kit.name || 'N/A'; // Substitua pelo dado real
-    document.getElementById('modal-materiais').textContent = ''; // Substitua pelo dado real
-    kit.materials.forEach(material => {
-        const p = document.createElement('p');
-        p.innerText = `${material.material.name} ${material.material.size || ''} :  ${material.selectedQuantity}`;
-        document.getElementById('modal-materiais').appendChild(p);
-
-    });
-
-    // Pega a instância do modal do Bootstrap
-    const reservationModal = new bootstrap.Modal(document.getElementById('reservation-modal'));
-
-    // Mostra o modal
-    reservationModal.show();
-}
-
-
-// Fechar modal
 function fecharModal() {
     document.getElementById('reservation-modal').style.display = 'none';
 }
 
-// Configura o botão de fechar quando a página carregar
+
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.close-button').onclick = fecharModal;
 
-    // Fecha ao clicar fora do modal
     document.getElementById('reservation-modal').onclick = function (e) {
         if (e.target === this) fecharModal();
     };
