@@ -338,7 +338,11 @@ document.addEventListener('DOMContentLoaded', function () {
             // Verificar se é domingo (0 = domingo)
             const isSunday = currentDate.getDay() === 0;
             
-            if (currentDate < normalizedToday || currentDate > maxDate || isSunday) {
+            // Condição original para dias desabilitados (passados ou futuros demais)
+            const isDisabledByDate = currentDate < normalizedToday || currentDate > maxDate;
+            
+            // Aplicar classe disabled apenas para domingos OU dias fora do range
+            if (isSunday || isDisabledByDate) {
                 dayEl.classList.add('disabled');
                 dayEl.style.color = '#ccc';
                 
@@ -350,8 +354,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
+            // Manter a seleção visual para o dia atualmente selecionado
             if (i === state.selectedDate.getDate() && month === state.selectedDate.getMonth() && year === state.selectedDate.getFullYear()) {
-                dayEl.classList.add('selected');
+                // Só permite seleção visual se não for domingo
+                if (!isSunday) {
+                    dayEl.classList.add('selected');
+                }
             }
             calendarDaysEl.appendChild(dayEl);
         }
@@ -420,6 +428,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const dayEl = e.target;
         if (dayEl.dataset.day && !dayEl.classList.contains('disabled')) {
             const day = parseInt(dayEl.dataset.day, 10);
+            const currentDate = new Date(state.selectedDate.getFullYear(), state.selectedDate.getMonth(), day);
+            
+            // Verificar se é domingo
+            const isSunday = currentDate.getDay() === 0;
+            
+            if (isSunday) {
+                return; // Não permite selecionar domingos
+            }
 
             if (day === state.selectedDate.getDate()) {
                 return;
@@ -522,7 +538,20 @@ function createConfettiEffect() {
     }
 
 
-  
+
+    function resetCalendarSelection() {
+
+        const allDays = calendarDaysEl.querySelectorAll('[data-day]');
+        allDays.forEach(dayEl => {
+            dayEl.classList.remove('selected');
+        });
+        
+ 
+        state.selectedDate = new Date(); 
+
+        updateInfo();
+    }
+
     async function saveReservation() {
         console.log('=== INICIANDO saveReservation ===');
         
@@ -578,15 +607,20 @@ function createConfettiEffect() {
             console.log('Resposta da API:', response);
 
             if (response.status === 200 || response.status === 201) {
-               
+            
                 showSuccessPopup({
                     lab: state.selectedLab,
                     date: state.selectedDate.toLocaleDateString('pt-BR'),
                     time: state.selectedTime
                 });
                 
+                // === CORREÇÃO AQUI ===
+                // Primeiro resetar todas as seleções
                 resetSelections();
-                renderCalendar();
+                
+                // Depois resetar a seleção do calendário
+                resetCalendarSelection();
+                
             } else {
                 alert('Erro ao realizar reserva. Tente novamente.');
             }
