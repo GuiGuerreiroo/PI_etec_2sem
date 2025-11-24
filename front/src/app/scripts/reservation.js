@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
 
     
@@ -337,9 +335,19 @@ document.addEventListener('DOMContentLoaded', function () {
             dayEl.dataset.day = i;
             const currentDate = new Date(year, month, i);
 
-            if (currentDate < normalizedToday || currentDate > maxDate) {
+            // Verificar se é domingo (0 = domingo)
+            const isSunday = currentDate.getDay() === 0;
+            
+            if (currentDate < normalizedToday || currentDate > maxDate || isSunday) {
                 dayEl.classList.add('disabled');
                 dayEl.style.color = '#ccc';
+                
+                // Adicionar estilo específico para domingos
+                if (isSunday) {
+                    dayEl.style.background = '#f8f8f8';
+                    dayEl.style.cursor = 'not-allowed';
+                    dayEl.title = 'Domingos não estão disponíveis para reserva';
+                }
             }
 
             if (i === state.selectedDate.getDate() && month === state.selectedDate.getMonth() && year === state.selectedDate.getFullYear()) {
