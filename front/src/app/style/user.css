@@ -135,7 +135,7 @@ body {
 
 .table-custom tbody td {
   padding: 14px 12px;
-  color: #333;
+  color: #000;
   border-bottom: 1px solid #A2A2A2;
   white-space: nowrap;
 }
