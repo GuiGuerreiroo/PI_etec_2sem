@@ -1,6 +1,5 @@
 async function authUser(event) {
   event.preventDefault();
-  try{
     const response = await axios.post(
       `http://localhost:3000/api/login`,
       {
@@ -15,7 +14,3 @@ async function authUser(event) {
 
     localStorage.setItem('user', JSON.stringify(response.data.user))
   }
-  catch(error){
-    console.error('Erro ao autenticar usuário:', error);
-  }
-}
