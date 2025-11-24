@@ -12,6 +12,8 @@ export enum HOUR {
     "15:50"= "15:50",
     "16:40"= "16:40",
     "17:30"= "17:30",
+    "18:50"= "18:50",
+    "20:58"= "20:58"
 }
 
 export function toEnum(value: string): HOUR{
@@ -54,6 +56,12 @@ export function toEnum(value: string): HOUR{
 
         case "17:30":
             return HOUR["17:30"]
+
+        case "18:50":
+            return HOUR["18:50"]
+
+        case "20:58":
+            return HOUR["20:58"]
 
         default:
             throw new Error("Invalid value");

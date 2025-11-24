@@ -1,5 +1,5 @@
 import { Material } from "../../../../shared/domain/entities/material";
-import { IMaterialRepository } from "../../../../shared/domain/interface/IMaterialRepository";
+import { IMaterialRepository, MaterialUpdateOptions } from "../../../../shared/domain/interface/IMaterialRepository";
 import { model, Schema, Types } from "mongoose"
 
 export interface MaterialMongoDbInterface {
@@ -64,27 +64,33 @@ export class MaterialRepoMongoDB implements IMaterialRepository{
         });
     }
 
-    async deleteMaterialById(materialId: string): Promise<Material | null> {
-        const materialData= await MaterialMongo.findByIdAndDelete(materialId).exec();
+    //por enquanto nao sera usado
+    // async deleteMaterialById(materialId: string): Promise<Material | null> {
+    //     const materialData= await MaterialMongo.findByIdAndDelete(materialId).exec();
 
-        if (!materialData)
-            return null;
+    //     if (!materialData)
+    //         return null;
 
-        return Material.fromJson({
-            materialId: materialData._id.toString(),
-            name: materialData.name,
-            reusable: materialData.reusable,
-            totalQuantity: materialData.totalQuantity,
-            size: materialData.size
-        });
-    }
+    //     return Material.fromJson({
+    //         materialId: materialData._id.toString(),
+    //         name: materialData.name,
+    //         reusable: materialData.reusable,
+    //         totalQuantity: materialData.totalQuantity,
+    //         size: materialData.size
+    //     });
+    // }
 
-    async updateMaterialQuantity(materialId: string, totalQuantity: number): Promise<Material | null> {
+    async updateMaterialQuantity(materialId: string, updateOptions: MaterialUpdateOptions): Promise<Material | null> {
         console.log(materialId)
+
         const materialData= await MaterialMongo.findByIdAndUpdate(
-            new Types.ObjectId(materialId),
-            {totalQuantity: totalQuantity},
-        ).exec()
+            materialId,
+            {
+                ...updateOptions.totalQuantity && { totalQuantity: updateOptions.totalQuantity },
+                ...updateOptions.reusable && { reusable: updateOptions.reusable },
+            },
+            { new: true }
+        ).exec();
 
         console.log(materialData);
 

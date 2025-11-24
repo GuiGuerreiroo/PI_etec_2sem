@@ -167,7 +167,7 @@ class ReservationController {
         for (let day = 1; day <= daysInMonth; day++) {
             const dayDiv = document.createElement('div');
             dayDiv.textContent = day;
-           const dayDate = new Date(
+            const dayDate = new Date(
                 this.ui.currentDate.getFullYear(),
                 this.ui.currentDate.getMonth(),
                 day
@@ -312,7 +312,7 @@ class ReservationController {
         const prevDayBtn = document.querySelector('.prev');
         const nextDayBtn = document.querySelector('.next');
 
-       if (prevDayBtn) {
+        if (prevDayBtn) {
             prevDayBtn.addEventListener('click', () => {
                 let prevDate = new Date(this.ui.selectedDate.getTime() - 86400000);
 
@@ -449,6 +449,317 @@ function getLabColor(labName) {
     }
 }
 
+function getNavBar() {
+    try {
+        const user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            switch (user.role) {
+                case 'PROFESSOR':
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const header = document.querySelector('header');
+
+                        // ...dentro de cada case do switch(user.role) em getNavBar...
+
+                        // Cria a div menu-toggle (primeira)
+                        const menuToggle = document.createElement('div');
+                        menuToggle.className = 'menu-toggle';
+                        menuToggle.onclick = function () {
+                            this.classList.toggle('active');
+                            document.querySelector('nav.navbar').classList.toggle('active');
+                        };
+                        for (let i = 0; i < 3; i++) {
+                            const span = document.createElement('span');
+                            menuToggle.appendChild(span);
+                        }
+
+                        // Cria a div menu-container
+                        const menuContainer = document.createElement('div');
+                        menuContainer.className = 'menu-container';
+
+                        // Cria a div menu-toggle dentro de menu-container
+                        const innerMenuToggle = document.createElement('div');
+                        innerMenuToggle.className = 'menu-toggle';
+                        innerMenuToggle.id = 'menuToggle';
+                        for (let i = 0; i < 3; i++) {
+                            const span = document.createElement('span');
+                            innerMenuToggle.appendChild(span);
+                        }
+                        menuContainer.appendChild(innerMenuToggle);
+
+                        // Adiciona ao header antes dos overlays/navs
+                        header.appendChild(menuToggle);
+                        header.appendChild(menuContainer);
+
+                        // ...continua com overlay/navContainer/navbar...
+
+                        // Cria a div menu-overlay
+                        const overlay = document.createElement('div');
+                        overlay.className = 'menu-overlay';
+                        overlay.id = 'menuOverlay';
+
+                        // Cria a div nav-container
+                        const navContainer = document.createElement('div');
+                        navContainer.className = 'nav-container';
+
+                        // Cria a nav navbar
+                        const navbar = document.createElement('nav');
+                        navbar.className = 'navbar';
+                        navbar.id = 'navbar';
+
+                        // Array com os dados dos itens do menu
+                        const menuItems = [
+                            { href: 'home.html', icon: 'fa-calendar-check', text: 'RESERVAS' },
+                            { href: 'kits.html', icon: 'fa-briefcase', text: 'KITS' },
+                            { href: 'reservation.html', icon: 'fa-calendar-check', text: 'CRIAR RESERVA' },
+
+                        ];
+
+                        // Loop para criar cada item do menu
+                        menuItems.forEach(item => {
+                            const link = document.createElement('a');
+                            link.href = item.href;
+                            link.className = 'nav-item';
+
+                            const icon = document.createElement('i');
+                            icon.className = `fas ${item.icon}`;
+
+                            const span = document.createElement('span');
+                            span.textContent = item.text;
+
+                            link.appendChild(icon);
+                            link.appendChild(span);
+                            navbar.appendChild(link);
+                        });
+
+                        // Monta a estrutura
+                        navContainer.appendChild(navbar);
+
+                        // Adiciona ao header (após o menuToggle existente, se necessário, ou apenas append)
+                        header.appendChild(overlay);
+                        header.appendChild(navContainer);
+
+                         menuToggle = document.getElementById('menuToggle');
+                         navbar = document.getElementById('navbar');
+                        const menuOverlay = document.getElementById('menuOverlay');
+
+                        function toggleMenu() {
+                            menuToggle.classList.toggle('active');
+                            navbar.classList.toggle('active');
+                            menuOverlay.classList.toggle('active');
+                            document.body.style.overflow = navbar.classList.contains('active') ? 'hidden' : '';
+                        }
+
+                        menuToggle.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            toggleMenu();
+                        });
+
+                        menuOverlay.addEventListener('click', toggleMenu);
+
+                        const navItems = document.querySelectorAll('.nav-item');
+                        navItems.forEach(item => {
+                            item.addEventListener('click', () => {
+                                if (window.innerWidth <= 768) {
+                                    toggleMenu();
+                                }
+                            });
+                        });
+
+                        window.addEventListener('resize', () => {
+                            if (window.innerWidth > 768) {
+                                menuToggle.classList.remove('active');
+                                navbar.classList.remove('active');
+                                menuOverlay.classList.remove('active');
+                                document.body.style.overflow = '';
+                            }
+                        });
+                    });
+                  
+
+                    break;
+                case 'ADMIN':
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const header = document.querySelector('header');
+
+                        // ...dentro de cada case do switch(user.role) em getNavBar...
+
+                        // Cria a div menu-toggle (primeira)
+                        const menuToggle = document.createElement('div');
+                        menuToggle.className = 'menu-toggle';
+                        menuToggle.onclick = function () {
+                            this.classList.toggle('active');
+                            document.querySelector('nav.navbar').classList.toggle('active');
+                        };
+                        for (let i = 0; i < 3; i++) {
+                            const span = document.createElement('span');
+                            menuToggle.appendChild(span);
+                        }
+
+                        // Cria a div menu-container
+                        const menuContainer = document.createElement('div');
+                        menuContainer.className = 'menu-container';
+
+                        // Cria a div menu-toggle dentro de menu-container
+                        const innerMenuToggle = document.createElement('div');
+                        innerMenuToggle.className = 'menu-toggle';
+                        innerMenuToggle.id = 'menuToggle';
+                        for (let i = 0; i < 3; i++) {
+                            const span = document.createElement('span');
+                            innerMenuToggle.appendChild(span);
+                        }
+                        menuContainer.appendChild(innerMenuToggle);
+
+                        // Adiciona ao header antes dos overlays/navs
+                        header.appendChild(menuToggle);
+                        header.appendChild(menuContainer);
+
+                        // ...continua com overlay/navContainer/navbar...
+
+                        // Cria a div menu-overlay
+                        const overlay = document.createElement('div');
+                        overlay.className = 'menu-overlay';
+                        overlay.id = 'menuOverlay';
+
+                        // Cria a div nav-container
+                        const navContainer = document.createElement('div');
+                        navContainer.className = 'nav-container';
+
+                        // Cria a nav navbar
+                        const navbar = document.createElement('nav');
+                        navbar.className = 'navbar';
+                        navbar.id = 'navbar';
+
+                        // Array com os dados dos itens do menu
+                        const menuItems = [
+                            { href: 'home.html', icon: 'fa-calendar-check', text: 'RESERVAS' },
+                            { href: 'kits.html', icon: 'fa-briefcase', text: 'KITS' },
+                            { href: 'user.html', icon: 'fa-users', text: 'USUÁRIOS' },
+                            { href: 'lab_status.html', icon: 'fa-clipboard-list', text: 'STATUS RESERVAS' },
+                            { href: 'edit_material.html', icon: 'fa-boxes', text: 'MATERIAIS' }
+                        ];
+
+                        // Loop para criar cada item do menu
+                        menuItems.forEach(item => {
+                            const link = document.createElement('a');
+                            link.href = item.href;
+                            link.className = 'nav-item';
+
+                            const icon = document.createElement('i');
+                            icon.className = `fas ${item.icon}`;
+
+                            const span = document.createElement('span');
+                            span.textContent = item.text;
+
+                            link.appendChild(icon);
+                            link.appendChild(span);
+                            navbar.appendChild(link);
+                        });
+
+                        // Monta a estrutura
+                        navContainer.appendChild(navbar);
+
+                        // Adiciona ao header (após o menuToggle existente, se necessário, ou apenas append)
+                        header.appendChild(overlay);
+                        header.appendChild(navContainer);
+                    });
+                    break
+                case 'MODERATOR':
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const header = document.querySelector('header');
+
+                        // ...dentro de cada case do switch(user.role) em getNavBar...
+
+                        // Cria a div menu-toggle (primeira)
+                        const menuToggle = document.createElement('div');
+                        menuToggle.className = 'menu-toggle';
+                        menuToggle.onclick = function () {
+                            this.classList.toggle('active');
+                            document.querySelector('nav.navbar').classList.toggle('active');
+                        };
+                        for (let i = 0; i < 3; i++) {
+                            const span = document.createElement('span');
+                            menuToggle.appendChild(span);
+                        }
+
+                        // Cria a div menu-container
+                        const menuContainer = document.createElement('div');
+                        menuContainer.className = 'menu-container';
+
+                        // Cria a div menu-toggle dentro de menu-container
+                        const innerMenuToggle = document.createElement('div');
+                        innerMenuToggle.className = 'menu-toggle';
+                        innerMenuToggle.id = 'menuToggle';
+                        for (let i = 0; i < 3; i++) {
+                            const span = document.createElement('span');
+                            innerMenuToggle.appendChild(span);
+                        }
+                        menuContainer.appendChild(innerMenuToggle);
+
+                        // Adiciona ao header antes dos overlays/navs
+                        header.appendChild(menuToggle);
+                        header.appendChild(menuContainer);
+
+                        // ...continua com overlay/navContainer/navbar...
+
+                        // Cria a div menu-overlay
+                        const overlay = document.createElement('div');
+                        overlay.className = 'menu-overlay';
+                        overlay.id = 'menuOverlay';
+
+                        // Cria a div nav-container
+                        const navContainer = document.createElement('div');
+                        navContainer.className = 'nav-container';
+
+                        // Cria a nav navbar
+                        const navbar = document.createElement('nav');
+                        navbar.className = 'navbar';
+                        navbar.id = 'navbar';
+
+                        // Array com os dados dos itens do menu
+                        const menuItems = [
+                            { href: 'home.html', icon: 'fa-calendar-check', text: 'RESERVAS' },
+                            { href: 'kits.html', icon: 'fa-briefcase', text: 'KITS' },
+                            { href: 'user.html', icon: 'fa-users', text: 'USUÁRIOS' },
+                            { href: 'lab_status.html', icon: 'fa-clipboard-list', text: 'STATUS RESERVAS' },
+                            { href: 'edit_material.html', icon: 'fa-boxes', text: 'MATERIAIS' }
+                        ];
+
+                        // Loop para criar cada item do menu
+                        menuItems.forEach(item => {
+                            const link = document.createElement('a');
+                            link.href = item.href;
+                            link.className = 'nav-item';
+
+                            const icon = document.createElement('i');
+                            icon.className = `fas ${item.icon}`;
+
+                            const span = document.createElement('span');
+                            span.textContent = item.text;
+
+                            link.appendChild(icon);
+                            link.appendChild(span);
+                            navbar.appendChild(link);
+                        });
+
+                        // Monta a estrutura
+                        navContainer.appendChild(navbar);
+
+                        // Adiciona ao header (após o menuToggle existente, se necessário, ou apenas append)
+                        header.appendChild(overlay);
+                        header.appendChild(navContainer);
+                    });
+                    break;
+                default:
+                    throw new Error('Role de usuário desconhecida')
+
+
+
+            }
+        }
+    } catch (error) {
+        console.error('Erro ao obter usuário do localStorage:', error);
+    }
+}
 
 
 

@@ -233,6 +233,19 @@ export class ReservationRepoMongoDB implements IReservationRepository {
     }
 
     async updateReservationStatus(reservationId: string, reservationUpdateOptions: ReservationUpdateOptions): Promise<ReservationMongoDTO | null> {
-        throw new Error("Method not implemented.");
+        const updatedReservation = await ReservationMongo.findByIdAndUpdate(
+            reservationId,
+            {
+                ...reservationUpdateOptions.labId && { labId: new Types.ObjectId(reservationUpdateOptions.labId) },
+                ...reservationUpdateOptions.status && { status: reservationUpdateOptions.status },
+            },
+            { new: true }
+        ).exec();
+
+        if (!updatedReservation) {
+            return null;
+        }
+
+        return await ReservationMongoDTOFunction(updatedReservation._id);
     }
 }

@@ -5,12 +5,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Reservas</title>
+  <link rel="stylesheet" href="../style/navbar.css">
+  <!-- <script src="../scripts/navbar.js"></script> -->
   <link rel="stylesheet" href="../style/home.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 
-<body onload="getReservationByDay()">
+<body onload="getReservationByDay(), getNavBar()">
   <header>
 
     <div class="menu-toggle"
@@ -19,7 +21,41 @@
       <span></span>
       <span></span>
     </div>
-    <nav class="navbar">
+    <div class="menu-container">
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <!-- administrador -->
+    <!-- <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="nav-container">
+      <nav class="navbar" id="navbar">
+        <a href="home.html" class="nav-item">
+          <i class="fas fa-calendar-check"></i>
+          <span>RESERVAS</span>
+        </a>
+        <a href="kits.html" class="nav-item">
+          <i class="fas fa-briefcase"></i>
+          <span>KITS</span>
+        </a>
+        <a href="user.html" class="nav-item">
+          <i class="fas fa-users"></i>
+          <span>USUÁRIOS</span>
+        </a>
+        <a href="lab_status.html" class="nav-item">
+          <i class="fas fa-clipboard-list"></i>
+          <span>STATUS RESERVAS</span>
+        </a>
+        <a href="edit_material.html" class="nav-item">
+          <i class="fas fa-boxes"></i>
+          <span>MATERIAIS</span>
+        </a>
+      </nav>
+    </div> -->
+    <!-- Professor -->
+    <!-- <nav class="navbar">
       <div class="nav-item">
         <svg viewBox="0 0 24 24">
           <path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 
@@ -42,7 +78,7 @@
         </svg>
         <span>KITS</span>
       </div>
-    </nav>
+    </nav> -->
     </div>
     </div>
     <div class="title-wrap">
@@ -82,42 +118,43 @@
             03</span></label>
       </div>
 
-        <div class="modal fade" id="reservation-modal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
-      <div class="modal-dialog ">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="reservationModalLabel">Informações</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <!-- Grade para layout de 2 colunas -->
-            <div class="info-grid">
-              <div class="info-item">
-                <strong class="info-label">Professor</strong>
-                <span id="modal-professor" class="info-value"></span>
-              </div>
-              <div class="info-item">
-                <strong class="info-label">Horario</strong>
-                <span id="modal-horario" class="info-value"></span>
-              </div>
-              <div class="info-item">
-                <strong class="info-label">Laboratório</strong>
-                <span id="modal-laboratorio" class="info-value"></span>
-              </div>
-              <div class="info-item">
-                <strong class="info-label">Kits</strong>
-                <span id="modal-kits" class="info-value"></span>
-              </div>
+      <div class="modal fade" id="reservation-modal" tabindex="-1" aria-labelledby="reservationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog ">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="reservationModalLabel">Informações</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <!-- Container para materiais/observações -->
-            <div class="materials-list-container" id="modal-materiais">
-              <!-- Conteúdo inserido via JS -->
+            <div class="modal-body">
+              <!-- Grade para layout de 2 colunas -->
+              <div class="info-grid">
+                <div class="info-item">
+                  <strong class="info-label">Professor</strong>
+                  <span id="modal-professor" class="info-value"></span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Horario</strong>
+                  <span id="modal-horario" class="info-value"></span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Laboratório</strong>
+                  <span id="modal-laboratorio" class="info-value"></span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Kits</strong>
+                  <span id="modal-kits" class="info-value"></span>
+                </div>
+              </div>
+              <!-- Container para materiais/observações -->
+              <div class="materials-list-container" id="modal-materiais">
+                <!-- Conteúdo inserido via JS -->
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    
+
     </aside>
     <!-- <div class="container my-4">
       
@@ -133,7 +170,7 @@
       </div>
 
       <div class="agenda-body" id="agendaBody">
-         <div class="row" id="7:10">
+        <div class="row" id="7:10">
           <div class="col-md-3">07:10 - 08:00</div>
           <div class="col-md-3 mx-1"></div>
           <div class="col-md-3 mx-1"></div>
@@ -151,7 +188,7 @@
           <div class="col-md-3"></div>
           <div class="col-md-3"></div>
         </div>
-        
+
         <!-- Intervalo Matutino (Pula das 9:40 para 10:00) -->
 
         <div class="row" id="10:00">

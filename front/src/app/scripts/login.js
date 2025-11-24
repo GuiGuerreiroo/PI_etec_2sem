@@ -7,6 +7,8 @@ async function userDirection(event){
         if (user.role === 'PROFESSOR') {
             window.location.href = '../pages/home.html';
         }
+
+
     }
     catch(error){
         console.error('Erro na autenticação do usuário:', error);
