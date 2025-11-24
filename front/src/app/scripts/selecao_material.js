@@ -1,37 +1,42 @@
-const cards = document.querySelectorAll('.card');
+// ----- ADICIONAR CARDS DINAMICAMENTE -----
+const addBtn = document.getElementById("addBtn");
+const cardsContainer = document.getElementById("cardsContainer");
+let materialCount = 0;
 
-cards.forEach(card => {
-  card.addEventListener('click', () => {
-    card.classList.toggle('selected');
+async function loadMaterials() {
+  const materials = await getAllMaterials();
+  console.log(materials.materials);
+
+  const materialContainer = document.getElementById('materials-container');
+
+  materials.materials.forEach((material) => {
+
+    const card = document.createElement('div');
+    card.className = 'col-12 col-sm-6 col-lg-4';
+
+    const itemCard = document.createElement('div');
+    itemCard.className = 'item-card';
+
+    const h3 = document.createElement('h3');
+    h3.innerText = `${material.name} ${material.size || ''}`;
+
+    const p = document.createElement('p');
+    p.innerText = 'Quantidade: ';
+
+    const b = document.createElement('b');
+    b.innerText = material.totalQuantity;
+
+    p.appendChild(b);
+
+    const editButton = document.createElement('button');
+    editButton.className = 'editar';
+    editButton.innerText = 'Editar';
+
+    itemCard.appendChild(h3);
+    itemCard.appendChild(p);
+    itemCard.appendChild(editButton);
+
+    card.appendChild(itemCard);
+    materialContainer.appendChild(card);
   });
-});
-
-document.querySelector('.cancelar').addEventListener('click', () => {
-  alert('Ação cancelada.');
-});
-
-document.querySelector('.concluir').addEventListener('click', () => {
-  const selecionados = document.querySelectorAll('.card.selected').length;
-  alert(selecionados > 0 ? `${selecionados} item(s) selecionado(s)!` : 'Nenhum item selecionado.');
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  const combos = document.querySelectorAll('.combo-quantidade');
-
-  combos.forEach(combo => {
-    const defaultOption = document.createElement('option');
-    defaultOption.textContent = 'Qtd';
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    combo.appendChild(defaultOption);
-
-    const size = parseInt(document.getElementById('b500').textContent);
-
-    for (let i = 1; i <= size; i++) {
-      const option = document.createElement('option');
-      option.value = i;
-      option.textContent = `${i}x`;
-      combo.appendChild(option);
-    }
-  });
-});
+}

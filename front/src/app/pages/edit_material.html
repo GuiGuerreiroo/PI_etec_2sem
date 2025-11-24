@@ -63,18 +63,22 @@
       <button class="close-popup" onclick="fecharPopup()">✕</button>
 
 
-      <label>Nome:</label>
-      <input type="text" id="popupNome" class="popup-input">
+      <label>Nome: <span style="color: red">*</span></label>
+      <input type="text" id="popupNome" class="popup-input" required>
       <label></label>
 
-      <label>Reutilizável:</label>
+      <label>Tamanho: <span style="font-size: 0.8em; color: #666;">(Opcional)</span></label>
+      <input type="text" id="popupTamanho" class="popup-input">
+      <label></label>
+
+      <label>Reutilizável: <span style="color: red">*</span></label>
       <select id="popupReutilizavel" class="popup-input">
         <option value="sim">Sim</option>
         <option value="nao">Não</option>
       </select>
 
-      <label>Quantidade:</label>
-      <input type="number" id="popupQuantidade" class="popup-input" min="1" value="1">
+      <label>Quantidade: <span style="color: red">*</span></label>
+      <input type="number" id="popupQuantidade" class="popup-input" min="1" value="1" required>
 
       <!-- <label>Unidade:</label>
       <select id="popupUnidade" class="popup-input">
@@ -93,4 +97,5 @@
   <script src="../api/material/get_all_materials.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
+
 </html>
