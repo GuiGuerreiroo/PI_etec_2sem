@@ -328,3 +328,42 @@ body {
   background-color: #4D8D99;
   border-color: #4D8D99;
 }
+
+.table-scroll-container {
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.table-scroll-container .table-responsive {
+  margin-bottom: 0;
+}
+
+/* Resto do CSS do scrollbar permanece igual */
+.table-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+  background: #4D8D99;
+  border-radius: 4px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #417b85;
+}
+
+.table-scroll-container thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  z-index: 10;
+  border-bottom: 2px solid #4D8D99;
+}
