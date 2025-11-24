@@ -540,13 +540,13 @@ function createConfettiEffect() {
 
 
     function resetCalendarSelection() {
-
+        // Remover a classe 'selected' de todos os dias
         const allDays = calendarDaysEl.querySelectorAll('[data-day]');
         allDays.forEach(dayEl => {
             dayEl.classList.remove('selected');
         });
         
- 
+        // Resetar a data selecionada para null ou manter como new Date() mas sem seleção visual
         state.selectedDate = new Date(); 
 
         updateInfo();
