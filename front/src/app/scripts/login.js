@@ -36,6 +36,18 @@ function showToast(message, type = 'success') {
     });
 }
 
+// Clear localStorage when login page loads to prevent using old credentials
+function clearAuthData() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('token');
+}
+
+// Call this when the page loads
+window.addEventListener('DOMContentLoaded', () => {
+    clearAuthData();
+});
+
 async function userDirection(event) {
     event.preventDefault();
 
@@ -62,7 +74,7 @@ async function userDirection(event) {
         const user = JSON.parse(localStorage.getItem('user'));
 
         setTimeout(() => {
-            if (user.role === 'PROFESSOR' || user.role === 'ADMIN' || user.role === 'MODERATOR'){ 
+            if (user.role === 'PROFESSOR' || user.role === 'ADMIN' || user.role === 'MODERATOR') {
                 window.location.href = '../pages/home.html';
             }
         }, 1000);
@@ -83,6 +95,7 @@ async function userDirection(event) {
             } else {
                 showToast('Erro ao fazer login. Tente novamente', 'error');
             }
+            
         } else if (error.request) {
             // Request made but no response
             showToast('Erro de conexão. Verifique sua internet', 'error');
