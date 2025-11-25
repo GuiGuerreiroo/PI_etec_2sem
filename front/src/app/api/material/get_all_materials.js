@@ -1,7 +1,7 @@
 async function getAllMaterials() {
     try{
         const response = await axios.get(
-            `http://localhost:3000/api/materials`,
+            `http://localhost:3000/api/materials?t=${new Date().getTime()}`,
             {
                 headers: {
                     Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`

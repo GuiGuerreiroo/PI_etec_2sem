@@ -28,7 +28,7 @@ function parseJwt(token) {
 }
 
 // Get user info
-const token = localStorage.getItem('token') || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmJlZTkyNWY4ZmIxOGRiY2U4ZWNiOSIsInJvbGUiOiJBRE1JTiIsImV4cCI6MTc2MzgzMjY1NywiaWF0IjoxNzYzNzQ2MjU3fQ.QAFaNmFT6a_OheP7z9cJj8Q_ZtqhMKjRS14lIIYB358";
+const token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
 // const user = parseJwt(token);
 const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
@@ -224,13 +224,8 @@ async function loadKits() {
                 activeMaterials = kit.materials.map(km => {
                   if (!km.material) return null;
 
-                  const kitMatId = String(km.material.id || km.material._id);
+                  const kitMatId = String(km.material.id || km.material._id || km.material.materialId);
                   let fullMat = allMaterials.find(m => String(m.id) === kitMatId);
-
-                  if (!fullMat) {
-                    console.warn("Material ID match failed, trying name match for:", km.material.name);
-                    fullMat = allMaterials.find(m => m.name === km.material.name);
-                  }
 
                   // Simple total quantity from the material definition
                   const totalQty = fullMat ? fullMat.totalQuantity : 999;
