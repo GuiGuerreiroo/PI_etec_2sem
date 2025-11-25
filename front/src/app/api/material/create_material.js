@@ -1,13 +1,16 @@
-async function createMaterial(name, reusable, totalQuantity) {
+async function createMaterial(name, reusable, totalQuantity, size) {
     try {
-        const response = await axios.post(
-            `http://localhost:3000/api/create-material`,
+        const body = {
+            name: name,
+            reusable: reusable,
+            totalQuantity: totalQuantity
+        };
 
-            {
-                "name": name,
-                "reusable": reusable,
-                "totalQuantity": totalQuantity,
-            },
+        if (size) body.size = size;
+
+        const response = await axios.post(
+            `http://localhost:3000/api/material`,
+            body,
             {
                 headers: {
                     Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`

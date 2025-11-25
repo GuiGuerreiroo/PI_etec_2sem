@@ -56,47 +56,66 @@
     </main>
   </div>
 
-
   <div id="popupOverlay" class="popup-overlay">
     <div class="popup-box">
-      <h2 class="popup-title">Adicionar Material</h2>
-      <button class="close-popup" onclick="fecharPopup()">✕</button>
 
+      <div class="popup-header">
+        <h2 class="popup-title">Adicionar Material</h2>
+        <button class="close-popup" onclick="fecharPopup()">✕</button>
+      </div>
 
-      <label>Nome:</label>
-      <input type="text" id="popupNome" class="popup-input">
-      <label></label>
+      <div id="formGroupNome">
+        <label id="labelNome">Nome: <span class="required-text">*</span></label>
+        <input type="text" id="popupNome" class="popup-input" required>
+      </div>
 
-      <label>Reutilizável:</label>
-      <select id="popupReutilizavel" class="popup-input">
-        <option value="sim">Sim</option>
-        <option value="nao">Não</option>
-      </select>
+      <div id="formGroupTamanho">
+        <label id="labelTamanho">Tamanho: <span class="optional-text">(Opcional)</span></label>
+        <input type="text" id="popupTamanho" class="popup-input">
+      </div>
 
-      <label>Quantidade:</label>
-      <input type="number" id="popupQuantidade" class="popup-input" min="1" value="1">
+      <div id="formGroupReutilizavel">
+        <label id="labelReutilizavel">Reutilizável: <span class="required-text">*</span></label>
+        <select id="popupReutilizavel" class="popup-input">
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+      </div>
 
-      <!-- <label>Unidade:</label>
-      <select id="popupUnidade" class="popup-input">
-        <option value="ml">ml</option>
-        <option value="g">g</option>
-      </select> -->
+      <div id="formGroupQuantidade">
+        <label id="labelQuantidade">Quantidade: <span class="required-text">*</span></label>
+        <input type="number" id="popupQuantidade" class="popup-input" min="1" value="1" required>
+      </div>
 
       <div class="popup-actions">
-        <!-- <button class="popup-btn cancelar-btn" id="popupCancelar">CANCELAR</button> -->
-        <button class="popup-btn adicionar-btn" id="popupAdicionar">ADICIONAR</button>
+        <button class="popup-btn adicionar-btn" id="popupAdicionar">Adicionar</button>
       </div>
     </div>
   </div>
+
+  <div vw class="enabled">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="vw-plugin-top-wrapper"></div>
+  </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script src="../scripts/reservation.js" type="module"></script>
+  <script>
+      new window.VLibras.Widget('https://vlibras.gov.br/app')
+  </script>
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app')
   </script>
   <script src="../scripts/edit_material.js"></script>
+  <script src="../api/material/create_material.js"></script>
+  <script src="../api/material/update_material.js"></script>
   <script src="../api/material/get_all_materials.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="https://app.embed.im/accessibility.js" defer></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </body>
+
 
 </html>
