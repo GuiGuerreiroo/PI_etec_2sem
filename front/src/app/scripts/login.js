@@ -36,14 +36,12 @@ function showToast(message, type = 'success') {
     });
 }
 
-// Clear localStorage when login page loads to prevent using old credentials
 function clearAuthData() {
     localStorage.removeItem('user');
     localStorage.removeItem('userToken');
     localStorage.removeItem('token');
 }
 
-// Call this when the page loads
 window.addEventListener('DOMContentLoaded', () => {
     clearAuthData();
 });
@@ -51,11 +49,8 @@ window.addEventListener('DOMContentLoaded', () => {
 async function userDirection(event) {
     event.preventDefault();
 
-    // Get input values
     const email = document.querySelector('#emailInput').value.trim();
     const password = document.querySelector('#passwordInput').value.trim();
-
-    // Validate empty fields
     if (!email) {
         showToast('Por favor, preencha o campo de email', 'error');
         return;
@@ -81,10 +76,7 @@ async function userDirection(event) {
     }
     catch (error) {
         console.error('Erro na autenticação do usuário:', error);
-
-        // Handle different error types
         if (error.response) {
-            // Server responded with error
             const status = error.response.status;
             const message = error.response.data?.message || error.response.data?.error;
 
@@ -97,10 +89,8 @@ async function userDirection(event) {
             }
             
         } else if (error.request) {
-            // Request made but no response
             showToast('Erro de conexão. Verifique sua internet', 'error');
         } else {
-            // Something else happened
             showToast('Erro inesperado. Tente novamente', 'error');
         }
         if(user.role === 'ADMIN' ){

@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-
-    
     console.log('=== DEBUG COMPLETO RESERVATION ===');
     console.log('LocalStorage completo:');
     for (let i = 0; i < localStorage.length; i++) {
@@ -26,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     console.log('=== FIM DEBUG ===');
 
-
     const state = {
         selectedDate: new Date(),
         selectedLab: null,
@@ -35,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedKit: null,
         selectedKitName: null,
     };
-
     const monthYearEl = document.getElementById('month-year');
     const calendarDaysEl = document.getElementById('calendar-days');
     const prevMonthBtn = document.getElementById('prev-month');
@@ -46,17 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const infoLabEl = document.getElementById('info-lab');
     const infoHorarioEl = document.getElementById('info-horario');
     const infoKitsEl = document.getElementById('info-kits');
-    
-
     const infoBoxContainer = document.getElementById('info-box-container'); 
-    
     const labSection = document.getElementById('lab-buttons'); 
     const timeSlotsContainer = document.getElementById('time-slots');
     const kitSection = document.getElementById('kit-buttons'); 
-    
     const labButtonsInner = labSection.querySelector('.buttons');
     const kitButtonsInner = kitSection.querySelector('.buttons');
-    
     const progressBar = document.getElementById('progress-bar');
     const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
@@ -334,29 +325,20 @@ document.addEventListener('DOMContentLoaded', function () {
             dayEl.textContent = i;
             dayEl.dataset.day = i;
             const currentDate = new Date(year, month, i);
-
-            // Verificar se é domingo (0 = domingo)
             const isSunday = currentDate.getDay() === 0;
-            
-            // Condição original para dias desabilitados (passados ou futuros demais)
             const isDisabledByDate = currentDate < normalizedToday || currentDate > maxDate;
-            
-            // Aplicar classe disabled apenas para domingos OU dias fora do range
+
             if (isSunday || isDisabledByDate) {
                 dayEl.classList.add('disabled');
                 dayEl.style.color = '#ccc';
                 
-                // Adicionar estilo específico para domingos
                 if (isSunday) {
                     dayEl.style.background = '#f8f8f8';
                     dayEl.style.cursor = 'not-allowed';
                     dayEl.title = 'Domingos não estão disponíveis para reserva';
                 }
             }
-
-            // Manter a seleção visual para o dia atualmente selecionado
             if (i === state.selectedDate.getDate() && month === state.selectedDate.getMonth() && year === state.selectedDate.getFullYear()) {
-                // Só permite seleção visual se não for domingo
                 if (!isSunday) {
                     dayEl.classList.add('selected');
                 }
@@ -429,12 +411,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (dayEl.dataset.day && !dayEl.classList.contains('disabled')) {
             const day = parseInt(dayEl.dataset.day, 10);
             const currentDate = new Date(state.selectedDate.getFullYear(), state.selectedDate.getMonth(), day);
-            
-            // Verificar se é domingo
             const isSunday = currentDate.getDay() === 0;
             
             if (isSunday) {
-                return; // Não permite selecionar domingos
+                return; 
             }
 
             if (day === state.selectedDate.getDate()) {
@@ -540,13 +520,10 @@ function createConfettiEffect() {
 
 
     function resetCalendarSelection() {
-        // Remover a classe 'selected' de todos os dias
         const allDays = calendarDaysEl.querySelectorAll('[data-day]');
         allDays.forEach(dayEl => {
             dayEl.classList.remove('selected');
         });
-        
-        // Resetar a data selecionada para null ou manter como new Date() mas sem seleção visual
         state.selectedDate = new Date(); 
 
         updateInfo();
@@ -613,12 +590,7 @@ function createConfettiEffect() {
                     date: state.selectedDate.toLocaleDateString('pt-BR'),
                     time: state.selectedTime
                 });
-                
-                // === CORREÇÃO AQUI ===
-                // Primeiro resetar todas as seleções
                 resetSelections();
-                
-                // Depois resetar a seleção do calendário
                 resetCalendarSelection();
                 
             } else {

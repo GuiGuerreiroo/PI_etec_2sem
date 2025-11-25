@@ -1,4 +1,3 @@
-//CAMADA DE DADOS (DATA LAYER)
 class ReservationRepository {
     constructor(storageKey = 'lab_reservations') {
         this.storageKey = storageKey;

@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log(reusableItem)
           await updateMaterial(materialId, { reusable, totalQuantity });
 
-          // Atualiza o card na interface
           currentEditingCard.dataset.reusable = String(reusable);
           currentEditingCard.dataset.quantity = String(totalQuantity);
 
@@ -219,7 +218,6 @@ function openPopupForAdd() {
   const reusable = document.getElementById('popupReutilizavel');
   const totalQuantity = document.getElementById('popupQuantidade');
 
-  // Limpa os campos
   if (name) {
     name.value = '';
     name.disabled = false;
@@ -374,7 +372,6 @@ async function loadMaterials() {
     const materials = await getAllMaterials();
     const lista = materials?.materials || [];
 
-    // Sort materials alphabetically by name
     lista.sort((a, b) => {
       const nameA = (a.name || '').toLowerCase();
       const nameB = (b.name || '').toLowerCase();

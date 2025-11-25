@@ -1,4 +1,3 @@
-// Inicializa o modal e elementos estáticos fora da função loadKits
 setupToastContainer();
 
 const modalElement = document.getElementById('novoKitModal');
@@ -11,9 +10,8 @@ const form = document.getElementById("itemForm");
 
 const editForm = document.getElementById("editItemForm");
 
-let currentEditingKit = null; // Store the kit being edited
+let currentEditingKit = null;
 
-// Helper to decode JWT
 function parseJwt(token) {
   try {
     var base64Url = token.split('.')[1];
@@ -27,16 +25,13 @@ function parseJwt(token) {
   }
 }
 
-// Get user info
 const token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
-// const user = parseJwt(token);
 const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const nome = document.getElementById("nome").value.trim();
 
-  // Collect materials from the list
   const materialsContainer = document.getElementById("addKitMaterialsList");
   const inputs = materialsContainer.querySelectorAll("input");
   const materials = [];
@@ -69,7 +64,7 @@ form.addEventListener("submit", async (e) => {
     setTimeout(() => {
       modal.hide();
       form.reset();
-      loadKits(); // Recarrega a lista de kits
+      loadKits();
     }, 1000);
   } catch (error) {
     console.error("Erro ao criar kit:", error);
@@ -85,14 +80,12 @@ editForm.addEventListener("submit", async (e) => {
 
   if (nome !== "" && currentEditingKit) {
     try {
-      // Collect materials from the list
       const materialsContainer = document.getElementById("editMaterialsList");
       const inputs = materialsContainer.querySelectorAll("input");
       const materials = [];
 
       inputs.forEach(input => {
         const qty = parseInt(input.value);
-        // Only include material if quantity is greater than 0
         if (!isNaN(qty) && qty > 0) {
           materials.push({
             materialId: input.dataset.id,
@@ -106,7 +99,6 @@ editForm.addEventListener("submit", async (e) => {
         return;
       }
 
-      // Prepare data for update
       const updateData = {
         name: nome,
         materials: materials
@@ -120,7 +112,7 @@ editForm.addEventListener("submit", async (e) => {
         editModal.hide();
         editForm.reset();
         currentEditingKit = null;
-        loadKits(); // Reload list
+        loadKits();
       }, 1000);
     } catch (error) {
       showToast('Erro ao atualizar o kit. Tente novamente.', 'error');
@@ -134,7 +126,6 @@ editForm.addEventListener("submit", async (e) => {
 async function loadKits() {
   const kitContainer = document.getElementById('kits-container');
 
-  // Limpa o container para evitar duplicatas
   kitContainer.innerHTML = '';
 
   try {
@@ -156,7 +147,6 @@ async function loadKits() {
         kitCard.appendChild(h3);
 
         const originP = document.createElement('p');
-        // Format origin for display (e.g. "INDIVIDUAL" -> "Individual")
         const formattedOrigin = kit.origin ? kit.origin.charAt(0).toUpperCase() + kit.origin.slice(1).toLowerCase() : 'Desconhecida';
         originP.innerHTML = `<b>Origem:</b> ${formattedOrigin}`;
         kitCard.appendChild(originP);
@@ -178,16 +168,13 @@ async function loadKits() {
         }
         kitCard.appendChild(materialsList);
 
-        // Logic to show edit button
         let showEditButton = false;
         if (user) {
           if (user.role === 'PROFESSOR') {
-            // Professor can only edit individual kits they own
             if (kit.origin === 'INDIVIDUAL' && kit.userName === user.name) {
               showEditButton = true;
             }
           } else if (user.role === 'MODERATOR' || user.role === 'ADMIN') {
-            // Moderator and Admin can only edit general kits
             if (kit.origin === 'GERAL') {
               showEditButton = true;
             }
@@ -203,7 +190,6 @@ async function loadKits() {
           editButton.addEventListener('click', async (e) => {
             e.stopPropagation();
 
-            // Populate modal
             document.getElementById("editKitId").value = kit.id;
             document.getElementById("editNome").value = kit.name;
 
@@ -214,11 +200,9 @@ async function loadKits() {
             list.innerHTML = "<p class='text-center'>Carregando materiais...</p>";
 
             try {
-              // Only fetch materials, we don't need other kits anymore
               const allMaterialsResponse = await getAllMaterials();
               const allMaterials = allMaterialsResponse.materials || [];
 
-              // Initialize active materials from kit
               let activeMaterials = [];
               if (kit.materials) {
                 activeMaterials = kit.materials.map(km => {
@@ -226,8 +210,6 @@ async function loadKits() {
 
                   const kitMatId = String(km.material.id || km.material._id || km.material.materialId);
                   let fullMat = allMaterials.find(m => String(m.id) === kitMatId);
-
-                  // Simple total quantity from the material definition
                   const totalQty = fullMat ? fullMat.totalQuantity : 999;
 
                   return {
@@ -240,19 +222,16 @@ async function loadKits() {
                 }).filter(item => item !== null);
               }
 
-              // Function to render the UI
               function renderEditUI() {
                 list.innerHTML = "";
                 select.innerHTML = '<option selected disabled value="">Escolha seus materiais...</option>';
 
-                // 1. Render Active List
                 if (activeMaterials.length > 0) {
                   activeMaterials.forEach((mat, index) => {
                     const row = document.createElement("div");
                     row.className = "d-flex justify-content-between align-items-center mb-2 p-2 border-bottom";
 
                     const label = document.createElement("span");
-                    // Display Total Quantity (Max)
                     label.innerText = `${mat.name} ${mat.size ? mat.size : ''} (Max: ${mat.totalQuantity})`;
                     label.style.fontWeight = "500";
 
@@ -300,7 +279,6 @@ async function loadKits() {
                   list.innerHTML = "<p class='text-center text-muted'>Nenhum material no kit.</p>";
                 }
 
-                // 2. Render Available Dropdown
                 const activeIds = new Set(activeMaterials.map(m => m.id));
                 const available = allMaterials.filter(m => !activeIds.has(m.id));
 
@@ -312,10 +290,8 @@ async function loadKits() {
                 });
               }
 
-              // Initial Render
               renderEditUI();
 
-              // Add Button Handler
               addBtn.onclick = () => {
                 const selectedId = select.value;
                 if (!selectedId) return;
@@ -353,7 +329,6 @@ async function loadKits() {
     console.error("Erro ao carregar kits:", error);
   }
 
-  // Adiciona o card de adicionar novo kit
   const plusCard = document.createElement('div');
   plusCard.className = 'col-12 col-sm-6 col-lg-4';
 
@@ -366,7 +341,6 @@ async function loadKits() {
     e.preventDefault();
     e.currentTarget.blur();
 
-    // Reset form and UI
     form.reset();
     const list = document.getElementById("addKitMaterialsList");
     const select = document.getElementById("addKitMaterialSelect");
@@ -385,7 +359,6 @@ async function loadKits() {
         list.innerHTML = "";
         select.innerHTML = '<option selected disabled value="">Escolha seus materiais...</option>';
 
-        // 1. Render Active List
         if (activeMaterials.length > 0) {
           activeMaterials.forEach((mat, index) => {
             const row = document.createElement("div");
@@ -439,7 +412,6 @@ async function loadKits() {
           list.innerHTML = "<p class='text-center text-muted'>Nenhum material selecionado.</p>";
         }
 
-        // 2. Render Available Dropdown
         const activeIds = new Set(activeMaterials.map(m => m.id));
         const available = allMaterials.filter(m => !activeIds.has(m.id));
 
