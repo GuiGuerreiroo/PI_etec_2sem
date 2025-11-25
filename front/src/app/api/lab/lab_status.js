@@ -176,10 +176,22 @@ class ReservationsManager {
             
             const statusElement = tdStatus.querySelector('.status-badge');
             if (statusElement) {
-                statusElement.style.cursor = 'pointer';
-                statusElement.addEventListener('click', () => {
-                    this.handleStatusClick(reservation, index);
-                });
+             
+                const isConcluido = reservation.status?.toUpperCase() === 'CONCLUIDO' || 
+                                reservation.status?.toUpperCase() === 'CONCLUÍDO';
+                
+                if (isConcluido) {
+                    
+                    statusElement.style.cursor = 'default';
+                    statusElement.style.opacity = '0.8';
+                    statusElement.title = 'Reserva já concluída';
+                } else {
+                   
+                    statusElement.style.cursor = 'pointer';
+                    statusElement.addEventListener('click', () => {
+                        this.handleStatusClick(reservation, index);
+                    });
+                }
             }
             
             const tdKit = tr.insertCell();
@@ -388,8 +400,11 @@ class ReservationsManager {
     }
 
     showToast(message, type, icon) {
+       
+        const toastClass = type === 'success' ? 'toast-success' : 'toast-danger';
+        
         const toastHTML = `
-            <div class="toast align-items-center text-white bg-${type} border-0 position-fixed top-0 end-0 m-3" role="alert">
+            <div class="toast align-items-center text-white ${toastClass} border-0 position-fixed top-0 end-0 m-3" role="alert">
                 <div class="d-flex">
                     <div class="toast-body">
                         <i class="fas fa-${icon} me-2"></i>
@@ -525,7 +540,10 @@ class ReservationsManager {
                 statusText = status || 'Pendente';
         }
         
-        return `<span class="status-badge badge ${statusClass}">${statusText}</span>`;
+        
+        const additionalClass = (statusUpper === 'CONCLUIDO' || statusUpper === 'CONCLUÍDO') ? 'status-disabled' : '';
+        
+        return `<span class="status-badge badge ${statusClass} ${additionalClass}">${statusText}</span>`;
     }
 
     formatDate(dateString) {
