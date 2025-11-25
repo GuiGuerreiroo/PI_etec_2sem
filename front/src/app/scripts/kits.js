@@ -52,12 +52,12 @@ form.addEventListener("submit", async (e) => {
   });
 
   if (nome.length < 3) {
-    alert("O nome do kit deve ter pelo menos 3 caracteres.");
+    showToast("O nome do kit deve ter pelo menos 3 caracteres.", 'warning');
     return;
   }
 
   if (materials.length === 0) {
-    alert("Selecione pelo menos um material para o kit.");
+    showToast("Selecione pelo menos um material para o kit.", 'warning');
     return;
   }
 
@@ -74,7 +74,7 @@ form.addEventListener("submit", async (e) => {
   } catch (error) {
     console.error("Erro ao criar kit:", error);
     const msg = error.response?.data?.message || "Erro ao criar o kit. Verifique o console.";
-    alert(msg);
+    showToast(msg, 'error');
   }
 });
 
@@ -102,7 +102,7 @@ editForm.addEventListener("submit", async (e) => {
       });
 
       if (materials.length === 0) {
-        alert("Selecione pelo menos um material com quantidade maior que 0.");
+        showToast("Selecione pelo menos um material com quantidade maior que 0.", 'warning');
         return;
       }
 
@@ -127,7 +127,7 @@ editForm.addEventListener("submit", async (e) => {
       console.error(error);
     }
   } else {
-    alert("Preencha todos os campos!");
+    showToast("Preencha todos os campos!", 'warning');
   }
 });
 
@@ -272,7 +272,7 @@ async function loadKits() {
                       let val = parseInt(e.target.value);
                       if (val > mat.totalQuantity) {
                         val = mat.totalQuantity;
-                        alert(`Quantidade máxima disponível é ${mat.totalQuantity}`);
+                        showToast(`Quantidade máxima disponível é ${mat.totalQuantity}`, 'warning');
                       } else if (val < 1) {
                         val = 1;
                       }
@@ -411,7 +411,7 @@ async function loadKits() {
               let val = parseInt(e.target.value);
               if (val > mat.totalQuantity) {
                 val = mat.totalQuantity;
-                alert(`Quantidade máxima disponível é ${mat.totalQuantity}`);
+                showToast(`Quantidade máxima disponível é ${mat.totalQuantity}`, 'warning');
               } else if (val < 1) {
                 val = 1;
               }
