@@ -60,7 +60,6 @@ async function startServer() {
       });
     };
 
-    // aqui caso de cntl+c ou kill ele fecha a conexao do banco e do express antes de sair
     process.on("SIGINT", shuttingDownConnExpress);
     process.on("SIGTERM", shuttingDownConnExpress);
 
