@@ -70,6 +70,19 @@ O projeto foi estruturado separando o Front-end e o Back-end:
 1.  Como o front é feito com HTML/JS estático (baseado na descrição), você pode simplesmente abrir o arquivo `login.html` no seu navegador ou utilizar uma extensão como o **Live Server** do VS Code para rodar a aplicação.
 
 
+### Partcipante do Desenvolvimento do Projeto
+
+ - Guilherme Guerreiro
+
+ - João Guima
+
+ - Enzo Toro 
+
+ - Diego Alonso 
+
+ - Gabriel Bocato
+
+
 ## 📝 Licença
 
 Este projeto é desenvolvido para fins educacionais sob a orientação do Centro Paula Souza.
