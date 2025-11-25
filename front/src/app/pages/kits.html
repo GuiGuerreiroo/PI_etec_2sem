@@ -59,7 +59,7 @@
     </div>
     </div>
     <div class="modal fade" id="novoKitModal" tabindex="-1" aria-labelledby="novoKitModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content form-modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title fs-5" id="novoKitModalLabel">Cadastre seu Kit</h3>
@@ -89,7 +89,7 @@
     </div>
 
     <div class="modal fade" id="editKitModal" tabindex="-1" aria-labelledby="editKitModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content form-modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title fs-5" id="editKitModalLabel">Editar Kit</h3>
@@ -122,12 +122,14 @@
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
+        <div class="vw-plugin-top-wrapper"></div>
         </div>
     </div>
+    
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script src="../scripts/reservation.js" type="module"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app')
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../scripts/kits.js"></script>
