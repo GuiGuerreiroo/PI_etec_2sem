@@ -341,7 +341,6 @@ body {
   margin-bottom: 0;
 }
 
-/* Resto do CSS do scrollbar permanece igual */
 .table-scroll-container::-webkit-scrollbar {
   width: 8px;
 }

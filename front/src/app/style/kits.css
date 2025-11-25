@@ -100,7 +100,6 @@ body {
 .form-modal-content .modal-header {
   position: relative;
   justify-content: center;
-  /* border-bottom: none; */
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -108,7 +107,6 @@ body {
 .form-modal-content .modal-title {
   text-align: center;
   color: #004e56;
-  /* margin-bottom: 1.5rem; */
   margin-top: 0%;
   margin: 0 auto 0.58rem;
   font-family: 'Inter', sans-serif;
@@ -163,7 +161,7 @@ body {
 
 #editMaterialsList, #addKitMaterialsList {
   background-color: #fff;
-  border: 1px solid #777 !important; /* Override inline style if needed, but inline has priority usually. We should remove inline style in HTML or use !important */
+  border: 1px solid #777 !important; 
 }
 
 #editMaterialsList .border-bottom, #addKitMaterialsList .border-bottom {
@@ -199,7 +197,6 @@ body {
   background-color: #bb2d3b;
 }
 
-/* Adjust the input group for adding materials */
 .input-group .form-select {
   border-radius: 6px 0 0 6px !important;
   border: 1px solid #777;
@@ -207,11 +204,10 @@ body {
 
 .input-group .form-select:focus {
   border-color: #004e56;
-  box-shadow: none; /* Remove default bootstrap shadow to match custom style */
+  box-shadow: none; 
   z-index: 1;
 }
 
-/* Ensure the add button matches the theme */
 #addMaterialBtn {
   background-color: #004e56;
   color: white;
@@ -266,7 +262,6 @@ body {
 
 .kit-card {
   background: #fff;
-  /* border: 2px solid #15747B; */
   border-radius: 12px;
   padding: 20px;
   height: 190px;
