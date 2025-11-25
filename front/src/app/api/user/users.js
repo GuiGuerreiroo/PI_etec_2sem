@@ -10,6 +10,61 @@ class User {
         this.currentUser = this.getCurrentUser();
         this.setupToastContainer();
         this.loadUsersFromAPI(); 
+        this.setupRoleOptions();
+    }
+
+        setupRoleOptions() {
+        const roleSelect = document.getElementById('role');
+        if (!roleSelect) return;
+
+    
+        roleSelect.innerHTML = '';
+
+ 
+        const userData = localStorage.getItem('user');
+        if (!userData) {
+            console.error('Usuário não encontrado no localStorage');
+            return;
+        }
+
+        try {
+            const user = JSON.parse(userData);
+            console.log('Usuário logado:', user);
+
+         
+            if (user.role === 'ADMIN') {
+             
+                roleSelect.innerHTML = `
+                    <option value="">Selecione um cargo</option>
+                    <option value="PROFESSOR">Professor</option>
+                    <option value="MODERATOR">Técnico</option>
+                    <option value="ADMIN">Administrador</option>
+                `;
+                console.log('Opções de cargo: Todas (Admin)');
+            } else if (user.role === 'MODERATOR') {
+              
+                roleSelect.innerHTML = `
+                    <option value="">Selecione um cargo</option>
+                    <option value="PROFESSOR">Professor</option>
+                `;
+                console.log('Opções de cargo: Apenas Professor (Técnico)');
+            } else {
+               
+                roleSelect.innerHTML = `
+                    <option value="">Selecione um cargo</option>
+                    <option value="PROFESSOR">Professor</option>
+                `;
+                console.log('Opções de cargo: Apenas Professor (Outra role)');
+            }
+
+        } catch (error) {
+            console.error('Erro ao parsear usuário do localStorage:', error);
+           
+            roleSelect.innerHTML = `
+                <option value="">Selecione um cargo</option>
+                <option value="PROFESSOR">Professor</option>
+            `;
+        }
     }
 
     setupToastContainer() {
@@ -148,6 +203,7 @@ class User {
             
             modal.addEventListener('shown.bs.modal', () => {
                 this.setupEmailValidation();
+                this.setupRoleOptions(); 
             });
         }
     }
@@ -289,7 +345,8 @@ class User {
         
         const roleValue = document.getElementById('role').value;
         user.role = roleValue === 'PROFESSOR' ? 'PROFESSOR' : 
-                   roleValue === 'MODERATOR' ? 'MODERATOR' : 'ADMIN';
+                   roleValue === 'MODERATOR' ? 'MODERATOR' : 
+                   roleValue === 'ADMIN' ? 'ADMIN' : 'PROFESSOR'; 
 
         return user;
     }
@@ -956,7 +1013,7 @@ class User {
     async save() {
         if (this.isLoading) {
             console.log('⏳ Aguardando carregamento anterior...');
-            // Aguarda o carregamento atual terminar antes de prosseguir
+           
             try {
                 await this.loadingPromise;
             } catch (error) {
