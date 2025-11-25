@@ -182,15 +182,15 @@ aside {
 }
 
 .lab1 {
-  color: #187830;
+  color: #187830     ;
 }
 
 .lab2 {
-  color: #007AA8;
+  color: #007AA8     ;
 }
 
 .lab3 {
-  color: #CC473D;
+  color: #CC473D     ;
 }
 
 .info p {
@@ -270,7 +270,7 @@ button {
 
 .reservation {
   cursor: pointer;
-  background-color: #187830;
+  background-color: #187830     ;
   border: 1px solid red;
   color: white;
   justify-content: center;
@@ -283,7 +283,7 @@ button {
 .reservation-clickable {
   cursor: pointer;
   padding: 10px;
-  border: 1px solid #187830;
+  border: 1px solid #187830     ;
   background-color: #e8f5e8;
   border-radius: 4px;
   width: 100%;
@@ -328,18 +328,18 @@ button {
 }
 
 .agenda-body .reservation.lab1 {
-  background-color: #187830;
+  background-color: #187830     ;
   color: #ffffff;
   font-weight: bold;
 }
 
 .agenda-body .reservation.lab2 {
-  background-color: #007AA8;
+  background-color: #007AA8     ;
   color: #000000;
 }
 
 .agenda-body .reservation.lab3 {
-  background-color: #CC473D;
+  background-color: #CC473D     ;
   color: #ffffff;
 }
 
@@ -381,11 +381,11 @@ button {
 }
 
 .event.lab2 {
-  background: #007AA8;
+  background: #007AA8     ;
 }
 
 .event.lab3 {
-  background: #CC473D;
+  background: #CC473D     ;
 }
 
 ::-webkit-scrollbar {
